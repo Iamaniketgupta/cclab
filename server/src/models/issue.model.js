@@ -7,9 +7,19 @@ const IssueSchema = new mongoose.Schema({
         ref: 'Resource',
         required: true
     },
+    labId :{
+        type:mongoose.Schema.Types.ObjectId,
+        required:true,
+    },
+    issueType: {
+        type: String,
+        required: true,
+        enum : ['hardware', 'software', 'other']
+    },
     reportedBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User', required: true
+        ref: 'User',
+        required: true
     },
     issueDesc: {
         type: String,

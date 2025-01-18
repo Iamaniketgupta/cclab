@@ -1,8 +1,12 @@
 // This schema handles the Resource Requests
-
 import mongoose from "mongoose";
 
 const RequestSchema = new mongoose.Schema({
+
+    labId :{
+        type:mongoose.Schema.Types.ObjectId,
+        required:true,
+    },
 
     resourceType: {
         type: String,

@@ -6,7 +6,8 @@ const LabSchema = new mongoose.Schema({
     block: { type: String, trim: true, uppercase: true, required: true },
     floor: { type: Number, required: true },
     resources: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Resource' }],
-    capacity: { type: Number, required: true }
+    capacity: { type: Number, required: true },
+    feedbackActive: { type: Boolean, default: true }
 
 }, { timestamps: true });
 

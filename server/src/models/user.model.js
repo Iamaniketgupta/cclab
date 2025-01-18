@@ -5,6 +5,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    rollNumber: {
+        type: String,
+        unique :true
+     },
+     
     email: {
         type: String,
         unique: true,
@@ -22,19 +27,19 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    block : {
+        type: String,
+        required: [true, "Block is required"],
+    },
     role: {
         type: String,
         required: [true, "Role is required"],
-        enum : ["student", "faculty", "admin"]
+        enum : ["student", "faculty", "admin","super-admin"]
     },
-    rollNumber: {
-        type: String,
-        unique :true
-     },
      avatar:{
         type: String
-        
      },
+
     gid: {
         type: String,
      }
@@ -42,5 +47,14 @@ const userSchema = new mongoose.Schema({
 });
 
 const User = mongoose.model('User', userSchema);
+
+
+User.pre('save', async function (next) {
+    if (this.isModified('password')) {
+        const salt = await bcrypt.genSalt(10);
+        this.password = await bcrypt.hash(this.password, salt);
+    }
+    next();
+});
 
 export default User

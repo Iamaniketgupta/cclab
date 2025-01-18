@@ -32,8 +32,7 @@ const ResourceSchema = new mongoose.Schema({
         required: true
     },
 
-    // required
-    status: {
+     status: {
         type: String,
         enum: ['available', 'in-use', 'under-maintenance', 'damaged', 'reserved'],
         default: 'available',
@@ -61,14 +60,10 @@ const ResourceSchema = new mongoose.Schema({
 
     // Projector specific details
     resolution: { type: String },
-    refreshRate: { type: String },
     screenType: { type: String },
 
     // Peripheral specific details
-    peripheralType: { type: String },
-
-
-
+    peripheralType: { type: String }
 
 }, { timestamps: true });
 
