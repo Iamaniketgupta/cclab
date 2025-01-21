@@ -1,8 +1,8 @@
 import React from 'react'
- import StudentDashboard from '../Student/StuDashboard/Dashboard'
-import AdminDashboard from '../Admin/Dashboard'
+ import AdminDashboard from '../Admin/Dashboard'
 import { useRecoilState } from 'recoil';
 import { userData } from '../recoil/states';
+import StudentDashboard from "../Student/StuDashboard/Dashboard";
 
 
 
