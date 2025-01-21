@@ -3,10 +3,10 @@ import mongoose from "mongoose";
 
 const IssueSchema = new mongoose.Schema({
     resourceId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Resource',
-        required: true
+        type: String,
+        // required: true
     },
+
     labId :{
         type:mongoose.Schema.Types.ObjectId,
         required:true,
@@ -14,7 +14,7 @@ const IssueSchema = new mongoose.Schema({
     issueType: {
         type: String,
         required: true,
-        enum : ['hardware', 'software', 'other']
+        enum : ['hardware', 'software', 'network', 'other']
     },
     reportedBy: {
         type: mongoose.Schema.Types.ObjectId,

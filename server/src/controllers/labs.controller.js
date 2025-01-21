@@ -1,8 +1,13 @@
 import asyncHandler from "express-async-handler";
-import Lab from "../models/lab.model";
+import Lab from "../models/lab.model.js";
  
 // Add a new lab
 export const addNewLab = asyncHandler(async (req, res) => {
+
+    if(req.user.role !== 'admin'){
+        res.status(401);
+        throw new Error("You are not authorized");
+    }
     const { labName, labCode, block, floor, capacity } = req.body;
 
     const labExists = await Lab.findOne({ labCode });
@@ -32,7 +37,7 @@ export const addNewLab = asyncHandler(async (req, res) => {
 
 // Get all labs
 export const getAllLabs = asyncHandler(async (req, res) => {
-    const labs = await Lab.find({}).populate('resources'); 
+    const labs = await Lab.find({}) 
     res.status(200).json(labs);
 });
 
@@ -49,6 +54,10 @@ export const getSingleLab = asyncHandler(async (req, res) => {
 
 // Update a lab by ID
 export const updateLab = asyncHandler(async (req, res) => {
+    if(req.user.role !== 'admin'){
+        res.status(401);
+        throw new Error("You are not authorized");
+    }
     const { labName, labCode, block, floor, resources, capacity, feedbackActive } = req.body;
 
     const lab = await Lab.findById(req.params.id);
@@ -77,6 +86,10 @@ export const updateLab = asyncHandler(async (req, res) => {
 
 // Delete a lab 
 export const deleteLab = asyncHandler(async (req, res) => {
+    if(req.user.role !== 'admin'){
+        res.status(401);
+        throw new Error("You are not authorized");
+    }
     const lab = await Lab.findById(req.params.id);
 
     if (lab) {

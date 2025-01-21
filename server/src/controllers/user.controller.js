@@ -1,9 +1,9 @@
 import asynchandler from 'express-async-handler'
 import jwt from 'jsonwebtoken'
-import User from '../models/user.js';
-// import { OAuth2Client } from 'google-auth-library';
+ // import { OAuth2Client } from 'google-auth-library';
 import sendEmail from '../service/sendMail.js';
 import expressAsyncHandler from 'express-async-handler';
+import User from '../models/user.model.js';
 
 const getToken = (user, exp = null) => {
     return jwt.sign({
@@ -19,109 +19,59 @@ const getToken = (user, exp = null) => {
 }
 
 
-// ============================== GOOGLE SIGNIN =====================================
-// Verify Google token function
-// const client = new OAuth2Client(process.env.G_CLIENT_ID);
-
-// const verifyGoogleToken = async (token) => {
-//     try {
-//         const ticket = await client.verifyIdToken({
-//             idToken: token,
-//             audience: process.env.G_CLIENT_ID,
-//         });
-//         const payload = ticket.getPayload();
-//         return payload;
-//     } catch (error) {
-//         console.error('Error verifying token', error);
-//         throw new Error('Invalid token');
-//     }
-// };
-
-// export const GoogleSignIn = asynchandler(async (req, res) => {
-//     const { tokenId } = req.body;
-
-//     try {
-//         const googleUser = await verifyGoogleToken(tokenId);
-//         const { email, name, picture, sub } = googleUser;
-
-//         if (!email || !name || !sub)
-//             return res.status(400).json({ message: "All fields are required" });
-
-//         const getUser = await User.findOne({ email }).select("-password");
-
-//         if (getUser) {
-//             if (!getUser.gid) {
-//                 getUser.gid = sub;
-//                 await getUser.save();
-//             }
-//             const token = getToken(getUser);
-
-//             return res.status(200).json({
-//                 message: "Account already exists, logged in successfully",
-//                 user: getUser, token: token
-//             });
-//         }
-
-//         const newUser = await new User({
-//             email,
-//             rollNumber: rollNumber,
-//             fullName: name,
-//             avatar: picture,
-//             gid: sub
-//         });
-//         await newUser.save();
-
-//         const token = getToken(newUser);
-
-//         const userObject = newUser.toObject();
-//         delete userObject.password;
-//         res.status(201).json({ message: "Account created successfully", user: newUser, token: token });
-
-//     } catch (error) {
-//         console.error('Error during Google sign-in:', error);
-//         res.status(500).json({ message: "Something went wrong while registering" });
-//     }
-// });
-
-// ===================================================================
-
+ 
 // Manual Register
 export const registerUser = asynchandler(async (req, res) => {
-    const { email, password, fullName ,role , rollNumber} = req.body;
-    if ( !fullName || !role)
+  
+    if(req.user.role === 'student' ){
+        res.status(401);
+        throw new Error("You are not authorized");
+        
+    }
+    const { email, password, name, role, block, rollNumber } = req.body;
+
+    if (!name || !role) {
         return res.status(400).json({ message: "All Fields are required" });
+    }
 
-    // Validation for student roll number is important
-    if(role ==="student" && !rollNumber)
+    if (role === "student" && !rollNumber) {
         return res.status(400).json({ message: "Roll Number is required" });
-    else if(role==="faculty" && !email)
+    } else if (role === "faculty" && !email) {
         return res.status(400).json({ message: "Email is required" });
+    }
 
-    if(!password)
+    if (!password) {
         return res.status(400).json({ message: "Password is required" });
+    }
 
     let getUser;
+    if (role === "faculty" && email) {
+        getUser = await User.findOne({ email });
+    } else if (role === "student" && rollNumber) {
+        getUser = await User.findOne({ rollNumber });
+    }
 
-    if (role ==="faculty" && email && password)
-        getUser = await User.findOne({ email: email });
-    else if (role==="student" && rollNumber && password)
-        getUser = await User.findOne({ rollNumber: rollNumber });
-
-    if (getUser)
+    if (getUser) {
         return res.status(400).json({ message: "Account already exists, Kindly login" });
+    }
 
-    const newUser = new User({ email, password, fullName, userName: email?.split('@')[0] });
+    const newUser = new User({ email, password, name, role, block, rollNumber });
     await newUser.save();
 
-    if (!newUser)
+    if (!newUser) {
         return res.status(500).json({ message: "Invalid User Data" });
+    }
 
     const token = getToken(newUser);
 
     const userObject = newUser.toObject();
     delete userObject.password;
-    res.status(201).json({ message: "Account created 🤩", token: token, user: newUser });
 
+    res.status(201).json({
+        message: "Account created 🤩",
+        token: token,
+        user: newUser
+    });
 });
 
 // Login
@@ -173,7 +123,7 @@ export const forgotPass = asynchandler(async (req, res) => {
         _id: getUser._id,
         email: getUser.email,
         password: newpassword,
-        fullName: getUser.fullName
+        name: getUser.fullName
     }, process.env.JWT_SECRET,
         {
             expiresIn: '15m'

@@ -4,9 +4,15 @@ import Schedule from "../models/schedule.model.js";
  
 // Create a new schedule
 export const createNewSchedule = asyncHandler(async (req, res) => {
-  const { labId, userId, date, class: className, facultyName, startTime, endTime, purpose } = req.body;
-
-  const schedule = new Schedule({ labId, userId, date, class: className, facultyName, startTime, endTime, purpose });
+ 
+  const schedule = new Schedule({
+    ...req.body,
+    userId: req.user._id
+  });
+  if(!schedule){
+    res.status(400);
+    throw new Error("Something went wrong");
+  }
   const savedSchedule = await schedule.save();
 
   res.status(201).json(savedSchedule);
@@ -42,20 +48,15 @@ export const removeSchedule = asyncHandler(async (req, res) => {
 });
 
 // Get schedules for a lab with aggregation
-export const getSchedulesForLab = asyncHandler(async (req, res) => {
-  const { labId } = req.params;
-
+export const getSchedules = asyncHandler(async (req, res) => {
+ 
   const today = new Date();
   const startDate = new Date(today.setDate(today.getDate() - 1)); // Include one old schedule
   const endDate = new Date(today.setDate(today.getDate() + 6)); // Next 6 days
 
   const schedules = await Schedule.aggregate([
-    { $match: { labId: mongoose.Types.ObjectId(labId), date: { $gte: startDate, $lte: endDate } } },
-    { $group: {
-        _id: "$date",
-        schedules: { $push: "$$ROOT" }
-      }
-    },
+    { $match: {  date: { $gte: startDate, $lte: endDate } } },
+
     { $sort: { _id: 1 } } // Sort by date
   ]);
 

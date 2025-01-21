@@ -1,6 +1,7 @@
 import expressAsyncHandler from "express-async-handler";
 import { deleteFromCloudinary, publicId, uploadToCloudinary } from "../utils/cloudinary.js";
-import User from "../models/user.js";
+import User from "../models/user.model.js";
+ 
 
 // UPDATE AVATAR
 export const updateAvatar = expressAsyncHandler(async (req, res) => {

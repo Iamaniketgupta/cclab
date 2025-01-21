@@ -1,13 +1,13 @@
 import { Router } from "express";
 import { verifyAuth } from "../middlewares/auth.js";
-import { createNewSchedule, exportScheduleAsExcel, getSchedulesForLab, removeSchedule, updateSchedule } from "../controllers/schedule.controller.js";
+import { createNewSchedule, exportScheduleAsExcel, getSchedules, removeSchedule, updateSchedule } from "../controllers/schedule.controller.js";
  
 
 const scheduleRouter = Router();
 
 scheduleRouter.post('/add',verifyAuth,createNewSchedule);
 scheduleRouter.put('/update/:scheduleId',verifyAuth,updateSchedule);
-scheduleRouter.get('/get/all/:labId',verifyAuth,getSchedulesForLab);
+scheduleRouter.get('/all',verifyAuth,getSchedules);
 scheduleRouter.delete('/remove/:scheduleId',verifyAuth,removeSchedule);
 
 // converters

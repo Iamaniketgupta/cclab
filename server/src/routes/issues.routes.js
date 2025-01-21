@@ -1,15 +1,15 @@
 import { Router } from "express";
 import { verifyAuth } from "../middlewares/auth.js";
-import { getAllIssuesByLabId, getSingleIssue, raiseIssue, updateIssueStatus } from "../controllers/issue.controller.js";
+import { getAllIssues, getSingleIssue, raiseIssue, updateIssueStatus } from "../controllers/issue.controller.js";
  
 const issuesRouter = Router();
 
 //admin specific
-issuesRouter.get('/get/:labId',verifyAuth,getAllIssuesByLabId);
+issuesRouter.get('/all',verifyAuth,getAllIssues);
 issuesRouter.post('/update/:issueId',verifyAuth,updateIssueStatus); 
 
 // student specific
-issuesRouter.post('/raise',verifyAuth,raiseIssue);
+issuesRouter.post('/add',verifyAuth,raiseIssue);
 
 // both
 issuesRouter.get('/issue/:issueId',verifyAuth,getSingleIssue);

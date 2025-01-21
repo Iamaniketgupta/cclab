@@ -7,6 +7,12 @@ const LabSchema = new mongoose.Schema({
     floor: { type: Number, required: true },
     resources: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Resource' }],
     capacity: { type: Number, required: true },
+    isAvailable :{
+        type:String,
+        enum:['available','not-available'],
+        default:'available'
+    },
+
     feedbackActive: { type: Boolean, default: true }
 
 }, { timestamps: true });

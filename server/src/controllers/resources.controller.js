@@ -1,13 +1,19 @@
 import asyncHandler from "express-async-handler";
-import Resource from "../models/Resource.js";
+import Resource from "../models/resource.model.js";
+import Lab from "../models/lab.model.js";
 
 // Add a new lab resource
 export const addNewLabResource = asyncHandler(async (req, res) => {
+    if(req.user.role !== 'admin'){
+        res.status(401);
+        throw new Error("You are not authorized");
+    }
     const { labId, resourceType, resourceName, code,
         status, brand, model, serialNumber, purchaseDate,
         licenseKey, version, expiryDate, softwareStatus,
         resolution, screenType, peripheralType, assignedTo, resourceId } = req.body;
 
+        console.log(req.body);
     if (!labId || !resourceType || !resourceName || !code) {
         res.status(400);
         throw new Error("labId, resourceType, resourceName, and code are required");
@@ -33,6 +39,14 @@ export const addNewLabResource = asyncHandler(async (req, res) => {
         assignedTo,
         resourceId
     });
+
+    // Assign the new resource to the lab
+    const lab = await Lab.findById(labId);
+    if (lab) {
+        lab.resources.push(newResource._id);
+        await lab.save();
+    }
+    
 
     if (newResource) {
         res.status(201).json({
@@ -77,10 +91,9 @@ export const deleteLabResource = asyncHandler(async (req, res) => {
 });
 
 // Get all resources by labId
-export const getAllResourcesByLabId = asyncHandler(async (req, res) => {
-    const { labId } = req.params;
-
-    const resources = await Resource.find({ labId }).sort({ createdAt: -1 });
+export const getAllResources = asyncHandler(async (req, res) => {
+  
+    const resources = await Resource.find({}).sort({ createdAt: -1 });
 
     if (resources.length > 0) {
         res.status(200).json(resources);

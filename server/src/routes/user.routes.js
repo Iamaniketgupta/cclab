@@ -6,8 +6,8 @@ import { verifyAuth } from "../middlewares/auth.js";
 
 const userRouter = Router();
  
-userRouter.get('/register',registerUser);
-userRouter.get('/login',loginUser);
+userRouter.post('/register',verifyAuth,registerUser);
+userRouter.post('/login',loginUser);
 userRouter.post('/forgotpass',forgotPass);
 userRouter.post('/verifyforgotpass',verifyEmailandChangePassword);
 userRouter.get('/verifyauth',verifyUserToken);

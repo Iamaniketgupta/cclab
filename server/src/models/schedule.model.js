@@ -3,14 +3,19 @@
 import mongoose from "mongoose";
 
 const ScheduleSchema = new mongoose.Schema({
-  labId: { type: mongoose.Schema.Types.ObjectId, ref: 'Lab', required: true },
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  date: { type: Date, required: true },
-  class: { type: String, required: true },
-  facultyName: { type: String, required: true },
-  startTime: { type: Date, required: true },
-  endTime: { type: Date, required: true },
-  purpose: { type: String, required: true },
+  date: { type: Date, required: true ,unique: true},
+  details: [
+    {
+      labId: { type: mongoose.Schema.Types.ObjectId, ref: 'Lab', required: true },
+      class: { type: String, required: true },
+      facultyName: { type: String, required: true },
+      startTime: { type: Date, required: true },
+      endTime: { type: Date, required: true },
+      purpose: { type: String, required: true }
+    }
+  ],
+
   status: {
     type: String,
     enum: ['scheduled', 'completed', 'canceled'],

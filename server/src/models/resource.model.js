@@ -57,13 +57,9 @@ const ResourceSchema = new mongoose.Schema({
         enum: ['active', 'expired'],
         default: 'active'
     },
+ 
 
-    // Projector specific details
-    resolution: { type: String },
-    screenType: { type: String },
-
-    // Peripheral specific details
-    peripheralType: { type: String }
+ 
 
 }, { timestamps: true });
 

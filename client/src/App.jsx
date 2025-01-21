@@ -1,34 +1,63 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+
+import { Route, Routes, useNavigate } from 'react-router-dom'
+import Home from './Pages/Home'
+import NotFoundPage from './Pages/NotFoundPage'
+import Login from './Pages/Auth/Login'
+import SignUp from './Pages/Auth/SignUp'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { clearCurrUser,setCurrUser } from './redux/slices/auths/authSlice'
+import axiosInstance from './utils/axiosInstance'
+import { getCookie, removeCookie } from './utils/cookiesApis'
+import Dashboard from './Dashboard/Dashboard'
+import { useRecoilState } from 'recoil'
+import { userData } from './recoil/states'
+ 
 
 function App() {
-  const [count, setCount] = useState(0)
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [currentUserData, setUserData] = useRecoilState(userData);
 
+  const fetchUserData = async () => {
+    try {
+      const token = getCookie('authToken')
+      if (token) {
+        const res = await axiosInstance.get(`/user/verifyauth`)
+        dispatch(setCurrUser(res?.data?.user));
+        setUserData(res?.data?.user)
+      } else {
+        dispatch(clearCurrUser());
+        navigate('/login');
+      }
+    } catch (error) {
+      dispatch(clearCurrUser());
+      setCurrUser(null);
+      removeCookie('authToken');
+      if (error.response.data.expiredSession) {
+        alert(error.response.data.message);
+      }
+      navigate('/login');
+      console.log(error);
+    }
+  }
+
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
+    console.log({currentUserData});
+  
+   
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Routes>
+      <Route path='*' element={<NotFoundPage />}></Route>
+      <Route path="/" element={<div><Home /></div>} />
+      <Route path="/login" element={<div><Login /></div>} />
+      <Route path="/dashboard" element={<div><Dashboard /></div>} />
+      {/* <Route path="/signup" element={<div><SignUp /></div>} /> */}
+     </Routes>
   )
 }
 

@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
-import Issue from "../models/Issue.js";
+import Issue from "../models/issue.model.js";
+
 
 // Raise a new issue
 export const raiseIssue = asyncHandler(async (req, res) => {
@@ -51,14 +52,12 @@ export const updateIssueStatus = asyncHandler(async (req, res) => {
 });
 
 // Get all issues by lab ID
-export const getAllIssuesByLabId = asyncHandler(async (req, res) => {
-    const { labId } = req.params;
-
-    const issues = await Issue.find({ labId })
-        .populate("resourceId", "name")
+export const getAllIssues = asyncHandler(async (req, res) => {
+ 
+    const issues = await Issue.find({})
         .populate("reportedBy", "name email rollNumber");
 
-    res.status(200).json({ message: "Issues fetched successfully.", issues });
+    res.status(200).json(issues);
 });
 
 // Get a single issue
