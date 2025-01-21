@@ -1,6 +1,6 @@
 
 import { Route, Routes, useNavigate } from 'react-router-dom'
-import Home from './pages/Home'
+import Home from './pages/Home.jsx'
 import NotFoundPage from './pages/NotFoundPage'
 import Login from './pages/Auth/Login'
 import SignUp from './pages/Auth/SignUp'
