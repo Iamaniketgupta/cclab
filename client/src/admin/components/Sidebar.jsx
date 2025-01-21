@@ -1,0 +1,130 @@
+
+import React, { useState } from 'react'
+import { MdDashboard } from 'react-icons/md'
+import { MdSendTimeExtension } from "react-icons/md";
+import { GrLogout, GrResources } from "react-icons/gr";
+import { MdFeedback } from "react-icons/md";
+import { FaBars, FaBarsProgress } from "react-icons/fa6";
+import { useRecoilState } from 'recoil';
+import { openSideBar } from '../../recoil/states';
+import { MdTimer } from "react-icons/md";
+import { FaLaptopCode } from "react-icons/fa";
+import { MdOutlineInventory } from "react-icons/md";
+import { PiChalkboardTeacherFill, PiStudent } from "react-icons/pi";
+import { useNavigate } from 'react-router-dom';
+import { logoutUser } from '../../apis/apiCalls';
+import DeleteConfirmation from '../../common/DeleteConfirmation';
+import ModalWrapper from '../../common/ModalWrapper';
+
+
+
+const listData = [
+    {
+        name: "Dashboard",
+        icon: <MdDashboard size={20} />,
+    },
+    {
+        name: "Labs",
+        icon: <FaLaptopCode size={20} />,
+    },
+    {
+        name: "Faculty",
+        icon: <PiChalkboardTeacherFill size={20} />,
+    },
+    {
+        name: "Students",
+        icon: <PiStudent size={20} />,
+    },
+    {
+        name: "Inventory",
+        icon: <MdOutlineInventory size={20} />,
+    },
+    {
+        name: "Schedules",
+        icon: <MdTimer size={20} />,
+    },
+    {
+        name: "Issues",
+        icon: <MdSendTimeExtension size={20} />,
+    },
+    {
+        name: "Requests",
+        icon: <GrResources size={20} />,
+    },
+    {
+        name: "Feedbacks",
+        icon: <MdFeedback size={20} />,
+    },
+
+]
+export default function Sidebar({ setTab, tab,setOpen }) {
+    const [open] = useRecoilState(openSideBar);
+    const [openModal, setOpenModal] = useState(false);
+    const navigate = useNavigate();
+    const logoutHandler = () => {
+        logoutUser().then((res) => {
+            if (res) {
+                setOpenModal(false);
+                navigate("/login")
+            }
+        });
+    }
+    return (
+        <div className='relative min-h-full text-stone-700 dark:text-gray-100'>
+            <div className=' text-2xl font-bold px-2 border-b
+                         border-zinc-700 border-opacity-30 py-4 flex relative gap-4 items-center '>
+                <FaBars
+                    size={20}
+                    onClick={() => setOpen((prev) => !prev)}
+                    className='dark:text-gray-100 sticky md:hidden bottom-2 hover:text-slate-500 cursor-pointer' />
+
+                {open && "PCTE"}
+            </div>
+
+            <div className='flex flex-col mt-5 gap-2'>
+                {
+                    listData.map((item, index) => (
+                        <div key={index}
+                            onClick={() => setTab(item.name)}
+                            className={` 
+                                ${item.name === tab && "bg-gradient-to-r from-emerald-900 to-zinc-700 text-white"}
+                                
+                                rounded-md
+                                   p-2 
+                                    transition-all
+                                 cursor-pointer
+                                 hover:bg-gradient-to-r hover:from-emerald-800 hover:to-zinc-700
+                                 hover:text-white
+                                 font-semibold flex items-center gap-3
+            
+                                 ${!open ? 'w-fit' : 'w-full'}
+                                 `}>
+                            {item.icon}
+                            {open && item.name}
+                        </div>
+                    ))
+                }
+
+            </div>
+
+            <div
+                title='logout'
+                onClick={() => setOpenModal(true)}
+                className={`
+                        absolute bottom-14  ${!open ? 'w-fit' : 'w-[80%]'} 
+                        font-medium   flex items-center gap-4
+                        cursor-pointer
+                          py-3 px-2 rounded-md 
+                         hover:text-white
+                       
+                          hover:bg-gradient-to-r hover:from-stone-900 hover:to-zinc-700
+                        `}>
+                <GrLogout size={20} className='text-red-700' />
+                {open && "Log Out"}
+            </div>
+            <ModalWrapper open={openModal} setOpen={setOpenModal} >
+                <DeleteConfirmation handler={logoutHandler} setOpenModal={setOpenModal} />
+            </ModalWrapper>
+        </div>
+    )
+}
