@@ -12,7 +12,8 @@ import issuesRouter from './routes/issues.routes.js';
  
 
 app.use(cors({
-    origin: "http://localhost:5173" || process.env.CLIENT_URL,
+    // origin: "http://localhost:5173" || process.env.CLIENT_URL,
+    origin: "https://pctelabs.vercel.app" || process.env.CLIENT_URL,
     credentials:true
 }))
 
