@@ -1,9 +1,7 @@
 
 import { Route, Routes, useNavigate } from 'react-router-dom'
-import Home from './pages/Home.jsx'
-import NotFoundPage from './pages/NotFoundPage'
+ import NotFoundPage from './pages/NotFoundPage'
 import Login from './pages/Auth/Login'
-import SignUp from './pages/Auth/SignUp'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { clearCurrUser,setCurrUser } from './redux/slices/auths/authSlice'
@@ -12,6 +10,7 @@ import { getCookie, removeCookie } from './utils/cookiesApis'
 import Dashboard from './dashboard/Dashboard'
 import { useRecoilState } from 'recoil'
 import { userData } from './recoil/states'
+import { Home } from 'lucide-react'
  
 
 function App() {
