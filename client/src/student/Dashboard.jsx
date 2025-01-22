@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Sidebar from './components/sidebar.jsx'
 import { FaBars } from 'react-icons/fa6'
 import { useRecoilState } from 'recoil';
 import { openSideBar, userData } from '../../recoil/states';
@@ -10,6 +9,7 @@ import ReqResMain from './components/requests/ReqResMain';
 import { MdDarkMode } from 'react-icons/md';
 import ProfileIcon from './components/profile/ProfileIcon';
 import {useFetchDataApi} from '../../contexts/FetchDataApi';
+import StudentSidebar from './components/Sidebar';
 
 // Student Dashboard
 export default function Dashboard() {
@@ -28,7 +28,7 @@ export default function Dashboard() {
           py-4 px-2 transition-transform duration-300 ease-in-out`}
     >
       
-      <Sidebar tab={sideTab} setTab={setSideTab} setOpen={setOpen} />
+      <StudentSidebar tab={sideTab} setTab={setSideTab} setOpen={setOpen} />
     </div>
       {/* Dashboard Content */}
       <div className='flex-1 my-2 relative mr-2 overflow-y-auto ' style={{ scrollbarWidth: "none" }}>
