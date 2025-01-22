@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { userData } from '../../../../recoil/states';
+import { userData } from './../../../recoil/states';
 
 export default function ProfileIcon() {
   const [isInfoVisible, setInfoVisible] = useState(false);

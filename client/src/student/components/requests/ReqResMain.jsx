@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import ModalWrapper from '../../../../common/ModalWrapper';
+import ModalWrapper from './../../../common/ModalWrapper';
 const labs = [
   { id: 'lab1', name: 'ETCC1 Lab' },
   { id: 'lab2', name: 'Physics Lab' },

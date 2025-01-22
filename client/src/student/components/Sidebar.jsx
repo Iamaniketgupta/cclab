@@ -6,11 +6,11 @@ import { GrLogout, GrResources } from "react-icons/gr";
 import { MdFeedback } from "react-icons/md";
 import { FaBars, FaBarsProgress } from "react-icons/fa6";
 import { useRecoilState } from 'recoil';
-import { openSideBar } from '../../../recoil/states';
+import { openSideBar } from './../../recoil/states';
 import { MdTimer } from "react-icons/md";
-import ModalWrapper from '../../../common/ModalWrapper';
-import DeleteConfirmation from '../../../common/DeleteConfirmation';
-import { logoutUser } from '../../../apis/apiCalls';
+import ModalWrapper from './../../common/ModalWrapper';
+import DeleteConfirmation from './../../common/DeleteConfirmation';
+import { logoutUser } from './../../apis/apiCalls';
 import { useNavigate } from 'react-router-dom';
 
 

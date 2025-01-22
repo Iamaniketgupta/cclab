@@ -8,8 +8,7 @@ import FeedBackMain from './components/feeback/FeedBackMain';
 import ReqResMain from './components/requests/ReqResMain';
 import { MdDarkMode } from 'react-icons/md';
 import ProfileIcon from './components/profile/ProfileIcon';
-import {useFetchDataApi} from '../../contexts/FetchDataApi';
-import StudentSidebar from './components/Sidebar';
+ import StudentSidebar from './components/Sidebar';
 import { openSideBar, userData } from '../recoil/states';
 
 // Student Dashboard

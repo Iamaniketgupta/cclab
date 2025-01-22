@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import IssueCard from './IssuesCard';
-import ModalWrapper from '../../../../common/ModalWrapper';
-import { useFetchDataApi } from '../../../../contexts/FetchDataApi';
-import { toast } from 'react-toastify';
-import axiosInstance from '../../../../utils/axiosInstance';
-import Loader from '../../../../components/Loaders/Loader';
+import ModalWrapper from './../../../common/ModalWrapper';
+ import { toast } from 'react-toastify';
+import axiosInstance from './../../../utils/axiosInstance';
+import Loader from './../../../components/Loaders/Loader';
+import { useFetchDataApi } from '../../../contexts/FetchDataApi';
 export default function IssuesMain() {
   const [activeTab, setActiveTab] = useState('All Issues');
   const [loading, setLoading] = useState(false);

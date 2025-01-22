@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ModalWrapper from '../../../../common/ModalWrapper';
+import ModalWrapper from './../../../common/ModalWrapper';
 
 export default function FeedBackMain() {
     const [selectedLab, setSelectedLab] = useState('');

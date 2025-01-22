@@ -10,7 +10,7 @@ import { getCookie, removeCookie } from './utils/cookiesApis'
 import Dashboard from './dashboard/Dashboard'
 import { useRecoilState } from 'recoil'
 import { userData } from './recoil/states'
-import { Home } from 'lucide-react'
+import { Home } from './pages/Home'
  
 
 function App() {

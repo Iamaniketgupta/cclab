@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useFetchDataApi } from '../../../../contexts/FetchDataApi';
+import { useFetchDataApi } from './../../../contexts/FetchDataApi';
 
 export default function TTScheduleCard() {
   const { allSchedules } = useFetchDataApi();
