@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import Sidebar from './components/sidebar.jsx'
-import { FaBars } from 'react-icons/fa6'
+ import { FaBars } from 'react-icons/fa6'
 import { useRecoilState } from 'recoil';
 import { openSideBar, userData } from '../recoil/states';
 import Content from './components/dashboard/Content';
@@ -14,7 +13,7 @@ import FacultyManageMain from './components/faculty/FacultyManageMain';
 import ManageStudentsMain from './components/student/ManageStudentsMain';
 import ResourceManageMain from './components/inventory/ResourceManageMain';
 import LabSchedulesMain from './components/schedules/LabSchedulesMain';
-
+import AdminSideBar from  './components/Sidebar'
 
 // Student Dashboard
 export default function Dashboard() {
@@ -35,7 +34,7 @@ export default function Dashboard() {
           py-4 px-2 transition-transform duration-300 ease-in-out`}
     >
 
-        <Sidebar setOpen={setOpen} tab={sideTab} setTab={setSideTab} />
+        <AdminSideBar setOpen={setOpen} tab={sideTab} setTab={setSideTab} />
 
       </div>
 
