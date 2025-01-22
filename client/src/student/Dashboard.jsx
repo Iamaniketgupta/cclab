@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { FaBars } from 'react-icons/fa6'
 import { useRecoilState } from 'recoil';
-import { openSideBar, userData } from '../../recoil/states';
+
 import Content from './components/dashboard/Content';
 import IssuesMain from './components/issues/IssuesMain';
 import FeedBackMain from './components/feeback/FeedBackMain';
@@ -10,6 +10,7 @@ import { MdDarkMode } from 'react-icons/md';
 import ProfileIcon from './components/profile/ProfileIcon';
 import {useFetchDataApi} from '../../contexts/FetchDataApi';
 import StudentSidebar from './components/Sidebar';
+import { openSideBar, userData } from '../recoil/states';
 
 // Student Dashboard
 export default function Dashboard() {

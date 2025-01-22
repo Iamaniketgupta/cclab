@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
  import { FaBars } from 'react-icons/fa6'
 import { useRecoilState } from 'recoil';
-import { openSideBar, userData } from '../recoil/states';
-import Content from './components/dashboard/Content';
+ import Content from './components/dashboard/Content';
 import IssuesMain from './components/issues/IssuesMain';
 import FeedBackMain from './components/feeback/FeedBackMain';
 import ReqResMain from './components/requests/ReqResMain';
@@ -14,6 +13,7 @@ import ManageStudentsMain from './components/student/ManageStudentsMain';
 import ResourceManageMain from './components/inventory/ResourceManageMain';
 import LabSchedulesMain from './components/schedules/LabSchedulesMain';
 import AdminSideBar from  './components/Sidebar'
+import { openSideBar, userData } from '../recoil/states';
 
 // Student Dashboard
 export default function Dashboard() {
