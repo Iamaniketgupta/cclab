@@ -10,7 +10,8 @@ import { getCookie, removeCookie } from './utils/cookiesApis'
 import Dashboard from './dashboard/Dashboard'
 import { useRecoilState } from 'recoil'
 import { userData } from './recoil/states'
-import { Home } from './pages/Home'
+import HomePage from './pages/HomePage'
+ 
  
 
 function App() {
@@ -52,7 +53,7 @@ function App() {
   return (
     <Routes>
       <Route path='*' element={<NotFoundPage />}></Route>
-      <Route path="/" element={<div><Home /></div>} />
+      <Route path="/" element={<div><HomePage /></div>} />
       <Route path="/login" element={<div><Login /></div>} />
       <Route path="/dashboard" element={<div><Dashboard /></div>} />
       </Routes>
