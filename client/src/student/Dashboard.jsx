@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Sidebar from './components/sidebar'
+import Sidebar from './components/sidebar.jsx'
 import { FaBars } from 'react-icons/fa6'
 import { useRecoilState } from 'recoil';
 import { openSideBar, userData } from '../../recoil/states';
