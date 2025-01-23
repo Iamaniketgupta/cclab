@@ -1,18 +1,19 @@
 import React, { useState } from 'react'
-import IssueCard from './IssuesCard';
 import ModalWrapper from './../../../common/ModalWrapper';
- import { toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import axiosInstance from './../../../utils/axiosInstance';
 import Loader from './../../../components/Loaders/Loader';
 import { useFetchDataApi } from '../../../contexts/FetchDataApi';
+import IssueCard from "../../../dashboard/issues/IssuesCard";
 export default function IssuesMain() {
-  const [activeTab, setActiveTab] = useState('All Issues');
+  const [activeTab, setActiveTab] = useState('Reported');
   const [loading, setLoading] = useState(false);
-  const { allIssues, allLabs, setAllIssues } = useFetchDataApi();
+  const { allMyIssues, allLabs, fetchAllMyIssues } = useFetchDataApi();
+
 
   const filteredIssues = activeTab === 'All Issues'
-    ? allIssues
-    : allIssues?.filter(issue => issue.status === activeTab.toLowerCase());
+    ? allMyIssues
+    : allMyIssues?.filter(issue => issue.status === activeTab.toLowerCase());
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -28,7 +29,6 @@ export default function IssuesMain() {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  console.log(allIssues)
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -41,6 +41,7 @@ export default function IssuesMain() {
       toast.success(res?.data?.message || 'Success');
       setLoading(false);
       setOpenModal(false);
+      fetchAllMyIssues();
       setData({
         labId: '',
         issueType: '',
@@ -176,7 +177,7 @@ export default function IssuesMain() {
 
       {/* Filters tabs All Issues, Resolved, In-Progress */}
       <div className='flex items-center gap-4'>
-        {['All Issues', 'Resolved','Reported'].map((tab, index) => (
+        {['All Issues', 'Resolved', 'Reported'].map((tab, index) => (
           <div
             key={index}
             className={`px-3 py-2 text-xs md:text-sm rounded-md shadow-xl cursor-pointer
@@ -191,9 +192,12 @@ export default function IssuesMain() {
 
       {/* Issue Cards */}
       <div className='flex flex-wrap gap-4 my-4'>
-        {filteredIssues?.map((issue) => (
-          <IssueCard key={issue._id} issue={issue} />
-        ))}
+        {
+          filteredIssues?.length === 0 ?
+            <p className='text-center text-gray-600  w-full dark:text-gray-300 text-sm'>No issues found</p>
+            : filteredIssues?.map((issue) => (
+              <IssueCard key={issue._id} issue={issue} />
+            ))}
       </div>
     </div>
   )

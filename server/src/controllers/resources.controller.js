@@ -114,3 +114,4 @@ export const getSingleResourceById = asyncHandler(async (req, res) => {
         throw new Error("Resource not found");
     }
 });
+

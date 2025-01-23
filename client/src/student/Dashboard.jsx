@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import { FaBars } from 'react-icons/fa6'
 import { useRecoilState } from 'recoil';
 
@@ -9,14 +9,14 @@ import ReqResMain from './components/requests/ReqResMain';
 import { MdDarkMode } from 'react-icons/md';
 import ProfileIcon from './components/profile/ProfileIcon';
  import StudentSidebar from './components/Sidebar';
-import { openSideBar, userData } from '../recoil/states';
+import { openSideBar } from '../recoil/states';
+import AllSchedules from '../dashboard/AllSchedules';
 
 // Student Dashboard
 export default function Dashboard() {
   const [open, setOpen] = useRecoilState(openSideBar);
   const [sideTab, setSideTab] = useState('Dashboard');
-  const [currentUserData, setUserData] = useRecoilState(userData);
-
+ 
   return (
     <div className='flex  w-full  min-h-screen max-h-screen '
       style={{ scrollbarWidth: "none" }}>
@@ -67,6 +67,7 @@ export default function Dashboard() {
           {sideTab === 'Issues' && <IssuesMain />}
           {sideTab === 'Feedbacks' && <FeedBackMain />}
           {sideTab === 'Requests' && <ReqResMain />}
+          {sideTab === 'Time Table' && <AllSchedules />}
 
 
         </div>

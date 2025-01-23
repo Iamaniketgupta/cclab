@@ -1,33 +1,41 @@
 import { useState } from 'react';
 import ModalWrapper from './../../../common/ModalWrapper';
-const labs = [
-  { id: 'lab1', name: 'ETCC1 Lab' },
-  { id: 'lab2', name: 'Physics Lab' },
-  { id: 'lab3', name: 'Chemistry Lab' },
-  { id: 'lab4', name: 'Biology Lab' },
-];
+import { useFetchDataApi } from "./../../../contexts/FetchDataApi";
+import { toast } from 'react-toastify';
+import axiosInstance from '../../../utils/axiosInstance';
+import Loader from '../../../components/Loaders/Loader';
+import ThankyouPopup from '../../../common/ThankyouPopup';
+import ReqCards from './ReqCards';
+ 
 
 export default function ReqResMain() {
-  // Demo Data
-  const demoRequests = [
-    { id: 1, title: 'Request 1', status: 'pending', description: 'This is a pending request.' },
-    { id: 2, title: 'Request 2', status: 'approved', description: 'This request has been approved.' },
-    { id: 3, title: 'Request 3', status: 'rejected', description: 'This request was rejected.' },
-    { id: 4, title: 'Request 4', status: 'pending', description: 'This is another pending request.' },
-  ];
+  const { allLabs ,allMyResRequests , fetchAllResRequests } = useFetchDataApi();
+  const [loading, setLoading] = useState(false);
+  const [thankyouPopup, setThankyouPopup] = useState(false);
 
+  
   const [activeTab, setActiveTab] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [openModal, setOpenModal] = useState(false);
 
   // Filter  
-  const filteredRequests = demoRequests.filter((req) => {
-    const matchesTab = activeTab === 'All' || req.status === activeTab.toLowerCase();
-    const matchesSearch = req.title.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesTab && matchesSearch;
+  const filteredRequests = allMyResRequests?.filter((req) => {
+    if (activeTab !== 'All' && req.status !== activeTab.toLowerCase()) {
+      return false;
+    }
+    const lowerCaseSearchQuery = searchQuery.toLowerCase();
+    const matchesSearch = req._id?.toLowerCase().includes(lowerCaseSearchQuery) ||
+      req?.labId?.labName?.toLowerCase().includes(lowerCaseSearchQuery) ||
+      req?.labId?.labCode?.toLowerCase().includes(lowerCaseSearchQuery);
+  
+    return matchesSearch;
   });
+  
 
-  // Onchange Form Handle
+
+
+ 
+
 
   const [data, setData] = useState({
     labId: '',
@@ -35,19 +43,54 @@ export default function ReqResMain() {
     requestDesc: '',
   })
 
-  const onChangeHandler = (value) => {
-    setData({ ...data, labId: value });
+  const onChangeHandler = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
   };
-  const handleSubmit = (e) => {
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Selected Lab:', data);
+    setLoading(true);
+    try {
+      const res = await axiosInstance.post('/request/new', {
+        ...data
+      }
+      );
+
+      toast.success(res?.data?.message || 'Success');
+      setLoading(false);
+      setOpenModal(false);
+      setThankyouPopup(true);
+
+      fetchAllResRequests();
+      setData({
+        labId: '',
+        resourceType: '',
+        requestDesc: '',
+      })
+
+    } catch (error) {
+      toast.error(error?.response?.data?.message || 'Something went wrong');
+      console.log(error);
+      setLoading(false);
+    }
 
   };
+
+
 
   return (
     <div className="w-full px-2 py-4 dark:bg-stone-700">
       {/* Create New Request Button */}
       <div className="flex justify-end mb-4">
+
+        {/* Thankyou Poppup */}
+        <ModalWrapper open={thankyouPopup} setOpenModal={setThankyouPopup} outsideClickClose={true} >
+          <ThankyouPopup  setOpenModal={setThankyouPopup} 
+          content={'Your request has been submitted successfully'} />
+        </ModalWrapper>
+
+
         <ModalWrapper open={openModal} setOpenModal={setOpenModal} outsideClickClose={false} >
           <form onSubmit={handleSubmit} className='space-y-4 w-full  shadow-md
                 max-w-[500px] mx-auto p-4 bg-white dark:bg-stone-800 rounded-md'>
@@ -59,17 +102,18 @@ export default function ReqResMain() {
                 className='block mb-2 font-medium text-gray-700 dark:text-gray-300'>
                 Select a Lab:
               </label>
+
               <select
                 name="labId"
                 id="labId"
                 className='w-full p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300'
                 value={data.labId}
-                onChange={(e) => onChangeHandler(e.target.value)}
+                onChange={(e) => onChangeHandler(e)}
                 required
               >
                 <option value="" disabled>Select a lab</option>
-                {labs.map((lab) => (
-                  <option key={lab.id} value={lab.id}>{lab.name}</option>
+                {allLabs?.map((lab) => (
+                  <option key={lab._id} value={lab._id}>{lab.labName} <span className='text-xs'>({lab.labCode?.toUpperCase()})</span></option>
                 ))}
               </select>
             </div>
@@ -85,12 +129,12 @@ export default function ReqResMain() {
                 name="resourceType"
                 id="resourceType"
                 className='w-full p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300'
-                value={data.labId}
-                onChange={(e) => onChangeHandler(e.target.value)}
+                value={data.resourceType}
+                onChange={(e) => onChangeHandler(e)}
                 required
               >
                 <option value="" disabled>Select a lab</option>
-                {["computer", "projector", "peripheral", "software"].map((lab,idx) => (
+                {["computer", "projector", "peripheral", "software"].map((lab, idx) => (
                   <option key={idx} value={lab}>{lab.charAt(0).toUpperCase() + lab.slice(1)}  </option>
                 ))}
               </select>
@@ -111,16 +155,16 @@ export default function ReqResMain() {
                 rows="4"
                 placeholder="Write your request here..."
                 value={data.requestDesc}
-                onChange={(e) => onChangeHandler(e.target.value)}
+                onChange={(e) => onChangeHandler(e)}
                 required
               ></textarea>
             </div>
-            <div className='flex items-center gap-4'>
+            <div className='flex items-center justify-between gap-4'>
 
               <button
                 type="submit"
                 className='px-4 py-2 bg-emerald-500 text-white font-medium rounded-md shadow hover:bg-emerald-600 dark:hover:bg-emerald-400'>
-                Submit Request
+                {loading ? <Loader /> : "Submit Request"}
               </button>
               <button
                 type="reset"
@@ -128,17 +172,18 @@ export default function ReqResMain() {
                   setOpenModal(false);
                   setData({ labId: '', resourceType: '', requestDesc: '' });
                 }}
-                className='px-4 py-2 bg-red-700 text-white font-medium rounded-md shadow hover:bg-red-600 dark:hover:bg-red-400'>
+                disabled={loading}
+                className='px-4 py-2   bg-red-700 text-white font-medium rounded-md shadow hover:bg-red-600 dark:hover:bg-red-400'>
                 Cancel
               </button>
             </div>
 
           </form>
         </ModalWrapper>
-        <button 
-        onClick={() => setOpenModal(true)}
-        className="bg-emerald-700 text-white px-4 py-2 rounded shadow hover:bg-emerald-600">
-         Request Resource
+        <button
+          onClick={() => setOpenModal(true)}
+          className="bg-emerald-700 text-white px-4 py-2 rounded shadow hover:bg-emerald-600">
+          Request Resource
         </button>
       </div>
 
@@ -164,30 +209,16 @@ export default function ReqResMain() {
               } dark:text-white`}
             onClick={() => setActiveTab(tab)}
           >
-            {tab}
+            {tab.charAt(0).toUpperCase() + tab.slice(1)}
           </button>
         ))}
       </div>
 
       {/* Requests Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredRequests.length > 0 ? (
-          filteredRequests.map((req) => (
-            <div
-              key={req.id}
-              className="p-4 bg-white rounded shadow dark:bg-stone-600 dark:text-white"
-            >
-              <h3 className="font-semibold text-lg">{req.title}</h3>
-              <p className="text-sm">{req.description}</p>
-              <p className={`mt-2 text-sm ${req.status === 'approved'
-                ? 'text-green-500'
-                : req.status === 'rejected'
-                  ? 'text-red-500'
-                  : 'text-yellow-500'
-                } capitalize`}>
-                {req.status}
-              </p>
-            </div>
+        {filteredRequests?.length > 0 ? (
+          filteredRequests?.map((req) => (
+          <ReqCards key={req._id} req={req} />
           ))
         ) : (
           <p className="text-center text-gray-500 dark:text-gray-300">

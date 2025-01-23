@@ -4,10 +4,11 @@ import AddRow from "./AddRow";
 import axiosInstance from "../../../utils/axiosInstance";
 import { toast } from 'react-toastify';
 import Loader from "../../../components/Loaders/Loader";
-import AllSchedules from "./AllSchedules";
+import AllSchedules from "../../../dashboard/AllSchedules";
+ 
 export default function LabSchedulesMain() {
 
-  const { allSchedules, allLabs } = useFetchDataApi();
+  const { allSchedules, allLabs ,fetchAllSchedules} = useFetchDataApi();
   const [isLoading, setIsLoading] = useState(false);
 
   const [tab, setTab] = useState("AllSchedules");
@@ -84,7 +85,9 @@ export default function LabSchedulesMain() {
       alert("No schedules to save!");
       return;
     }
-
+    if(!confirm("Are you sure you want to save this schedule?")){
+      return;
+    }
     const scheduleData = {
       date: currentDate,
       details: rows.map((row) => ({
@@ -98,6 +101,8 @@ export default function LabSchedulesMain() {
 
     };
 
+    
+    
     try {
       setIsLoading(true);
       const response = await axiosInstance.post("/schedule/add", scheduleData);
@@ -108,6 +113,7 @@ export default function LabSchedulesMain() {
         setCurrentDate("");
         localStorage.removeItem("schedules");
         localStorage.removeItem("currentDate");
+        fetchAllSchedules();
       } else {
         throw new Error("Failed to save schedule");
       }
@@ -121,8 +127,6 @@ export default function LabSchedulesMain() {
   };
 
 
-
-
   console.log(allSchedules)
 
   return (
@@ -130,7 +134,7 @@ export default function LabSchedulesMain() {
 
     <div className="p-4 space-y-6">
 
-      {/* Tabs All Schedules, New Schedule ,Draft */}
+      {/* Tabs All Schedules, New Schedule  */}
       <div className="flex space-x-4">
         <button
           className={`px-4 py-2 rounded-md text-sm font-medium ${tab === "AllSchedules" ? "bg-emerald-500 text-white" : "bg-gray-300 text-gray-600"

@@ -9,6 +9,7 @@ const IssueSchema = new mongoose.Schema({
 
     labId :{
         type:mongoose.Schema.Types.ObjectId,
+        ref:'Lab',
         required:true,
     },
     issueType: {

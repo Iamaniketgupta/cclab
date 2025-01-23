@@ -16,7 +16,7 @@ export const raiseIssue = asyncHandler(async (req, res) => {
         labId,
         issueType,
         issueDesc,
-        reportedBy: req.user._id,  
+        reportedBy: req.user._id,
     });
 
     res.status(201).json({ message: "Issue raised successfully.", issue });
@@ -53,9 +53,17 @@ export const updateIssueStatus = asyncHandler(async (req, res) => {
 
 // Get all issues by lab ID
 export const getAllIssues = asyncHandler(async (req, res) => {
- 
+
     const issues = await Issue.find({})
+        .populate("labId", "labName labCode")
         .populate("reportedBy", "name email rollNumber");
+
+    res.status(200).json(issues);
+});
+export const getAllMyIssues = asyncHandler(async (req, res) => {
+
+    const issues = await Issue.find({ reportedBy: req.user._id })
+        .populate("labId", "labName labCode")
 
     res.status(200).json(issues);
 });

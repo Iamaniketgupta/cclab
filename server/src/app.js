@@ -9,10 +9,12 @@ import roleUserRouter from './routes/roleUser.routes.js';
 import resourceReqRouter from './routes/resourceReq.routes.js';
 import scheduleRouter from './routes/schedule.routes.js';
 import issuesRouter from './routes/issues.routes.js';
+import resourceRouter from './routes/resources.routes.js';
+import feedbackRouter from './routes/feedback.routes.js';
  
 
 app.use(cors({
-     // origin: "http://localhost:5173" || process.env.CLIENT_URL,
+    //  origin: "http://localhost:5173" || process.env.CLIENT_URL,
     origin: "https://pctelabs.vercel.app" || process.env.CLIENT_URL,
     credentials:true
 }))
@@ -21,10 +23,13 @@ app.use(cors({
 app.use('/api/user',userRouter);
 app.use('/api/labs',labRouter);
 app.use('/api/role',roleUserRouter);
-app.use('/api/resource',resourceReqRouter);
+app.use('/api/resource',resourceRouter);
 app.use('/api/schedule',scheduleRouter);
 app.use('/api/issues',issuesRouter);
+app.use('/api/request',resourceReqRouter);
+app.use('/api/feedback',feedbackRouter);
 
+ 
 app.get('/',(req,res)=>{
     res.send('Server is online')
 })

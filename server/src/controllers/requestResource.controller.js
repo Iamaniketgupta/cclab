@@ -1,11 +1,11 @@
- import asyncHandler from "express-async-handler";
-import Request from "../models/requests.model";
- 
+import asyncHandler from "express-async-handler";
+import Request from "../models/requests.model.js";
+
 // Raise a new resource request
 export const raiseNewRequest = asyncHandler(async (req, res) => {
-    const { labId, resourceType, requestedBy, requestDesc } = req.body;
+    const { labId, resourceType, requestDesc } = req.body;
 
-     if (!labId || !resourceType || !requestedBy || !requestDesc) {
+    if (!labId || !resourceType || !requestDesc) {
         res.status(400);
         throw new Error("All fields are required");
     }
@@ -13,7 +13,7 @@ export const raiseNewRequest = asyncHandler(async (req, res) => {
     const newRequest = await Request.create({
         labId,
         resourceType,
-        requestedBy,
+        requestedBy: req.user._id,
         requestDesc,
     });
 
@@ -30,9 +30,20 @@ export const raiseNewRequest = asyncHandler(async (req, res) => {
 
 // Get all resource requests
 export const getAllRequests = asyncHandler(async (req, res) => {
+
     const requests = await Request.find({})
-        .populate("requestedBy", "name email rollNumber") 
-        .sort({ createdAt: -1 });  
+        .populate("labId", "labName labCode")
+        .populate("requestedBy", "name email rollNumber")
+        .sort({ createdAt: -1 });
+
+    res.status(200).json(requests);
+});
+// Get all resource requests by user
+export const getAllRequestsByUserId = asyncHandler(async (req, res) => {
+
+    const requests = await Request.find({ requestedBy: req.user._id })
+        .populate("labId", "labName labCode")
+        .sort({ createdAt: -1 });
 
     res.status(200).json(requests);
 });

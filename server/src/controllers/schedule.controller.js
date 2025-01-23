@@ -47,60 +47,68 @@ export const removeSchedule = asyncHandler(async (req, res) => {
   res.json({ message: "Schedule removed successfully" });
 });
 
-// Get schedules for a lab with aggregation
-export const getSchedules = asyncHandler(async (req, res) => {
  
+export const getSchedules = asyncHandler(async (req, res) => {
   const today = new Date();
-  const startDate = new Date(today.setDate(today.getDate() - 1)); // Include one old schedule
+  const startDate = new Date(today.setDate(today.getDate() - 1)); // One old
   const endDate = new Date(today.setDate(today.getDate() + 6)); // Next 6 days
-
+  
   const schedules = await Schedule.aggregate([
-    { $match: {  date: { $gte: startDate, $lte: endDate } } },
-
-    { $sort: { _id: 1 } } // Sort by date
+    {
+      $match: {
+        date: { $gte: startDate, $lte: endDate },
+      },
+    },
+    { $sort: { date: 1 } },  
+    {
+      $unwind: "$details",  
+    },
+    {
+      $lookup: {
+        from: "labs",   
+        localField: "details.labId",
+        foreignField: "_id",
+        as: "details.labInfo",
+      },
+    },
+    {
+      $unwind: "$details.labInfo",   
+    },
+    {
+      $addFields: {
+        
+        dayLabel: {
+          $switch: {
+            branches: [
+              { case: { $eq: [{ $dayOfYear: "$date" }, { $dayOfYear: new Date() }] }, then: "Today" },
+              { case: { $eq: [{ $dayOfYear: "$date" }, { $dayOfYear: new Date(new Date().setDate(new Date().getDate() - 1)) }] }, then: "Yesterday" },
+            ],
+            default: "Upcoming",
+          },
+        },
+      },
+    },
+    {
+      $group: {
+        _id: "$_id",
+        userId: { $first: "$userId" },
+        date: { $first: "$date" },
+        dayLabel: { $first: "$dayLabel" },
+        details: { $push: "$details" },
+        status: { $first: "$status" },
+        createdAt: { $first: "$createdAt" },
+        updatedAt: { $first: "$updatedAt" },
+      },
+    },
+    { 
+      $sort: { "dayLabel": 1, "date": 1 }   
+    }
   ]);
 
   res.json(schedules);
 });
 
-// Export schedules as Excel
-export const exportScheduleAsExcel = asyncHandler(async (req, res) => {
-  const { labId } = req.params;
 
-  const schedules = await Schedule.find({ labId }).sort({ date: 1 });
-  const fields = ["labId", "userId", "date", "class", "facultyName", "startTime", "endTime", "purpose", "status"];
-  const json2csvParser = new Parser({ fields });
 
-  const csv = json2csvParser.parse(schedules);
-  res.header("Content-Type", "text/csv");
-  res.attachment("schedules.csv");
-  res.send(csv);
-});
 
-// Export schedules as PDF
-export const exportScheduleAsPDF = asyncHandler(async (req, res) => {
-  const { labId } = req.params;
-
-  const schedules = await Schedule.find({ labId }).sort({ date: 1 });
-  const doc = new PDFDocument();
-
-  res.setHeader("Content-Type", "application/pdf");
-  res.setHeader("Content-Disposition", "attachment; filename=schedules.pdf");
-
-  doc.pipe(res);
-  doc.text("Lab Schedules", { align: "center" });
-  doc.moveDown();
-
-  schedules.forEach(schedule => {
-    doc.text(`Date: ${schedule.date.toDateString()}`);
-    doc.text(`Class: ${schedule.class}`);
-    doc.text(`Faculty: ${schedule.facultyName}`);
-    doc.text(`Start Time: ${schedule.startTime}`);
-    doc.text(`End Time: ${schedule.endTime}`);
-    doc.text(`Purpose: ${schedule.purpose}`);
-    doc.text(`Status: ${schedule.status}`);
-    doc.moveDown();
-  });
-
-  doc.end();
-});
+ 

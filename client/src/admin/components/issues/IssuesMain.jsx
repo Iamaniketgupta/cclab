@@ -1,46 +1,43 @@
-import React, { useState } from 'react'
-import IssueCard from './IssuesCard';
+import  { useState } from 'react'
+import IssueCard from '../../../dashboard/issues/IssuesCard';
 import ModalWrapper from '../../../common/ModalWrapper';
+import { toast } from 'react-toastify';
+import {useFetchDataApi} from '../../../contexts/FetchDataApi';
+import axiosInstance from '../../../utils/axiosInstance';
 
 export default function IssuesMain() {
-    const [activeTab, setActiveTab] = useState('All Issues');
-
-    const issues = [
-        { id: 1, description: 'Issue with login functionality', status: 'In-Progress' },
-        { id: 2, description: 'Page not loading', status: 'Resolved' },
-        { id: 3, description: 'UI design issue on dashboard', status: 'In-Progress' },
-        { id: 4, description: 'Backend error on API call', status: 'Resolved' },
-    ];
+   const {allIssues ,fetchAllIssues} = useFetchDataApi();
+const [loading, setLoading] = useState(false);
+    const [activeTab, setActiveTab] = useState('Reported');
 
     const filteredIssues = activeTab === 'All Issues'
-        ? issues
-        : issues.filter(issue => issue.status === activeTab);
+        ? allIssues
+        : allIssues?.filter(issue => issue.status === activeTab.toLowerCase());
 
-    const [openModal, setOpenModal] = useState(false);
-    const [labs, setLabs] = useState([]);
-    const [data, setData] = useState({
-        labId: '',
-        issueType: '',
-        issueDesc: '',
-    });
-
-    const onChangeHandler = (value) => {
-        setData({ ...data, labId: value });
+ 
+    const markResolveHandler = async (issue) => {
+        if(!confirm("Are you sure you want to mark this issue as resolved?")) return;
+        try {
+            setLoading(true);
+            const res = await axiosInstance.put(`/issues/${issue._id}`, {
+                status: 'resolved',
+            });
+            toast.success(res?.data?.message || 'Success');
+            fetchAllIssues();
+            setLoading(false);
+        } catch (error) {
+            toast.error(error?.response?.data?.message || 'Something went wrong');
+            console.log(error);
+            setLoading(false);
+        }
     };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log('Issue Form:', data);
-        setOpenModal(false);
-    };
+  
     return (
         <div className='w-full mt-4 md:p-4 p-2'>
 
-            {/* Select Lab Filter*/}
-  
-            {/* Filters tabs All Issues, Resolved, In-Progress */}
+          
             <div className='flex items-center gap-4'>
-                {['All Issues', 'Resolved', 'In-Progress'].map((tab, index) => (
+                {['All Issues', 'Resolved', 'Reported'].map((tab, index) => (
                     <div
                         key={index}
                         className={`px-3 py-2 text-xs md:text-sm rounded-md shadow-xl cursor-pointer
@@ -54,9 +51,11 @@ export default function IssuesMain() {
             </div>
 
             {/* Issue Cards */}
-            <div className='flex flex-wrap gap-4 my-4'>
-                {filteredIssues.map((issue) => (
-                    <IssueCard key={issue.id} issue={issue} />
+            <div className='flex flex-wrap gap-4 my-8'>
+                { 
+                filteredIssues?.length === 0 ? <h2 className='text-xs text-center w-full font-semibold text-gray-700 dark:text-gray-100'>No issues found</h2>
+                :filteredIssues?.map((issue) => (
+                    <IssueCard loading={loading} key={issue.id} handler={markResolveHandler} issue={issue} />
                 ))}
             </div>
         </div>
