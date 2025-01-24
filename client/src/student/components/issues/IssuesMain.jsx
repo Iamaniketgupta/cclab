@@ -8,7 +8,7 @@ import IssueCard from "../../../dashboard/issues/IssuesCard";
 export default function IssuesMain() {
   const [activeTab, setActiveTab] = useState('Reported');
   const [loading, setLoading] = useState(false);
-  const { allMyIssues, allLabs, fetchAllMyIssues } = useFetchDataApi();
+  const { allMyIssues, allLabs, fetchAllIssuesByUserId } = useFetchDataApi();
 
 
   const filteredIssues = activeTab === 'All Issues'
@@ -41,7 +41,7 @@ export default function IssuesMain() {
       toast.success(res?.data?.message || 'Success');
       setLoading(false);
       setOpenModal(false);
-      fetchAllMyIssues();
+      fetchAllIssuesByUserId();
       setData({
         labId: '',
         issueType: '',
@@ -50,8 +50,8 @@ export default function IssuesMain() {
       })
 
     } catch (error) {
-      toast.error(error?.response?.data?.message || 'Something went wrong');
       console.log(error);
+      toast.error(error?.response?.data?.message || 'Something went wrong');
       setLoading(false);
     }
 
@@ -72,13 +72,13 @@ export default function IssuesMain() {
             <div>
               <label
                 htmlFor="labId"
-                className='block mb-2 font-medium text-gray-700 dark:text-gray-300'>
+                className='block mb-2 font-medium text-gray-700 dark:text-stone-300'>
                 Select a Lab:
               </label>
               <select
                 name="labId"
                 id="labId"
-                className='w-full p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300'
+                className='w-full p-2 rounded-md border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-800 dark:text-stone-300'
                 value={data.labId}
                 onChange={(e) => onChangeHandler(e)}
                 required
@@ -94,13 +94,13 @@ export default function IssuesMain() {
             <div>
               <label
                 htmlFor="labId"
-                className='block mb-2 font-medium text-gray-700 dark:text-gray-300'>
+                className='block mb-2 font-medium text-stone-700 dark:text-stone-300'>
                 Issue Type:
               </label>
               <select
                 name="issueType"
                 id="issueType"
-                className='w-full p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300'
+                className='w-full p-2 rounded-md border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-800 dark:text-stone-300'
                 value={data.issueType}
                 onChange={(e) => onChangeHandler(e)}
                 required
@@ -116,14 +116,14 @@ export default function IssuesMain() {
             <div>
               <label
                 htmlFor="resourceId"
-                className='block mb-2 font-medium text-gray-700 dark:text-gray-300'>
+                className='block mb-2 font-medium text-stone-700 dark:text-stone-300'>
                 Resource ID/Code:
               </label>
               <input
                 type="text"
                 name="resourceId"
                 id="resourceId"
-                className='w-full p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300'
+                className='w-full p-2 rounded-md border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-800 dark:text-stone-300'
                 placeholder="Resource ID"
                 value={data.resourceId}
                 onChange={(e) => onChangeHandler(e)}
@@ -134,13 +134,13 @@ export default function IssuesMain() {
             <div>
               <label
                 htmlFor="issueDesc"
-                className='block mb-2 font-medium text-gray-700 dark:text-gray-300'>
+                className='block mb-2 font-medium text-stone-700 dark:text-stone-300'>
                 Description your Issue:
               </label>
               <textarea
                 name="issueDesc"
                 id="issueDesc"
-                className='w-full p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300'
+                className='w-full p-2 rounded-md border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-800 text-gray-800 dark:text-gray-300'
                 rows="4"
                 placeholder="Write your issue in detail here..."
                 value={data.requestDesc}

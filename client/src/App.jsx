@@ -32,9 +32,11 @@ function App() {
       }
     } catch (error) {
       dispatch(clearCurrUser());
-      setCurrUser(null);
+      dispatch(setCurrUser(null));
+      setUserData(null);
       removeCookie('authToken');
-      if (error.response.data.expiredSession) {
+      console.log(error.response)
+      if (error?.response?.data?.expiredSession) {
         alert(error.response.data.message);
       }
       navigate('/login');

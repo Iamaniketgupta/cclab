@@ -12,7 +12,7 @@ import ModalWrapper from './../../common/ModalWrapper';
 import DeleteConfirmation from './../../common/DeleteConfirmation';
 import { logoutUser } from './../../apis/apiCalls';
 import { useNavigate } from 'react-router-dom';
-
+import logo from "../../assets/images/bglogo.png";
 
 
 const listData = [
@@ -56,14 +56,15 @@ export default function Sidebar({ setTab, tab, setOpen }) {
                 <DeleteConfirmation handler={logoutHandler} setOpenModal={setOpenModal} />
             </ModalWrapper>
 
-            <div className=' text-2xl font-bold px-2 border-b
+            <div className=' text-2xl font-bold border-b
              border-zinc-700 border-opacity-30 py-4 flex relative gap-4 items-center '>
                 <FaBars
                     size={20}
                     onClick={() => setOpen((prev) => !prev)}
                     className='dark:text-gray-100 sticky md:hidden bottom-2 hover:text-slate-500 cursor-pointer' />
-
-                {open && "PCTE"}
+                <img src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0chhs7PCMWtuhOLg8yYBynOz2qsPmX_ydmCJwci-rkpfXh47lW_2YRRgT7skeD8INGrA&usqp=CAU"}
+                    alt="pcte" className='w-8 h-8 rounded- object-cover' />
+                {open && "PCTE LABS"}
             </div>
 
             <div className='flex flex-col mt-5 gap-2'>

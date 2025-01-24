@@ -107,7 +107,7 @@ export default function ResourceManageMain() {
         <input
           type="text"
           placeholder="Search by Code or Name"
-          className="px-4 py-2 border rounded text-sm"
+          className="px-4 py-2 border dark:border-stone-900 dark:bg-stone-900 dark:text-gray-100 outline-none rounded text-sm"
           value={search}
           onChange={handleSearch}
         />
@@ -117,7 +117,7 @@ export default function ResourceManageMain() {
             name="lab"
             value={filter.lab}
             onChange={handleFilterChange}
-            className="px-4 text-xs py-2 border rounded"
+            className="px-4 text-xs py-2 border  dark:border-stone-900 dark:bg-stone-900 dark:text-gray-100 outline-none rounded"
           >
             <option value="">All Labs</option>
             {allLabs?.map((lab) => (
@@ -133,7 +133,7 @@ export default function ResourceManageMain() {
             name="resourceType"
             value={filter.resourceType}
             onChange={handleFilterChange}
-            className="px-4 text-xs py-2 border rounded"
+            className="px-4 text-xs py-2 border dark:border-stone-900 dark:bg-stone-900 dark:text-gray-100 outline-none rounded"
           >
             <option value="">All Resources</option>
             <option value="computer">Computer</option>
@@ -143,7 +143,7 @@ export default function ResourceManageMain() {
           </select>
         </div>
       </div>
-      <table className="min-w-full table-auto text-sm ">
+      <table className="min-w-full table-auto text-sm  border-stone-900">
   <thead>
     <tr className="bg-emerald-700">
       <th className="px-4 py-2 text-left text-xs font-medium text-gray-100">Code</th>
@@ -156,11 +156,12 @@ export default function ResourceManageMain() {
   </thead>
   <tbody>
     {filteredResources.map((resource, index) => (
-      <tr key={index} className="hover:bg-gray-50 bg-white border-b transition-colors">
-        <td className="px-4 py-2 text-xs text-gray-800">{resource.code}</td>
-        <td className="px-4 py-2 text-xs text-gray-800">{resource.resourceName}</td>
-        <td className="px-4 py-2 text-xs text-gray-800">{resource.resourceType}</td>
-        <td className="px-4 py-2 text-xs text-gray-800">
+      <tr key={index} className="hover:bg-gray-50 bg-white dark:bg-stone-900
+       outline-none border-b dark:border-stone-900 transition-colors dark:text-gray-100">
+        <td className="px-4 py-2 text-xs ">{resource.code}</td>
+        <td className="px-4 py-2 text-xs ">{resource.resourceName}</td>
+        <td className="px-4 py-2 text-xs ">{resource.resourceType}</td>
+        <td className="px-4 py-2 text-xs ">
           {resource.resourceType === 'computer' ? (
             <>
               <div>Brand: {resource.brand || 'N/A'}</div>

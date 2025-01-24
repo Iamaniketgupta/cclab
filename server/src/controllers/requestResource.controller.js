@@ -45,7 +45,7 @@ export const getAllRequestsByUserId = asyncHandler(async (req, res) => {
         .populate("labId", "labName labCode")
         .sort({ createdAt: -1 });
 
-    res.status(200).json(requests);
+     res.status(200).json(requests);
 });
 
 // Get a single resource request by ID

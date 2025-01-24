@@ -38,8 +38,8 @@ export default function FeedBackMain() {
                             type="text"
                             placeholder="Search feedback..."
                             className="w-full p-2 min-w-[300px] rounded-md max-w-md 
-          border border-gray-300 dark:border-gray-700
-           bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300"
+          border border-gray-300 dark:border-stone-700 outline-none
+           bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-300"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
@@ -51,7 +51,8 @@ export default function FeedBackMain() {
                         <select
                             name="labId"
                             id="labId"
-                            className='w-full p-2  rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300'
+                            className='w-full p-2  rounded-md border   outline-none
+                             border-gray-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-300'
                             value={filteredByLabs}
                             onChange={(e) => setFilteredByLabs(e.target.value)}
                             required

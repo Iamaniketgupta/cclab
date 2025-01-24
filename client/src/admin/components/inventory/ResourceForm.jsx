@@ -35,7 +35,7 @@ export default function ResourceForm({
           id="labId"
           required
           name="labId"
-          className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-stone-800 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-1 focus:ring-emerald-800"
           onChange={(e) => onChangeHandler(e)}
           value={data?.labId}
         >
@@ -59,7 +59,7 @@ export default function ResourceForm({
             required
             name="code"
             placeholder="Resource Id  e.g. PC-01"
-            className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-stone-800 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-1 focus:ring-emerald-800"
             value={data?.code}
             onChange={(e) => onChangeHandler(e)}
           />
@@ -80,7 +80,7 @@ export default function ResourceForm({
             required
             name="resourceName"
             placeholder=" Name"
-            className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-stone-800 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-1 focus:ring-emerald-800"
             value={data?.resourceName}
             onChange={(e) => onChangeHandler(e)}
           />
@@ -98,7 +98,7 @@ export default function ResourceForm({
             id="resourceType"
             required
             name="resourceType"
-            className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-stone-800 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-1 focus:ring-emerald-800"
             onChange={(e) => {
               setResourceType(e.target.value);
               onChangeHandler(e);
@@ -132,7 +132,7 @@ export default function ResourceForm({
                 name="brand"
                 required
                 placeholder="Brand"
-                className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-stone-800 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-1 focus:ring-emerald-800"
                 value={data?.brand}
                 onChange={(e) => onChangeHandler(e)}
               />
@@ -150,7 +150,7 @@ export default function ResourceForm({
                 name="model"
                 required
                 placeholder="Model"
-                className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-stone-800 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-1 focus:ring-emerald-800"
                 value={data?.model}
                 onChange={(e) => onChangeHandler(e)}
               />
@@ -170,7 +170,7 @@ export default function ResourceForm({
                 name="serialNumber"
                 placeholder="Serial Number"
                 required
-                className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-stone-800 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-1 focus:ring-emerald-800"
                 value={data?.serialNumber}
                 onChange={(e) => onChangeHandler(e)}
               />
@@ -186,7 +186,7 @@ export default function ResourceForm({
                 type="date"
                 id="purchaseDate"
                 name="purchaseDate"
-                className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-stone-800 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-1 focus:ring-emerald-800"
                 value={data?.purchaseDate}
                 onChange={(e) => onChangeHandler(e)}
               />
@@ -211,7 +211,7 @@ export default function ResourceForm({
                 id="licenseKey"
                 name="licenseKey"
                 placeholder="License Key"
-                className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-stone-800 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-1 focus:ring-emerald-800"
                 value={data?.licenseKey}
                 onChange={(e) => onChangeHandler(e)}
               />
@@ -229,7 +229,7 @@ export default function ResourceForm({
                 name="version"
                 required
                 placeholder="Version"
-                className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-stone-800 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-1 focus:ring-emerald-800"
                 value={data?.version}
                 onChange={(e) => onChangeHandler(e)}
               />
@@ -247,7 +247,7 @@ export default function ResourceForm({
                 type="date"
                 id="expiryDate"
                 name="expiryDate"
-                className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-stone-800 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-1 focus:ring-emerald-800"
                 value={data?.expiryDate}
                 onChange={(e) => onChangeHandler(e)}
               />
@@ -261,7 +261,7 @@ export default function ResourceForm({
       <div className="flex flex-wrap gap-3 justify-between">
         <button
           type="button"
-          className="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-300"
+          className="px-4 py-2 rounded-md bg-red-500 hover:bg-red-600 dark:bg-red-800 text-gray-100"
           onClick={() => setOpenModal(false)}
         >
           Cancel
@@ -269,7 +269,7 @@ export default function ResourceForm({
         <button
         disabled={loading}
           type="submit"
-          className="px-4 py-2 rounded-md bg-emerald-600 text-white"
+          className="px-4 py-2 rounded-md bg-emerald-800 text-white"
         >
           {loading ? <Loader /> : "Submit"}
         </button>

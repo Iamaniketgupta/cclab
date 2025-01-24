@@ -1,9 +1,10 @@
 
-import { useEffect, useState, createContext, useContext } from 'react';
+import { useEffect, useState, createContext, useContext, useCallback } from 'react';
 import { userData } from '../recoil/states';
 import { useRecoilState } from 'recoil';
 import axiosInstance from '../utils/axiosInstance';
 import { all } from 'axios';
+import { set } from 'mongoose';
 
 const FetchDataContext = createContext();
 
@@ -23,126 +24,144 @@ export const FetchDataProvider = ({ children }) => {
     const [allMyResRequests, setAllMyResRequests] = useState([]);
     const [allMyIssues, setAllMyIssues] = useState([]);
 
+    const [allStats, setAllStats] = useState([]);
+
+
+    // fetch all stats
+
+    const fetchDashboardStats = useCallback(async () => {
+        try {
+            const response = await axiosInstance.get('/stats/all');
+            console.log(response.data)
+            setAllStats(response.data);
+        } catch (error) {
+            console.error('Error fetching dashboard stats:', error);
+        }
+    }, []);
+
+
 
     //    fetch all labs
-    const fetchAllLabs = async () => {
+    const fetchAllLabs = useCallback(async () => {
         try {
             const response = await axiosInstance.get('/labs/get/all');
-             setAllLabs(response.data);
+            setAllLabs(response.data);
         } catch (error) {
             console.error('Error fetching all labs:', error);
         }
-    };
+    }, []);
 
     // fetch all feedbacks
-    const fetchAllFeedbacks = async () => {
+    const fetchAllFeedbacks = useCallback(async () => {
         try {
             const response = await axiosInstance.get('/feedback/all');
             setAllFeedbacks(response.data);
         } catch (error) {
             console.error('Error fetching all feedbacks:', error);
         }
-    };
+    }, []);
     // get feedbacks by user
-    const fetchAllFeedbacksByUserId = async () => {
+    const fetchAllFeedbacksByUserId = useCallback(async () => {
         try {
             const response = await axiosInstance.get('/feedback/user/all');
             setAllMyFeedbacks(response.data);
         } catch (error) {
             console.error('Error fetching all feedbacks:', error);
         }
-    };
+    }, []);
 
 
     // fetch all issues
-    const fetchAllIssues = async () => {
+    const fetchAllIssues = useCallback(async () => {
         try {
             const response = await axiosInstance.get('/issues/all');
-             setAllIssues(response.data);
+            setAllIssues(response.data);
         } catch (error) {
             console.error('Error fetching all issues:', error);
         }
-    };
-    const fetchAllIssuesByUserId = async () => {
+    }, []);
+    const fetchAllIssuesByUserId = useCallback(async () => {
         try {
             const response = await axiosInstance.get('/issues/user/all');
             setAllMyIssues(response.data);
         } catch (error) {
             console.error('Error fetching all issues:', error);
         }
-    };
+    }, []);
 
     // fetch all resources  
-    const fetchAllResources = async () => {
+    const fetchAllResources = useCallback(async () => {
         try {
             const response = await axiosInstance.get('/resource/all');
             setAllResources(response.data);
         } catch (error) {
             console.error('Error fetching all resources:', error);
         }
-    };
+    }, []);
 
     // fetch all schedules
-    const fetchAllSchedules = async () => {
+    const fetchAllSchedules = useCallback(async () => {
         try {
             const response = await axiosInstance.get('/schedule/all');
-             setAllSchedules(response.data);
+            setAllSchedules(response.data);
         } catch (error) {
             console.error('Error fetching all schedules:', error);
         }
-    };
+    }, []);
 
     // fetch all resource requests
-    const fetchAllResRequests = async () => {
+    const fetchAllResRequests = useCallback(async () => {
         try {
             const response = await axiosInstance.get('/request/all');
-             setAllResRequests(response.data);
+            setAllResRequests(response.data);
         } catch (error) {
             console.error('Error fetching all resource requests:', error);
         }
-    }
-    const fetchAllResRequestsByUserId = async () => {
+    }, []);
+
+    const fetchAllResRequestsByUserId = useCallback( async () => {
         try {
             const response = await axiosInstance.get('/request/user/all');
-             setAllMyResRequests(response.data);
+            setAllMyResRequests(response.data);
         } catch (error) {
             console.error('Error fetching all resource requests:', error);
         }
-    }
+    }, []);
 
     // fetch all faculties
-    const fetchAllFaculties = async () => {
+    const fetchAllFaculties = useCallback(async () => {
         try {
             const response = await axiosInstance.get('/role/faculty/all');
-             setAllFaculties(response.data);
+            setAllFaculties(response.data);
         } catch (error) {
             console.error('Error fetching all faculties:', error);
         }
-    };
+    }, []);
 
     // fetch all students
-    const fetchAllStudents = async () => {
+    const fetchAllStudents = useCallback(async () => {
         try {
             const response = await axiosInstance.get('/role/student/all');
             setAllStudents(response.data);
         } catch (error) {
             console.error('Error fetching all students:', error);
         }
-    };
+    }, []);
 
     useEffect(() => {
         if (!currUser) return;
         fetchAllLabs();
+        fetchDashboardStats();
         if (currUser.role === 'admin') {
             fetchAllFaculties();
             fetchAllIssues();
             fetchAllFeedbacks();
             fetchAllResRequests();
+            fetchAllResources();
         }
         if (currUser.role === 'admin' || currUser.role === 'faculty') {
             fetchAllStudents();
         }
-        fetchAllResources();
         fetchAllSchedules();
         if (currUser.role === 'student') {
             fetchAllFeedbacksByUserId();
@@ -171,6 +190,7 @@ export const FetchDataProvider = ({ children }) => {
             allMyFeedbacks, setAllMyFeedbacks,
             allMyIssues, setAllMyIssues,
             allMyResRequests, setAllMyResRequests,
+            allStats, setAllStats,
 
             // functions
             fetchAllLabs,
@@ -183,7 +203,8 @@ export const FetchDataProvider = ({ children }) => {
             fetchAllStudents,
             fetchAllFeedbacksByUserId,
             fetchAllResRequestsByUserId,
-            fetchAllIssuesByUserId
+            fetchAllIssuesByUserId,
+            fetchDashboardStats
         }}>
             {children}
         </FetchDataContext.Provider>

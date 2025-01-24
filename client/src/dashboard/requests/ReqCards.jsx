@@ -1,11 +1,11 @@
-import React from 'react'
+
 
 export default function ReqCards({req}) {
   return (
     <div
-     className="p-2 bg-white rounded hover:scale-105 cursor-pointer 
+     className="p-2 bg-white dark:bg-stone-900 rounded hover:scale-105 cursor-pointer 
      transition duration-300 ease-in-out
-     shadow dark:bg-stone-800 dark:text-gray-100"
+     shadow   dark:text-gray-100"
   >
     <div className='bg-emerald-900 text-white p-2 rounded shadow-lg mb-2'>
     <p className="font-thin text-xs">#{req._id}</p>

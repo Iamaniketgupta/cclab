@@ -6,10 +6,10 @@ export default function TimeTableViewer({ schedule, setOpenTT }) {
 
   return (
 
-    <div className="bg-white shadow-md min-w-full min-h-full overflow-auto  rounded-lg p-6">
+    <div className="bg-white dark:bg-stone-800 dark:text-gray-100 shadow-md min-w-full min-h-full overflow-auto  rounded-lg p-6">
       <div className="flex justify-between flex-warp gap-4">
 
-        <h2 className="text-sm  font-bold text-gray-800 mb-4">
+        <h2 className="text-sm  font-bold   mb-4">
           Time Table  | <span className='text-xs font-semibold'>{dayjs(schedule?.date).format("DD/MM/YYYY")} </span>
         </h2>
         <div className="flex items-center text-xs gap-2 ">
@@ -29,7 +29,7 @@ export default function TimeTableViewer({ schedule, setOpenTT }) {
 
       <table className="min-w-full mt-5 border-collapse border border-gray-300">
         <thead>
-          <tr className="bg-black dark:bg-gray-100 text-xs text-gray-200 uppercase">
+          <tr className="bg-black dark:bg-stone-700 text-xs dark:text-gray-100 uppercase">
             <th className="border border-gray-300 px-4 py-2">Class</th>
             <th className="border border-gray-300 px-4 py-2">Lab</th>
             <th className="border border-gray-300 px-4 py-2">Faculty</th>
@@ -40,7 +40,7 @@ export default function TimeTableViewer({ schedule, setOpenTT }) {
         </thead>
         <tbody>
           {schedule?.details?.map((row) => (
-            <tr key={row._id} className="text-xs text-gray-800">
+            <tr key={row._id} className="text-xs dark:text-gray-100 text-gray-800">
               <td className="border border-gray-300  px-4 py-2">
                 {row.class || "N/A"}
               </td>

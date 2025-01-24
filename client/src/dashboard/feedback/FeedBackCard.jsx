@@ -3,7 +3,7 @@ import React from 'react'
 export default function FeedBackCard({ item }) {
     return (
         <div
-            className="p-2 rounded-md shadow min-h-[150px] min-w-[300px] bg-white dark:bg-stone-800 text-stone-700 dark:text-gray-300"
+            className="p-2 rounded-md shadow min-h-[150px] min-w-[300px] bg-white dark:bg-stone-900 text-stone-700 dark:text-gray-300"
         >
             <div className='bg-emerald-900 text-white p-2 rounded shadow-lg mb-2'>
                 <h3 className='font-bold text-lg'>{item.labId?.labName}

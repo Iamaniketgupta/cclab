@@ -30,7 +30,10 @@ export default function LabSchedulesMain() {
 
   const handleDateChange = (e) => {
     const newDate = e.target.value;
-
+    if(newSchedule.startTime > newSchedule.endTime){
+      alert("Start time should be less than end time");
+      return;
+    }
     if (rows.length > 0 && newDate !== currentDate) {
       const confirmChange = window.confirm(
         `You already have data for ${currentDate}. Changing the date will erase all entries for this date. Do you want to proceed?`
@@ -137,14 +140,14 @@ export default function LabSchedulesMain() {
       {/* Tabs All Schedules, New Schedule  */}
       <div className="flex space-x-4">
         <button
-          className={`px-4 py-2 rounded-md text-sm font-medium ${tab === "AllSchedules" ? "bg-emerald-500 text-white" : "bg-gray-300 text-gray-600"
+          className={`px-4 py-2 rounded-md text-sm font-medium ${tab === "AllSchedules" ? "bg-emerald-500 text-white" : "bg-white border shadow-sm dark:border-stone-700 dark:bg-stone-900 dark:text-gray-100  text-gray-600"
             }`}
           onClick={() => setTab("AllSchedules")}
         >
           All Schedules
         </button>
         <button
-          className={`px-4 py-2 rounded-md text-sm font-medium ${tab === "NewSchedule" ? "bg-emerald-500 text-white" : "bg-white border shadow-sm text-gray-600"
+          className={`px-4 py-2 rounded-md text-sm font-medium ${tab === "NewSchedule" ? "bg-emerald-500 text-white" : "bg-white border dark:border-stone-700 dark:bg-stone-900 shadow-sm dark:text-gray-100 outline-none text-gray-600"
             }`}
           onClick={() => setTab("NewSchedule")}
         >
@@ -179,7 +182,7 @@ export default function LabSchedulesMain() {
 
         {/* Date Selector */}
         <div>
-          <label className="block text-md px-2 font-medium text-gray-600">
+          <label className="block text-md px-2 font-medium text-gray-600 dark:text-gray-100">
             Select Date
           </label>
           <input
@@ -188,7 +191,7 @@ export default function LabSchedulesMain() {
             min={new Date().toLocaleDateString("en-CA")}
             value={currentDate}
             onChange={handleDateChange}
-            className="mt-1 block w-full h-10 px-4 rounded-md border-gray-300 shadow-sm text-xs"
+            className="mt-1 block w-full h-10 px-4 dark:bg-stone-900 border dark:border-stone-700 dark:text-gray-100 rounded-md border-gray-300 shadow-sm text-xs"
             required
           />
         </div>
@@ -204,16 +207,16 @@ export default function LabSchedulesMain() {
 
         {/* Display Added Rows */}
         {rows.length > 0 && (
-          <div className="bg-white shadow-md rounded-lg p-6">
-            <h2 className="text-sm font-bold text-gray-800 mb-4">
+          <div className="bg-white shadow-md dark:text-gray-100 dark:bg-stone-900 border dark:border-stone-700 rounded-lg p-6">
+            <h2 className="text-sm font-bold text-gray-800 dark:text-gray-100 mb-4">
               Added Schedules (Draft)
             </h2>
-            <table className="min-w-full border-collapse border border-gray-300">
+            <table className="min-w-full border-collapse border dark:text-gray-100 border-gray-300 ">
               <thead>
-                <tr className="bg-gray-100 text-xs text-gray-700 uppercase">
-                  <th className="border border-gray-300 px-4 py-2">Class</th>
-                  <th className="border border-gray-300 px-4 py-2">Lab</th>
-                  <th className="border border-gray-300 px-4 py-2">Faculty</th>
+                <tr className="bg-gray-100 dark:bg-stone-800 border  dark:border-stone-700 text-xs dark:text-gray-100 text-gray-700 uppercase">
+                  <th className="border border-gray-300 px-4 py-2 ">Class</th>
+                  <th className="border border-gray-300 px-4 py-2 ">Lab</th>
+                  <th className="border border-gray-300 px-4 py-2 ">Faculty</th>
                   <th className="border border-gray-300 px-4 py-2">Start Time</th>
                   <th className="border border-gray-300 px-4 py-2">End Time</th>
                   <th className="border border-gray-300 px-4 py-2">Purpose</th>
@@ -221,7 +224,7 @@ export default function LabSchedulesMain() {
               </thead>
               <tbody>
                 {rows.map((row, index) => (
-                  <tr key={index} className="text-xs text-gray-800">
+                  <tr key={index} className="text-xs text-gray-800 dark:text-gray-100">
                     <td className="border border-gray-300 px-4 py-2">
                       {row.class || "N/A"}
                     </td>
@@ -251,7 +254,7 @@ export default function LabSchedulesMain() {
               <button
                 disabled={isLoading}
                 onClick={handleSaveSchedule}
-                className="bg-green-500 text-white px-4 py-2 rounded-lg shadow hover:bg-green-600 text-xs"
+                className="bg-green-800 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700 text-xs"
               >
                 {isLoading ? <Loader /> : "Save Schedule"}
               </button>
@@ -264,7 +267,7 @@ export default function LabSchedulesMain() {
                     setCurrentDate("");
                   }
                 }}
-                className="bg-gray-300 text-gray-800 px-4 py-2 rounded-lg shadow hover:bg-gray-400 text-xs"
+                className="bg-gray-300 text-gray-800 dark:text-gray-100 dark:bg-stone-800 px-4 py-2 rounded-lg shadow hover:bg-gray-400 text-xs"
               >
                 Reset
               </button>

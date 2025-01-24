@@ -10,11 +10,10 @@ export default function TTScheduleCard() {
   const [todaySchedule, setTodaySchedule] = useState(null);
   const [viewTT, setViewTT] = useState(false);
 
-  console.log(allSchedules)
-  useEffect(() => {
+   useEffect(() => {
     if (!allSchedules) return;
 
-    // Find today's schedule
+   
     setTodaySchedule(
       allSchedules.find((schedule) => {
         const today = new Date();
@@ -28,7 +27,9 @@ export default function TTScheduleCard() {
 
   return (
     <div>
-      <h2 className='text-lg mt-2 font-bold flex items-center gap-2'>Today's Lab Schedule  <FaClock /></h2>
+      <h2 className='text-lg mt-2 font-bold flex
+      dark:text-gray-100
+       items-center gap-2'>Today's Lab Schedule  <FaClock /></h2>
       {todaySchedule ? (
         <div className='p-2 mt-2'>
           <div
@@ -36,11 +37,11 @@ export default function TTScheduleCard() {
               setViewTT(true);
 
             }}
-            className="p-4 mb-4 border rounded min-w-[300px] shadow-md dark:text-gray-100
+            className="p-4 mb-4 border rounded min-w-[150px] shadow-md dark:text-gray-100
              bg-gradient-to-tr from-white dark:from-stone-900 via-zinc-50 hover:bg-gradient hover:from-zinc-100 hover:via-white
               to-zinc-50 dark:bg-stone-800 cursor-pointer "
           >
-            <diiv className="text-sm font-semibold">
+            <div className="text-sm font-semibold">
             <p className='flex items-center gap-2'>
               <SlCalender/>
               {dayjs(todaySchedule?.date).format('DD/MM/YYYY')}
@@ -48,7 +49,7 @@ export default function TTScheduleCard() {
            
               {dayjs(todaySchedule?.date).format('dddd')
               }
-            </diiv>
+            </div>
 
 
           </div>
@@ -60,7 +61,7 @@ export default function TTScheduleCard() {
           </ModalWrapper>
         </div>
       ) : (
-        <p>No schedule for today.</p>
+        <p className='text-center text-xs w-full'>No schedule for today.</p>
       )}
     </div>
   );

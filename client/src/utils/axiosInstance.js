@@ -3,8 +3,8 @@ import axiosRetry from 'axios-retry';
 import Cookie from "universal-cookie";
 
 const axiosInstance = axios.create({
-  // baseURL: 'http://localhost:8000/api', 
-  baseURL: 'https://pctelabs-server.vercel.app/api', 
+  baseURL: 'http://localhost:8000/api', 
+  // baseURL: 'https://pctelabs-server.vercel.app/api', 
   withCredentials: true, 
 });
 

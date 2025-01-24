@@ -94,7 +94,7 @@ export default function FeedBackMain() {
                         <select
                             name="labId"
                             id="labId"
-                            className='w-full p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300'
+                            className='w-full p-2 rounded-md border border-gray-300 dark:border-stone-800 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-300'
                             value={data?.labId}
                             onChange={(e) => onChangeHandler(e)}
                             required
@@ -115,7 +115,7 @@ export default function FeedBackMain() {
                         <textarea
                             name="feedback"
                             id="feedback"
-                            className='w-full p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300'
+                            className='w-full p-2 rounded-md border border-gray-300 dark:border-stone-800 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-300'
                             rows="4"
                             placeholder="Write your feedback here..."
                             value={data?.feedback}
@@ -127,7 +127,7 @@ export default function FeedBackMain() {
 
                         <button
                             type="submit"
-                            className='px-4 py-2 bg-emerald-500 text-white font-medium rounded-md shadow hover:bg-emerald-600 dark:hover:bg-emerald-400'>
+                            className='px-4 py-2 bg-emerald-800 text-white font-medium rounded-md shadow hover:bg-emerald-600 dark:hover:bg-emerald-400'>
                             {loading ? <Loader /> : "Submit Feedback"}
                         </button>
                         <button
@@ -167,8 +167,8 @@ export default function FeedBackMain() {
                             type="text"
                             placeholder="Search feedback..."
                             className="w-full p-2 min-w-[300px] rounded-md max-w-md 
-                              border border-gray-300 dark:border-gray-700
-                               bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300"
+                              border border-gray-300 dark:border-stone-800
+                               bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-300"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
@@ -180,7 +180,7 @@ export default function FeedBackMain() {
                         <select
                             name="labId"
                             id="labId"
-                            className='w-full p-2  rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300'
+                            className='w-full p-2  rounded-md border border-gray-300 dark:border-stone-800 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-300'
                             value={filteredByLabs}
                             onChange={(e) => setFilteredByLabs(e.target.value)}
                             required

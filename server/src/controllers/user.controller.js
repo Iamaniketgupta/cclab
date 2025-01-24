@@ -46,9 +46,9 @@ export const registerUser = asynchandler(async (req, res) => {
 
     let getUser;
     if (role === "faculty" && email) {
-        getUser = await User.findOne({ email });
+        getUser = await User.findOne({ email:email });
     } else if (role === "student" && rollNumber) {
-        getUser = await User.findOne({ rollNumber });
+        getUser = await User.findOne({ rollNumber : rollNumber});
     }
 
     if (getUser) {

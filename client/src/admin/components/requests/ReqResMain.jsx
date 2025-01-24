@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import ModalWrapper from '../../../common/ModalWrapper';
+import ReqCards from '../../../dashboard/requests/ReqCards';
 const labs = [
   { id: 'lab1', name: 'ETCC1 Lab' },
   { id: 'lab2', name: 'Physics Lab' },
@@ -80,21 +81,7 @@ export default function ReqResMain() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredRequests.length > 0 ? (
           filteredRequests.map((req) => (
-            <div
-              key={req.id}
-              className="p-4 bg-white rounded shadow dark:bg-stone-600 dark:text-white"
-            >
-              <h3 className="font-semibold text-lg">{req.title}</h3>
-              <p className="text-sm">{req.description}</p>
-              <p className={`mt-2 text-sm ${req.status === 'approved'
-                ? 'text-green-500'
-                : req.status === 'rejected'
-                  ? 'text-red-500'
-                  : 'text-yellow-500'
-                } capitalize`}>
-                {req.status}
-              </p>
-            </div>
+            <ReqCards key={req.id} req={req} />
           ))
         ) : (
           <p className="text-center text-gray-500 dark:text-gray-300">

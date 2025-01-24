@@ -4,11 +4,11 @@ import { MdToggleOff, MdToggleOn } from 'react-icons/md'
 export default function LabCards({lab,toggleAvailability}) {
     return (
         <div
-        className=" bg-white dark:bg-stone-800 shadow-lg rounded-lg border border-gray-200 dark:border-gray-700 transition-transform transform hover:scale-105"
+        className=" bg-white dark:bg-stone-900 shadow-lg rounded-lg border border-gray-200 dark:border-stone-700 transition-transform transform hover:scale-105"
       >
         {/* Lab Name and Code */}
-        <div className="mb-4 p-2 px-4 shadow-xl bg-zinc-800 rounded-t-md text-white">
-          <h3 className="text-lg font-bold  first-line: dark:text-gray-100">
+        <div className="mb-4 p-2 px-4 shadow-xl bg-zinc-800 dark:bg-zinc-900 dark:text-gray-100 trounded-t-md text-white">
+          <h3 className="text-lg font-bold  first-line: ">
             {lab.labName}
           </h3>
           <p className="text-sm   dark:text-gray-400">
@@ -18,13 +18,13 @@ export default function LabCards({lab,toggleAvailability}) {
       
         {/* Lab Details */}
         <div className="space-y-2 mb-4 px-4">
-          <p className="text-sm text-gray-700 dark:text-gray-300">
+          <p className="text-sm text-gray-700 dark:text-gray-100">
             <span className="font-medium">Floor:</span> {lab.floor}
           </p>
-          <p className="text-sm text-gray-700 dark:text-gray-300">
+          <p className="text-sm text-gray-700 dark:text-gray-100">
             <span className="font-medium">Capacity:</span> {lab.capacity}
           </p>
-          <p className="text-sm text-gray-700 dark:text-gray-300">
+          <p className="text-sm text-gray-700 dark:text-gray-100">
             <span className="font-medium">Block:</span> {lab.block}
           </p>
         </div>

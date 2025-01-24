@@ -5,7 +5,7 @@ import { useRecoilState } from 'recoil';
 import IssuesMain from './components/issues/IssuesMain';
 import FeedBackMain from './components/feeback/FeedBackMain';
 import ReqResMain from './components/requests/ReqResMain';
-import { MdDarkMode } from 'react-icons/md';
+import { MdDarkMode, MdLightMode } from 'react-icons/md';
 import ProfileIcon from './components/profile/ProfileIcon';
 import LabsMain from './components/labs/LabsMain';
 import FacultyManageMain from './components/faculty/FacultyManageMain';
@@ -14,13 +14,14 @@ import ResourceManageMain from './components/inventory/ResourceManageMain';
 import LabSchedulesMain from './components/schedules/LabSchedulesMain';
 import AdminSideBar from  './components/Sidebar'
 import { openSideBar, userData } from '../recoil/states';
+import { useDarkMode } from '../contexts/DarkModeWrapper';
 
 // Student Dashboard
 export default function Dashboard() {
   const [open, setOpen] = useRecoilState(openSideBar);
   const [sideTab, setSideTab] = useState('Dashboard');
   const [currentUserData, setUserData] = useRecoilState(userData);
-
+  const { mode, toggleMode } = useDarkMode();
 
 
   return (
@@ -59,15 +60,16 @@ export default function Dashboard() {
           </div>
 
           <div className='flex items-center gap-3 md:mr-5'>
-            <MdDarkMode size={25} className='dark:text-gray-100 hover:text-slate-500 cursor-pointer' />
-
+               {!mode ? <MdDarkMode className="text-2xl text-stone-800  dark:text-gray-100 cursor-pointer " onClick={toggleMode} />
+                          : <MdLightMode className="text-2xl text-stone-800 dark:text-gray-100 cursor-pointer" onClick={toggleMode} />
+                        }
             {/* Profile */}
             <ProfileIcon />
           </div>
         </div>
 
 
-        <div className='w-full   bg-slate-50 mt-6 px-4' >
+        <div className='w-full   bg-slate-50 dark:bg-stone-800 mt-6 px-4' >
 
           {/* Content */}
 

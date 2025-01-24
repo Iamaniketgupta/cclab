@@ -5,14 +5,14 @@ import { toast } from 'react-toastify';
 import axiosInstance from '../../../utils/axiosInstance';
 import Loader from '../../../components/Loaders/Loader';
 import ThankyouPopup from '../../../common/ThankyouPopup';
-import ReqCards from './ReqCards';
+import ReqCards from '../../../dashboard/requests/ReqCards';
  
 
 export default function ReqResMain() {
-  const { allLabs ,allMyResRequests , fetchAllResRequests } = useFetchDataApi();
+  const { allLabs ,allMyResRequests , fetchAllResRequestsByUserId } = useFetchDataApi();
   const [loading, setLoading] = useState(false);
   const [thankyouPopup, setThankyouPopup] = useState(false);
-
+console.log(allMyResRequests)
   
   const [activeTab, setActiveTab] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
@@ -30,11 +30,7 @@ export default function ReqResMain() {
   
     return matchesSearch;
   });
-  
 
-
-
- 
 
 
   const [data, setData] = useState({
@@ -62,7 +58,7 @@ export default function ReqResMain() {
       setOpenModal(false);
       setThankyouPopup(true);
 
-      fetchAllResRequests();
+      fetchAllResRequestsByUserId();
       setData({
         labId: '',
         resourceType: '',
@@ -80,7 +76,7 @@ export default function ReqResMain() {
 
 
   return (
-    <div className="w-full px-2 py-4 dark:bg-stone-700">
+    <div className="w-full px-2 py-4  ">
       {/* Create New Request Button */}
       <div className="flex justify-end mb-4">
 
@@ -106,7 +102,7 @@ export default function ReqResMain() {
               <select
                 name="labId"
                 id="labId"
-                className='w-full p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300'
+                className='w-full p-2 rounded-md border border-gray-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-300'
                 value={data.labId}
                 onChange={(e) => onChangeHandler(e)}
                 required
@@ -128,7 +124,7 @@ export default function ReqResMain() {
               <select
                 name="resourceType"
                 id="resourceType"
-                className='w-full p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300'
+                className='w-full p-2 rounded-md border border-gray-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-300'
                 value={data.resourceType}
                 onChange={(e) => onChangeHandler(e)}
                 required
@@ -151,7 +147,7 @@ export default function ReqResMain() {
               <textarea
                 name="requestDesc"
                 id="requestDesc"
-                className='w-full p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300'
+                className='w-full p-2 rounded-md border border-gray-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-300'
                 rows="4"
                 placeholder="Write your request here..."
                 value={data.requestDesc}
@@ -163,7 +159,7 @@ export default function ReqResMain() {
 
               <button
                 type="submit"
-                className='px-4 py-2 bg-emerald-500 text-white font-medium rounded-md shadow hover:bg-emerald-600 dark:hover:bg-emerald-400'>
+                className='px-4 py-2 bg-emerald-800 text-white font-medium rounded-md shadow hover:bg-emerald-600 dark:hover:bg-emerald-400'>
                 {loading ? <Loader /> : "Submit Request"}
               </button>
               <button
@@ -192,7 +188,7 @@ export default function ReqResMain() {
         <input
           type="text"
           placeholder="Search requests..."
-          className="w-full px-4 py-2 rounded border dark:bg-stone-600 dark:text-white"
+          className="w-full px-4 py-2 rounded border dark:bg-stone-900 dark:text-gray-100"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />

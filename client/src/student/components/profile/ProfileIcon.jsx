@@ -14,7 +14,7 @@ export default function ProfileIcon() {
     <div className="relative">
       {/* Profile Icon */}
       <div
-        className="w-10 h-10 rounded-full bg-stone-200 border overflow-hidden border-zinc-300 cursor-pointer"
+        className="w-10 h-10 rounded-full bg-stone-200  border overflow-hidden border-zinc-300 cursor-pointer"
         onClick={toggleInfo}
       >
         <img
@@ -28,12 +28,13 @@ export default function ProfileIcon() {
 
       {/* Info Section */}
       {isInfoVisible && (
-        <div className="absolute top-12 right-0 w-64 p-4 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
-          <div className="text-lg font-bold text-stone-700">{currentUserData?.name || '-login please'}</div>
-          <div className="text-sm  text-emerald-800">{currentUserData?.role}</div>
-          {currentUserData?.role==="student" &&<div className="text-sm text-stone-600 mt-1">ID: {currentUserData?.rollNumber}</div>}
-         { currentUserData?.role!=="student" && <div className="text-sm text-stone-600 mt-1">{currentUserData?.email}</div>}
-          <div className="text-sm text-stone-600 mt-1">Block - {currentUserData?.block}</div>
+        <div className="absolute top-12 right-0 w-64 p-4 bg-white dark:bg-stone-900 rounded-lg shadow-lg border border-gray-200
+        dark:text-gray-100 text-stone-800 dark:border-stone-800 z-10">
+          <div className="text-lg font-bold">{currentUserData?.name || '-login please'}</div>
+          <div className="text-sm  text-emerald-800 dark:text-emerald-400">{currentUserData?.role}</div>
+          {currentUserData?.role==="student" &&<div className="text-sm  mt-1">ID: {currentUserData?.rollNumber}</div>}
+         { currentUserData?.role!=="student" && <div className="text-sm  mt-1">{currentUserData?.email}</div>}
+          <div className="text-sm   mt-1">Block - {currentUserData?.block}</div>
         </div>
       )}
     </div>

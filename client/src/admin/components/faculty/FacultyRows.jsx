@@ -5,7 +5,7 @@ export default function FacultyRows({faculty,handleInputChange,togglePasswordVis
   return (
     <tr
     key={faculty.id}
-    className="border-b border-gray-300 dark:border-gray-700 text-xs text-gray-700 dark:text-gray-300"
+    className="border-b border-stone-300 dark:border-stone-700 text-xs text-stone-700 dark:text-stone-100"
   >
     {/* Avatar */}
     <td className="p-2">
@@ -27,7 +27,7 @@ export default function FacultyRows({faculty,handleInputChange,togglePasswordVis
         onChange={(e) =>
           handleInputChange(faculty.id, "email", e.target.value)
         }
-        className="w-full p-1 border rounded-md text-xs text-gray-800 dark:text-gray-300 border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-emerald-500"
+        className="w-full p-1 border rounded-md text-xs text-stone-800 dark:text-stone-100 border-stone-300 outline-none dark:bg-stone-900 dark:border-stone-700 focus:ring-1 focus:ring-emerald-800"
       />
     </td>
 
@@ -39,16 +39,16 @@ export default function FacultyRows({faculty,handleInputChange,togglePasswordVis
         onChange={(e) =>
           handleInputChange(faculty.id, "password", e.target.value)
         }
-        className="w-full p-1 border rounded-md text-xs text-gray-800 dark:text-gray-300 border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-emerald-500"
+        className="w-full p-1 border rounded-md text-xs text-stone-800 dark:text-stone-100 border-stone-300 outline-none dark:bg-stone-900 dark:border-stone-700 focus:ring-1 focus:ring-emerald-800"
       />
       <button
         type="button"
         onClick={() => togglePasswordVisibility(faculty.id)}
       >
         {faculty.showPassword ? (
-          <FaEye className="text-gray-500 dark:text-gray-300" />
+          <FaEye className="text-stone-500 dark:text-stone-100" />
         ) : (
-          <FaEyeSlash className="text-gray-500 dark:text-gray-300" />
+          <FaEyeSlash className="text-stone-500 dark:text-stone-100" />
         )}
       </button>
     </td>

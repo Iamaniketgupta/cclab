@@ -94,7 +94,8 @@ export default function FacultyManageMain() {
       <div className="flex justify-end my-4">
         <button
        
-         onClick={() => setOpenModal(true)} className="bg-emerald-700 text-white px-4 py-2 rounded shadow hover:bg-emerald-600">
+         onClick={() => setOpenModal(true)} className="bg-emerald-700 text-white px-4 py-2 rounded shadow
+          hover:bg-emerald-600">
           Add Faculty
         </button>
       </div>
@@ -102,13 +103,13 @@ export default function FacultyManageMain() {
 
       {/* All Faculties */}
       <div>
-        <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100">All Faculties</h2>
+        <h2 className="text-2xl font-semibold text-stone-800 dark:text-stone-100">All Faculties</h2>
         {/* Search Input */}
         <div className="mt-4">
           <input
             type="text"
             placeholder="Search labs..."
-            className="w-full py-1 px-3 rounded-md max-w-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="w-full py-1 px-3 rounded-md max-w-md border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-stone-800 dark:text-stone-300 focus:outline-none focus:ring-1 focus:ring-emerald-800"
           // value={searchQuery}
           // onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -117,16 +118,16 @@ export default function FacultyManageMain() {
 
         {/* Faculties table  */}
         <div className="p-4 overflow-x-auto">
-          <table className="w-full border-collapse border border-gray-300">
-            <thead className="bg-gray-100 dark:bg-stone-800">
+          <table className="w-full border-collapse border border-stone-300 dark:border-stone-700">
+            <thead className="bg-stone-100 dark:bg-stone-900">
               <tr>
-                <th className="text-left p-2 min-w-[50px] text-xs font-semibold text-gray-700 dark:text-gray-300">Avatar</th>
-                <th className="text-left p-2 min-w-[100px] overflow-x-auto text-xs font-semibold text-gray-700 dark:text-gray-300">Name</th>
-                <th className="text-left p-2 min-w-[100px] overflow-x-auto text-xs font-semibold text-gray-700 dark:text-gray-300">Email</th>
-                <th className="text-left p-2 min-w-[100px] overflow-x-auto text-xs font-semibold text-gray-700 dark:text-gray-300">Password</th>
-                <th className="text-left p-2 min-w-[50px] overflow-x-auto text-xs font-semibold text-gray-700 dark:text-gray-300">Access</th>
-                <th className="text-left p-2  min-w-[50px] overflow-x-auto text-xs font-semibold text-gray-700 dark:text-gray-300">Remove</th>
-                <th className="text-left p-2  min-w-[50px] overflow-x-auto text-xs font-semibold text-gray-700 dark:text-gray-300">Update</th>
+                <th className="text-left p-2 min-w-[50px] text-xs font-semibold text-stone-700 dark:text-stone-300">Avatar</th>
+                <th className="text-left p-2 min-w-[100px] overflow-x-auto text-xs font-semibold text-stone-700 dark:text-stone-100">Name</th>
+                <th className="text-left p-2 min-w-[100px] overflow-x-auto text-xs font-semibold text-stone-700 dark:text-stone-100">Email</th>
+                <th className="text-left p-2 min-w-[100px] overflow-x-auto text-xs font-semibold text-stone-700 dark:text-stone-100">Password</th>
+                <th className="text-left p-2 min-w-[50px] overflow-x-auto text-xs font-semibold text-stone-700 dark:text-stone-100">Access</th>
+                <th className="text-left p-2  min-w-[50px] overflow-x-auto text-xs font-semibold text-stone-700 dark:text-stone-100">Remove</th>
+                <th className="text-left p-2  min-w-[50px] overflow-x-auto text-xs font-semibold text-stone-700 dark:text-stone-100">Update</th>
               </tr>
             </thead>
             <tbody>

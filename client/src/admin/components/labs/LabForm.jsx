@@ -19,7 +19,7 @@ export default function LabForm({loading,handleSubmit,onChangeHandler,setOpenMod
       <div>
         <label
           htmlFor="labName"
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          className="block text-sm font-medium text-gray-700 dark:text-gray-100"
         >
           Lab Name
         </label>
@@ -27,7 +27,7 @@ export default function LabForm({loading,handleSubmit,onChangeHandler,setOpenMod
           type="text"
           id="labName"
           name='labName'
-          className="w-full  p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          className="w-full  p-2 rounded-md border border-gray-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-emerald-500"
           value={data?.labName}
           onChange={(e) => onChangeHandler(e)}
         />
@@ -35,7 +35,7 @@ export default function LabForm({loading,handleSubmit,onChangeHandler,setOpenMod
       <div>
         <label
           htmlFor="labCode"
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          className="block text-sm font-medium text-gray-700 dark:text-gray-100"
         >
           Lab Code
         </label>
@@ -43,7 +43,7 @@ export default function LabForm({loading,handleSubmit,onChangeHandler,setOpenMod
           type="text"
           name='labCode'
           id="labCode"
-          className="w-full  p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          className="w-full  p-2 rounded-md border border-gray-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-emerald-500"
           value={data?.labCode}
           onChange={(e) => onChangeHandler(e)}
         />
@@ -55,7 +55,7 @@ export default function LabForm({loading,handleSubmit,onChangeHandler,setOpenMod
       <div>
         <label
           htmlFor="floor"
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          className="block text-sm font-medium text-gray-700 dark:text-gray-100"
         >
           Floor
         </label>
@@ -64,7 +64,7 @@ export default function LabForm({loading,handleSubmit,onChangeHandler,setOpenMod
           name='floor'
           id="floor"
           min={0}
-          className="w-full  p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          className="w-full  p-2 rounded-md border border-gray-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-emerald-500"
           value={data?.floor}
           onChange={(e) => onChangeHandler(e)}
         />
@@ -73,7 +73,7 @@ export default function LabForm({loading,handleSubmit,onChangeHandler,setOpenMod
         <label
           htmlFor="capacity"
 
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          className="block text-sm font-medium text-gray-700 dark:text-gray-100"
         >
           Capacity
         </label>
@@ -82,7 +82,7 @@ export default function LabForm({loading,handleSubmit,onChangeHandler,setOpenMod
           name='capacity'
           id="capacity"
           min={0}
-          className="w-full  p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          className="w-full  p-2 rounded-md border border-gray-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-emerald-500"
           value={data.capacity}
           onChange={(e) => onChangeHandler(e)}
         />
@@ -94,7 +94,7 @@ export default function LabForm({loading,handleSubmit,onChangeHandler,setOpenMod
       <label
         htmlFor="block"
 
-        className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+        className="block text-sm font-medium text-gray-700 dark:text-gray-100"
       >
         Block
       </label>
@@ -102,7 +102,7 @@ export default function LabForm({loading,handleSubmit,onChangeHandler,setOpenMod
         type="text"
         name="block"
         id="block"
-        className="w-full  p-2 rounded-md border border-gray-300 dark:border-gray-700 bg-gray-200 dark:bg-stone-700 text-gray-800 dark:text-gray-300 focus:outline-none"
+        className="w-full  p-2 rounded-md border border-gray-300 dark:border-stone-700 bg-gray-200 dark:bg-stone-900 text-gray-800 dark:text-gray-100 focus:outline-none"
         value={currUser?.block}
         disabled
       />
@@ -113,14 +113,14 @@ export default function LabForm({loading,handleSubmit,onChangeHandler,setOpenMod
       <button
         type="submit"
         disabled={loading}
-        className="w-full md:w-auto px-6 py-2 bg-emerald-500 text-white font-medium rounded-md shadow hover:bg-emerald-600 dark:hover:bg-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+        className="w-full md:w-auto px-6 py-2 bg-emerald-800 text-white font-medium rounded-md shadow hover:bg-emerald-600 dark:hover:bg-emerald-400 focus:outline-none focus:ring-1 focus:ring-emerald-500"
       >
       {   loading ? <Loader/>: "Add Lab"}
       </button>
       <button
         type="reset"
         onClick={() => setOpenModal(false)}
-        className="w-full md:w-auto px-6 py-2 bg-red-700 text-white font-medium rounded-md shadow hover:bg-red-600 dark:hover:bg-red-400 focus:outline-none focus:ring-2 focus:ring-red-700"
+        className="w-full md:w-auto px-6 py-2 bg-red-700 text-white font-medium rounded-md shadow hover:bg-red-600 dark:hover:bg-red-400 focus:outline-none focus:ring-1 focus:ring-red-700"
       >
         Cancel
       </button>

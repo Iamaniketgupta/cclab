@@ -1,10 +1,10 @@
-import React from 'react'
-import AllLabs from './AllLabs'
-import MonthlyUsageGraph from '../charts/LabUsagechart';
-import IssuesMarqCard from './IssuesMarqCard';
+ 
+ import IssuesMarqCard from './IssuesMarqCard';
 import { BsPcDisplay } from "react-icons/bs";
 import { FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
 import { FaClipboardList, FaFlask, FaUserTie } from 'react-icons/fa6';
+import LabsAvailabilityWidget from '../../../dashboard/widgets/LabsAvailabilityWidget';
+import MonthlyUsageGraph from '../../../dashboard/widgets/LabUsagechart';
 
 
 const statsData = [
@@ -60,7 +60,7 @@ export default function Content() {
                     <div
                         key={index}
                         className={`${item.color} border ${item.borderColor}   
-                        text-stone-800 font-bold flex items-center justify-between  
+                        text-stone-800 font-bold flex dark:opacity-95 items-center justify-between  
                          shadow-lg rounded-md p-4 flex-1  min-w-[300px]   md:max-w-[400px]  hover:shadow-xl transition-shadow`}
                     >
                         <div>
@@ -91,7 +91,7 @@ export default function Content() {
                 flex-1 min-w-[300px]
                  border-zinc-300 dark:border-zinc-800 border-opacity-30'>
 
-                    <AllLabs />
+                    <LabsAvailabilityWidget />
                 </div>
             </div>
 

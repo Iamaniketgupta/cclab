@@ -102,13 +102,13 @@ export default function ManageStudentsMain() {
 
       {/* All Faculties */}
       <div>
-        <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100">All Students</h2>
+        <h2 className="text-2xl font-semibold text-stone-800 dark:text-stone-100">All Students</h2>
         {/* Search Input */}
         <div className="mt-4">
           <input
             type="text"
             placeholder="Search..."
-            className="w-full py-1 px-3 rounded-md max-w-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="w-full py-1 px-3 rounded-md max-w-md border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-800 dark:text-stone-300 focus:outline-none focus:ring-1 focus:ring-emerald-800"
           // value={searchQuery}
           // onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -117,16 +117,16 @@ export default function ManageStudentsMain() {
 
         {/* Student table  */}
         <div className="p-4 overflow-x-auto">
-          <table className="w-full border-collapse border border-gray-300">
-            <thead className="bg-gray-100 dark:bg-stone-800">
+          <table className="w-full border-collapse border dark:border-stone-800">
+            <thead className="bg-stone-200 dark:bg-stone-900 text-stone-800 dark:text-stone-100">
               <tr>
-                <th className="text-left p-2 min-w-[50px] text-xs font-semibold text-gray-700 dark:text-gray-300">Avatar</th>
-                <th className="text-left p-2 min-w-[100px] overflow-x-auto text-xs font-semibold text-gray-700 dark:text-gray-300">Name</th>
-                <th className="text-left p-2 min-w-[100px] overflow-x-auto text-xs font-semibold text-gray-700 dark:text-gray-300">Roll</th>
-                <th className="text-left p-2 min-w-[100px] overflow-x-auto text-xs font-semibold text-gray-700 dark:text-gray-300">Password</th>
-                <th className="text-left p-2 min-w-[50px] overflow-x-auto text-xs font-semibold text-gray-700 dark:text-gray-300">Access</th>
-                <th className="text-left p-2  min-w-[50px] overflow-x-auto text-xs font-semibold text-gray-700 dark:text-gray-300">Remove</th>
-                <th className="text-left p-2  min-w-[50px] overflow-x-auto text-xs font-semibold text-gray-700 dark:text-gray-300">Update</th>
+                <th className="text-left p-2 min-w-[50px] text-xs font-semibold   ">Avatar</th>
+                <th className="text-left p-2 min-w-[100px] overflow-x-auto text-xs font-semibold `">Name</th>
+                <th className="text-left p-2 min-w-[100px] overflow-x-auto text-xs font-semibold `">Roll</th>
+                <th className="text-left p-2 min-w-[100px] overflow-x-auto text-xs font-semibold `">Password</th>
+                <th className="text-left p-2 min-w-[50px] overflow-x-auto text-xs font-semibold `">Access</th>
+                <th className="text-left p-2  min-w-[50px] overflow-x-auto text-xs font-semibold `">Remove</th>
+                <th className="text-left p-2  min-w-[50px] overflow-x-auto text-xs font-semibold `">Update</th>
               </tr>
             </thead>
             <tbody>

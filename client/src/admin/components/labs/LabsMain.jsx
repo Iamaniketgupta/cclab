@@ -70,7 +70,7 @@ export default function LabsMain() {
   return (
     <div className='w-full px-2' >
 
-      <h1 className='text-3xl font-bold text-stone-800'>Block - ET</h1>
+      <h1 className='text-3xl font-bold text-stone-800 dark:text-gray-100'>Block - ET</h1>
       {/* Add Lab Form */}
       <ModalWrapper open={openModal} setOpenModal={setOpenModal} outsideClickClose={false} >
         <LabForm data={data} 
@@ -86,13 +86,13 @@ export default function LabsMain() {
 
       {/* Labs cards */}
        <div>
-        <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100">All Labs</h2>
+        <h2 className="text-2xl font-semibold text-stone-800 dark:text-gray-100">All Labs</h2>
         {/* Search Input */}
         <div className="mt-4">
           <input
             type="text"
             placeholder="Search labs..."
-            className="w-full py-2 px-3 rounded-md max-w-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="w-full py-2 px-3 rounded-md max-w-md border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-emerald-800"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
