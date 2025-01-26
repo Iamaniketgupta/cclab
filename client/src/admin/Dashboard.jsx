@@ -15,6 +15,7 @@ import LabSchedulesMain from './components/schedules/LabSchedulesMain';
 import AdminSideBar from  './components/Sidebar'
 import { openSideBar, userData } from '../recoil/states';
 import { useDarkMode } from '../contexts/DarkModeWrapper';
+import FacultyContent from "../student/components/dashboard/Content"
 
 // Student Dashboard
 export default function Dashboard() {
@@ -73,7 +74,9 @@ export default function Dashboard() {
 
           {/* Content */}
 
-          {sideTab === 'Dashboard' && <Content />}
+          {sideTab === 'Dashboard' && 
+         ( currentUserData?.role==="admin"? <Content /> : <FacultyContent />)
+          }
           {sideTab === 'Labs' && <LabsMain />}
           {sideTab === 'Faculty' && <FacultyManageMain />}
 

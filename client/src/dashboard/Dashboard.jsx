@@ -10,7 +10,7 @@ export default function Dashboard() {
   return (
     <div className='dark:bg-stone-800  bg-slate-50 overflow-hidden h-screen'
       style={{ scrollbarWidth: "none" }}>{
-        currentUserData?.role=== "admin" ? <AdminDashboard /> : <StudentDashboard />
+        currentUserData?.role=== "student" ?<StudentDashboard /> : <AdminDashboard /> 
 
 
       }
