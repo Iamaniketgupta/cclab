@@ -28,8 +28,10 @@ function App() {
         dispatch(setCurrUser(res?.data?.user));
         setUserData(res?.data?.user)
       } else {
-        dispatch(clearCurrUser());
         navigate('/login');
+        dispatch(clearCurrUser());
+        setCurrUser(null);
+ 
       }
     } catch (error) {
       dispatch(clearCurrUser());
