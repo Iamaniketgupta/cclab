@@ -60,7 +60,7 @@ export default function ProfileIcon() {
             {
               loading ? <Loader /> : <img src={currentUserData?.avatar
                 || "https://static-00.iconduck.com/assets.00/avatar-default-icon-1975x2048-2mpk4u9k.png"
-              } alt="" className='w-28 h-28 rounded-full mx-auto mt-2' />
+              } alt="" className='w-28 h-28 bg-white rounded-full mx-auto mt-2' />
             }
             <label htmlFor="avatarchange">
               <MdEditSquare className="absolute bottom-0 -right-0 w-6 h-6 cursor-pointer text-emerald-700 hover:text-emerald-600" />
