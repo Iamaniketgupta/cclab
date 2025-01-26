@@ -22,6 +22,7 @@ export default function LabsMain() {
     labCode: '',
     floor: '',
     capacity: '',
+    block :''
   });
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,7 +30,7 @@ export default function LabsMain() {
     setLoading(true);
     try {
       const res = await axiosInstance.post(`/labs/add`, {
-        ...data, block: currUser.block
+        ...data
       })
       console.log(res)
       toast.success(res?.data?.message || 'Success');
@@ -40,6 +41,7 @@ export default function LabsMain() {
         labCode: '',
         floor: '',
         capacity: '',
+        block: ''
 
       });
 

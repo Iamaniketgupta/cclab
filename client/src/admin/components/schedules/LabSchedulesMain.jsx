@@ -5,11 +5,14 @@ import axiosInstance from "../../../utils/axiosInstance";
 import { toast } from 'react-toastify';
 import Loader from "../../../components/Loaders/Loader";
 import AllSchedules from "../../../dashboard/AllSchedules";
+import { useRecoilState } from "recoil";
+import { userData } from "../../../recoil/states";
  
 export default function LabSchedulesMain() {
 
   const { allSchedules, allLabs ,fetchAllSchedules} = useFetchDataApi();
   const [isLoading, setIsLoading] = useState(false);
+  const [currUser, setCurrUser] = useRecoilState(userData);
 
   const [tab, setTab] = useState("AllSchedules");
   const [currentDate, setCurrentDate] = useState(
@@ -146,13 +149,13 @@ export default function LabSchedulesMain() {
         >
           All Schedules
         </button>
-        <button
+     {  currUser.role === "faculty" && <button
           className={`px-4 py-2 rounded-md text-sm font-medium ${tab === "NewSchedule" ? "bg-emerald-500 text-white" : "bg-white border dark:border-stone-700 dark:bg-stone-900 shadow-sm dark:text-gray-100 outline-none text-gray-600"
             }`}
           onClick={() => setTab("NewSchedule")}
         >
           Create
-        </button>
+        </button>}
 
 
 
