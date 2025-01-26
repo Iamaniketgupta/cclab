@@ -4,7 +4,7 @@ import Cookie from "universal-cookie";
 
 const axiosInstance = axios.create({
   // baseURL: 'http://localhost:8000/api', 
-  baseURL: 'https://pctelabs-server.vercel.app/api', 
+  baseURL: 'https://pcte-labs-server.onrender.com/api', 
   withCredentials: true, 
 });
 
