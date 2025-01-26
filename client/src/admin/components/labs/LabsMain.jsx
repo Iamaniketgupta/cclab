@@ -7,8 +7,7 @@ import { toast } from 'react-toastify';
 import { useRecoilState } from 'recoil';
 import { userData } from '../../../recoil/states';
 import { useFetchDataApi } from '../../../contexts/FetchDataApi';
-import { set } from 'mongoose';
-import Loader from '../../../components/Loaders/Loader';
+ import Loader from '../../../components/Loaders/Loader';
 
 
 export default function LabsMain() {
