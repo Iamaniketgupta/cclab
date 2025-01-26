@@ -1,61 +1,75 @@
 import { useState } from 'react';
 import ModalWrapper from '../../../common/ModalWrapper';
 import ReqCards from '../../../dashboard/requests/ReqCards';
-const labs = [
-  { id: 'lab1', name: 'ETCC1 Lab' },
-  { id: 'lab2', name: 'Physics Lab' },
-  { id: 'lab3', name: 'Chemistry Lab' },
-  { id: 'lab4', name: 'Biology Lab' },
-];
-
+import { useFetchDataApi } from '../../../contexts/FetchDataApi';
+ import {toast} from "react-toastify"
+import Loader from "../../../components/Loaders/Loader"
+import axiosInstance from '../../../utils/axiosInstance';
 export default function ReqResMain() {
-  // Demo Data
-  const demoRequests = [
-    { id: 1, title: 'Request 1', status: 'pending', description: 'This is a pending request.' },
-    { id: 2, title: 'Request 2', status: 'approved', description: 'This request has been approved.' },
-    { id: 3, title: 'Request 3', status: 'rejected', description: 'This request was rejected.' },
-    { id: 4, title: 'Request 4', status: 'pending', description: 'This is another pending request.' },
-  ];
 
   const [activeTab, setActiveTab] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [openModal, setOpenModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+
+  const { allResRequests } = useFetchDataApi();
+
 
   // Filter  
-  const filteredRequests = demoRequests.filter((req) => {
-    const matchesTab = activeTab === 'All' || req.status === activeTab.toLowerCase();
-    const matchesSearch = req.title.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesTab && matchesSearch;
+  const filteredRequests = allResRequests?.filter((req) => {
+    if (activeTab !== 'All' && req.status !== activeTab.toLowerCase()) {
+      return false;
+    }
+    const lowerCaseSearchQuery = searchQuery.toLowerCase();
+    const matchesSearch = req._id?.toLowerCase().includes(lowerCaseSearchQuery) ||
+      req?.labId?.labName?.toLowerCase().includes(lowerCaseSearchQuery) ||
+      req?.labId?.labCode?.toLowerCase().includes(lowerCaseSearchQuery);
+
+    return matchesSearch;
   });
 
-  // Onchange Form Handle
 
-  const [data, setData] = useState({
-    labId: '',
-    resourceType: '',
-    requestDesc: '',
-  })
+//  handler
+  const changeStatusHandler = async (status) => {
+    if (!confirm(`Are you Sure to mark it ${status}`))
+      return;
 
-  const onChangeHandler = (value) => {
-    setData({ ...data, labId: value });
-  };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Selected Lab:', data);
+    try {
+      setOpenModal(true)
+      setLoading(true)
+      await axiosInstance.put("/request/status", {
+        status: status
+      })
+      toast.success("Status has successfully Changed");
+    } catch (error) {
+      console.log(error)
+      toast.error(error?.response?.data?.message || "Something went wrong")
+    }
+    finally {
+      setOpenModal(false)
+      setLoading(false)
+    }
+  }
 
-  };
+
 
   return (
-    <div className="w-full px-2 py-4 dark:bg-stone-700">
-      {/* Create New Request Button */}
-   
+    <div className="w-full px-2 py-">
+
+      <ModalWrapper open={openModal} setOpenModal={setOpenModal}
+        outsideClickClose={false}>
+        <div className='min-w-full bg-black opacity-20 min-h-full flex items-center justify-between'>
+          <Loader />
+        </div>
+      </ModalWrapper>
 
       {/* Search Input */}
       <div className="mb-4">
         <input
           type="text"
           placeholder="Search requests..."
-          className="w-full px-4 py-2 rounded border dark:bg-stone-600 dark:text-white"
+          className="w-full px-4 py-2 rounded border outline-none dark:border-stone-700  dark:bg-stone-900 dark:text-white"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -67,12 +81,12 @@ export default function ReqResMain() {
           <button
             key={tab}
             className={`px-4 py-2 ${activeTab === tab
-              ? 'border-b-2 border-emerald-500 dark:border-white'
+              ? 'border-b-2 border-emerald-700 '
               : 'text-gray-500'
               } dark:text-white`}
             onClick={() => setActiveTab(tab)}
           >
-            {tab}
+            {tab.charAt(0)?.toUpperCase() + tab.slice(1)}
           </button>
         ))}
       </div>
@@ -81,7 +95,7 @@ export default function ReqResMain() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredRequests.length > 0 ? (
           filteredRequests.map((req) => (
-            <ReqCards key={req.id} req={req} />
+            <ReqCards loading={loading} handler={changeStatusHandler} key={req.id} req={req} />
           ))
         ) : (
           <p className="text-center text-gray-500 dark:text-gray-300">

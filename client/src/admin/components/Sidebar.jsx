@@ -70,15 +70,16 @@ export default function Sidebar({ setTab, tab,setOpen }) {
         });
     }
     return (
-        <div className='relative min-h-full text-stone-700 dark:text-gray-100'>
-            <div className=' text-2xl font-bold px-2 border-b
-                         border-zinc-700 border-opacity-30 py-4 flex relative gap-4 items-center '>
+        <div className='relative min-h-full  text-stone-700 dark:text-gray-100'>
+             <div className=' text-2xl font-bold border-b
+             border-zinc-700 border-opacity-30 py-4 flex relative gap-4 items-center '>
                 <FaBars
                     size={20}
                     onClick={() => setOpen((prev) => !prev)}
                     className='dark:text-gray-100 sticky md:hidden bottom-2 hover:text-slate-500 cursor-pointer' />
-
-                {open && "PCTE"}
+                <img src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0chhs7PCMWtuhOLg8yYBynOz2qsPmX_ydmCJwci-rkpfXh47lW_2YRRgT7skeD8INGrA&usqp=CAU"}
+                    alt="pcte" className='w-8 h-8 rounded- object-cover' />
+                {open && "PCTE LABS"}
             </div>
 
             <div className='flex flex-col mt-5 gap-2'>
@@ -111,7 +112,7 @@ export default function Sidebar({ setTab, tab,setOpen }) {
                 title='logout'
                 onClick={() => setOpenModal(true)}
                 className={`
-                        absolute bottom-14  ${!open ? 'w-fit' : 'w-[80%]'} 
+                    lg:absolute lg:bottom-3 ${!open ? 'w-fit' : 'w-[80%]'} 
                         font-medium   flex items-center gap-4
                         cursor-pointer
                           py-3 px-2 rounded-md 

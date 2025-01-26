@@ -54,36 +54,35 @@ export default function FacultyManageMain() {
   }
 
    
+ const handleToggleAccess = async (faculty) => {
+    try {
+      const res = await axiosInstance.put(`/user/toggle-access`, {
+        ...faculty
+      });
+      console.log(res);
+      toast.success(res?.data?.message || 'Success');
+      fetchAllFaculties();
+    } catch (error) {
+      toast.error(error?.response?.data?.message || 'Something went wrong');
+      console.log(error);
+    }
+  }
 
-  const togglePasswordVisibility = (id) => {
-    setAllFaculties((prev) =>
-      prev.map((faculty) =>
-        faculty.id === id
-          ? { ...faculty, showPassword: !faculty.showPassword }
-          : faculty
-      )
-    );
-  };
+  // handle remove
+  const handleRemove = async (faculty) => {
+    try {
+      const res = await axiosInstance.delete(`/user/delete/${faculty._id}`);
+      console.log(res);
+      toast.success(res?.data?.message || 'Success');
+      fetchAllFaculties();
+    } catch (error) {
+      toast.error(error?.response?.data?.message || 'Something went wrong');
+      console.log(error);
+    }
+  }
+ 
 
-  const toggleAccess = (id) => {
-    // setFaculties((prev) =>
-    //   prev.map((faculty) =>
-    //     faculty.id === id ? { ...faculty, access: !faculty.access } : faculty
-    //   )
-    // );
-  };
-
-  const handleInputChange = (id, field, value) => {
-    // setFaculties((prev) =>
-    //   prev.map((faculty) =>
-    //     faculty.id === id ? { ...faculty, [field]: value } : faculty
-    //   )
-    // );
-  };
-
-  const removeFaculty = (id) => {
-    // setFaculties((prev) => prev.filter((faculty) => faculty.id !== id));
-  };
+ 
   console.log(allFaculties)
   return (
     <div>
@@ -108,7 +107,7 @@ export default function FacultyManageMain() {
         <div className="mt-4">
           <input
             type="text"
-            placeholder="Search labs..."
+            placeholder="Search..."
             className="w-full py-1 px-3 rounded-md max-w-md border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-stone-800 dark:text-stone-300 focus:outline-none focus:ring-1 focus:ring-emerald-800"
           // value={searchQuery}
           // onChange={(e) => setSearchQuery(e.target.value)}
@@ -124,20 +123,20 @@ export default function FacultyManageMain() {
                 <th className="text-left p-2 min-w-[50px] text-xs font-semibold text-stone-700 dark:text-stone-300">Avatar</th>
                 <th className="text-left p-2 min-w-[100px] overflow-x-auto text-xs font-semibold text-stone-700 dark:text-stone-100">Name</th>
                 <th className="text-left p-2 min-w-[100px] overflow-x-auto text-xs font-semibold text-stone-700 dark:text-stone-100">Email</th>
-                <th className="text-left p-2 min-w-[100px] overflow-x-auto text-xs font-semibold text-stone-700 dark:text-stone-100">Password</th>
+                {/* <th className="text-left p-2 min-w-[100px] overflow-x-auto text-xs font-semibold text-stone-700 dark:text-stone-100">Password</th> */}
                 <th className="text-left p-2 min-w-[50px] overflow-x-auto text-xs font-semibold text-stone-700 dark:text-stone-100">Access</th>
                 <th className="text-left p-2  min-w-[50px] overflow-x-auto text-xs font-semibold text-stone-700 dark:text-stone-100">Remove</th>
-                <th className="text-left p-2  min-w-[50px] overflow-x-auto text-xs font-semibold text-stone-700 dark:text-stone-100">Update</th>
+                {/* <th className="text-left p-2  min-w-[50px] overflow-x-auto text-xs font-semibold text-stone-700 dark:text-stone-100">Update</th> */}
               </tr>
             </thead>
             <tbody>
               {allFaculties?.map((faculty) => (
                 <FacultyRows key={faculty._id}
-                  toggleAccess={toggleAccess}
-                  togglePasswordVisibility={togglePasswordVisibility}
+                  // toggleAccess={toggleAccess}
+                  handleToggleAccess={handleToggleAccess}
                   faculty={faculty}
-                  handleInputChange={handleInputChange}
-                  removeFaculty={removeFaculty}
+                  // handleInputChange={handleInputChange}
+                  handleRemove={handleRemove}
                 />
               ))}
             </tbody>

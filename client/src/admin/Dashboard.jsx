@@ -43,7 +43,7 @@ export default function Dashboard() {
       <div className='flex-1 my-2 relative mr-2 overflow-y-auto ' style={{ scrollbarWidth: "none" }}>
 
         {/* Topbar */}
-        <div className='flex sticky top-0 z-50   h-14 items-center
+        <div className='flex sticky top-0 z-40   h-14 items-center
         shadow-xl  bg-white
         rounded-md
         px-4

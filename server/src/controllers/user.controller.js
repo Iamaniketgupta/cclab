@@ -108,6 +108,23 @@ export const loginUser = asynchandler(async (req, res) => {
 
 });
 
+
+// handle remove user
+export const removeUser = asynchandler(async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await User.findByIdAndDelete(id);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        res.status(200).json({ message: "User removed successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "Something went wrong" });
+    }
+})
+
+
+
 // Forgot Pass
 export const forgotPass = asynchandler(async (req, res) => {
     const { email, newpassword } = req.body;
@@ -198,3 +215,4 @@ export const verifyUserToken = expressAsyncHandler(async (req, res) => {
     }
 
 })
+

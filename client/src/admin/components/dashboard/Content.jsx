@@ -1,62 +1,106 @@
- 
- import IssuesMarqCard from './IssuesMarqCard';
+
+import IssuesMarqCard from './IssuesMarqCard';
 import { BsPcDisplay } from "react-icons/bs";
 import { FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
 import { FaClipboardList, FaFlask, FaUserTie } from 'react-icons/fa6';
 import LabsAvailabilityWidget from '../../../dashboard/widgets/LabsAvailabilityWidget';
 import MonthlyUsageGraph from '../../../dashboard/widgets/LabUsagechart';
+import { useContext, useEffect, useState } from 'react';
+import { useFetchDataApi } from '../../../contexts/FetchDataApi';
 
 
-const statsData = [
-    {
-        label: 'Total Labs',
-        value: 20,
-        icon: <BsPcDisplay size={35} className="text-yellow-500" />,
-        color: 'bg-yellow-100',
-        borderColor: 'border-yellow-400',
-    },
-    {
-        label: 'Available Labs',
-        value: 10,
-        icon: <FaCheckCircle size={35} className="text-green-500" />,
-        color: 'bg-green-100',
-        borderColor: 'border-green-400',
-    },
-    {
-        label: 'Busy Labs',
-        value: 10,
-        icon: <FaFlask size={35} className="text-red-500" />,
-        color: 'bg-red-100',
-        borderColor: 'border-red-400',
-    },
-    {
-        label: 'Issues',
-        value: 10,
-        icon: <FaExclamationCircle size={35} className="text-purple-500" />,
-        color: 'bg-purple-100',
-        borderColor: 'border-purple-400',
-    },
-    {
-        label: 'Faculties',
-        value: 10,
-        icon: <FaUserTie size={35} className="text-zinc-500" />,
-        color: 'bg-gray-100',
-        borderColor: 'border-gray-400',
-    },
-    {
-        label: 'Requests',
-        value: 10,
-        icon: <FaClipboardList size={35} className="text-indigo-500" />,
-        color: 'bg-indigo-100',
-        borderColor: 'border-indigo-400',
-    },
-];
+
 
 export default function Content() {
+    const { allLabs, allStats, allFaculties, allResRequests, allIssues } = useFetchDataApi()
+
+    const [stats, setStats] = useState(
+        [
+            {
+                label: 'Total Labs',
+                value: 0,
+                icon: <BsPcDisplay size={35} className="text-yellow-500" />,
+                color: 'bg-yellow-100',
+                borderColor: 'border-yellow-400',
+            },
+            {
+                label: 'Available Labs',
+                value: 0,
+                icon: <FaCheckCircle size={35} className="text-green-500" />,
+                color: 'bg-green-100',
+                borderColor: 'border-green-400',
+            },
+            {
+                label: 'Busy Labs',
+                value: 0,
+                icon: <FaFlask size={35} className="text-red-500" />,
+                color: 'bg-red-100',
+                borderColor: 'border-red-400',
+            },
+            {
+                label: 'Issues',
+                value: 0,
+                icon: <FaExclamationCircle size={35} className="text-purple-500" />,
+                color: 'bg-purple-100',
+                borderColor: 'border-purple-400',
+            },
+            {
+                label: 'Faculties',
+                value: 0,
+                icon: <FaUserTie size={35} className="text-zinc-500" />,
+                color: 'bg-gray-100',
+                borderColor: 'border-gray-400',
+            },
+            {
+                label: 'Requests',
+                value: 0,
+                icon: <FaClipboardList size={35} className="text-indigo-500" />,
+                color: 'bg-indigo-100',
+                borderColor: 'border-indigo-400',
+            },
+        ]
+    )
+ 
+ 
+    useEffect(() => {
+        // if (!allLabs || !allStats || !allFaculties || !allRequests || !allIssues) return;
+
+        setStats((prevStats) => [
+            {
+                ...prevStats[0],
+                value: allLabs?.length || 0,  
+            },
+            {
+                ...prevStats[1],
+                value: allStats?.availableLabs?.length || 0, 
+            },
+            {
+                ...prevStats[2],
+                value: allStats?.busyLabs?.length || 0,  
+            },
+            {
+                ...prevStats[3],
+                value: allIssues?.filter((issue) => issue.status === 'reported').length || 0,  
+            },
+            {
+                ...prevStats[4],
+                value: allFaculties?.length || 0,  
+            },
+            {
+                ...prevStats[5],
+                value: allResRequests?.filter((request) => request.status === 'pending').length || 0,  
+            },
+        ]);
+    }, [allLabs, allStats, allFaculties, allResRequests, allIssues]);
+        
+
+
+ 
+
     return (
         <div className="w-full mt-4 min-h-full">
             <div className="flex items-center gap-4 flex-wrap justify-center">
-                {statsData.map((item, index) => (
+                {stats?.map((item, index) => (
                     <div
                         key={index}
                         className={`${item.color} border ${item.borderColor}   

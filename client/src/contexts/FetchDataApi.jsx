@@ -3,8 +3,7 @@ import { useEffect, useState, createContext, useContext, useCallback } from 'rea
 import { userData } from '../recoil/states';
 import { useRecoilState } from 'recoil';
 import axiosInstance from '../utils/axiosInstance';
-import { all } from 'axios';
-import { set } from 'mongoose';
+ 
 
 const FetchDataContext = createContext();
 

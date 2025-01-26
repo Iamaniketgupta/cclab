@@ -123,10 +123,10 @@ export default function ManageStudentsMain() {
                 <th className="text-left p-2 min-w-[50px] text-xs font-semibold   ">Avatar</th>
                 <th className="text-left p-2 min-w-[100px] overflow-x-auto text-xs font-semibold `">Name</th>
                 <th className="text-left p-2 min-w-[100px] overflow-x-auto text-xs font-semibold `">Roll</th>
-                <th className="text-left p-2 min-w-[100px] overflow-x-auto text-xs font-semibold `">Password</th>
+                {/* <th className="text-left p-2 min-w-[100px] overflow-x-auto text-xs font-semibold `">Password</th> */}
                 <th className="text-left p-2 min-w-[50px] overflow-x-auto text-xs font-semibold `">Access</th>
                 <th className="text-left p-2  min-w-[50px] overflow-x-auto text-xs font-semibold `">Remove</th>
-                <th className="text-left p-2  min-w-[50px] overflow-x-auto text-xs font-semibold `">Update</th>
+                {/* <th className="text-left p-2  min-w-[50px] overflow-x-auto text-xs font-semibold `">Update</th> */}
               </tr>
             </thead>
             <tbody>

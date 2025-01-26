@@ -19,9 +19,10 @@ export default function StudentRows({student,handleInputChange,
     {/* Name */}
     <td className="p-2">{student.name}</td>
 
-    {/* Roll (editable) */}
+    {/* Roll   */}
     <td className="p-2">
       <input
+        disabled
         type="text"
         value={student.rollNumber}
         minLength={10}
@@ -33,28 +34,7 @@ export default function StudentRows({student,handleInputChange,
       />
     </td>
 
-    {/* Password (editable with toggle visibility) */}
-    <td className="p-2 flex items-center space-x-2">
-      <input
-        type={student.showPassword ? "text" : "password"}
-        value={student.password}
-        onChange={(e) =>
-          handleInputChange(student.id, "password", e.target.value)
-        }
-        className="w-full p-1 border rounded-md text-xs text-stone-800 dark:bg-stone-900 dark:text-stone-100 border-stone-300 dark:border-stone-700 focus:ring-1 focus:ring-emerald-800"
-      />
-      <button
-        type="button"
-        onClick={() => togglePasswordVisibility(student.id)}
-      >
-        {student.showPassword ? (
-          <FaEye className="text-stone-500 dark:text-stone-100" />
-        ) : (
-          <FaEyeSlash className="text-stone-500 dark:text-stone-100" />
-        )}
-      </button>
-    </td>
-
+  
     {/* Access Toggle */}
     <td className="p-2">
       <button
@@ -81,16 +61,7 @@ export default function StudentRows({student,handleInputChange,
       </button>
     </td>
 
-    {/* update */}
-    <td className="p-2">
-      <button
-        type="button"
-        onClick={() => removeFaculty(student.id)}
-        className="text-emerald-500 hover:text-emerald-600 focus:outline-none"
-      >
-        <FaPen />
-      </button>
-    </td>
+   
 
   </tr>
   )

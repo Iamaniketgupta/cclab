@@ -88,9 +88,9 @@ export const updateLab = asyncHandler(async (req, res) => {
 export const deleteLab = asyncHandler(async (req, res) => {
     if(req.user.role !== 'admin'){
         res.status(401);
-        throw new Error("You are not authorized");
+        res.status(401).json({message:"You are not authorized"});
     }
-    const lab = await Lab.findById(req.params.id);
+    const lab = await Lab.findById(req.params.labId);
 
     if (lab) {
         if (lab.resources && lab.resources.length > 0) {
@@ -102,6 +102,6 @@ export const deleteLab = asyncHandler(async (req, res) => {
         res.status(200).json({ message: "Lab and related resources deleted successfully" });
     } else {
         res.status(404);
-        throw new Error("Lab not found");
+        res.status(404).json({message:"Lab not found"});
     }
 });

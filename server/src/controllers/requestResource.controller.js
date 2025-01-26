@@ -38,6 +38,7 @@ export const getAllRequests = asyncHandler(async (req, res) => {
 
     res.status(200).json(requests);
 });
+
 // Get all resource requests by user
 export const getAllRequestsByUserId = asyncHandler(async (req, res) => {
 
@@ -66,6 +67,10 @@ export const getSingleRequest = asyncHandler(async (req, res) => {
 // Update the status of a request
 export const updateRequestStatus = asyncHandler(async (req, res) => {
     const { status } = req.body;
+    if(req.user.role!=="admin")
+    {
+        return res.status(401).json({message:"You are not Authorized"});
+    }
 
     const validStatuses = ["pending", "approved", "rejected"];
     if (!validStatuses.includes(status)) {

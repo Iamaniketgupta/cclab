@@ -1,7 +1,10 @@
 import React from 'react'
 import { MdToggleOff, MdToggleOn } from 'react-icons/md'
+import { RiDeleteBin7Fill } from "react-icons/ri";
+
+export default function LabCards({lab,toggleAvailability ,handleDeleteLab}) {
+
  
-export default function LabCards({lab,toggleAvailability}) {
     return (
         <div
         className=" bg-white dark:bg-stone-900 shadow-lg rounded-lg border border-gray-200 dark:border-stone-700 transition-transform transform hover:scale-105"
@@ -15,6 +18,9 @@ export default function LabCards({lab,toggleAvailability}) {
             Code: {lab.labCode?.toUpperCase()}
           </p>
         </div>
+        <RiDeleteBin7Fill onClick={() => handleDeleteLab(lab._id)} size={20} className='absolute top-2 
+        cursor-pointer
+        right-2 text-red-500 hover:text-red-700'/>
       
         {/* Lab Details */}
         <div className="space-y-2 mb-4 px-4">

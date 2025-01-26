@@ -4,6 +4,8 @@ import ResourceForm from './ResourceForm';
 import { useFetchDataApi } from '../../../contexts/FetchDataApi';
 import axiosInstance from '../../../utils/axiosInstance';
 import {toast} from 'react-toastify';
+import { RiDeleteBin7Fill } from "react-icons/ri";
+
 export default function ResourceManageMain() {
   const [openModal, setOpenModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -202,7 +204,7 @@ export default function ResourceManageMain() {
             className="text-red-500 hover:text-red-700"
             title="Delete Resource"
           >
-           x
+            <RiDeleteBin7Fill size={15} />
           </button>
         </td>
       </tr>
