@@ -15,7 +15,7 @@ import statsRouter from './routes/stats.routes.js';
  
 
 app.use(cors({
-    //  origin: "http://localhost:5173" || process.env.CLIENT_URL,
+    //  origin: "http://localhost:5175" || process.env.CLIENT_URL,
     origin: "https://pctelabs.vercel.app" || process.env.CLIENT_URL,
     credentials:true
 }))
