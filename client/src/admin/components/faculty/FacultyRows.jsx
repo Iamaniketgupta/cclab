@@ -1,7 +1,7 @@
 import React from 'react'
 import { FaEye, FaEyeSlash, FaTrash, FaToggleOn, FaToggleOff, FaPen } from "react-icons/fa";
 
-export default function FacultyRows({ faculty, handleInputChange, togglePasswordVisibility, toggleAccess, removeFaculty }) {
+export default function FacultyRows({ faculty, handleInputChange, togglePasswordVisibility, handleToggleAccess, handleRemove }) {
   return (
     <tr
       key={faculty.id}
@@ -59,25 +59,20 @@ export default function FacultyRows({ faculty, handleInputChange, togglePassword
 
       {/* Access Toggle */}
       <td className="p-2">
-        <button
-          type="button"
-          onClick={() => toggleAccess(faculty.id)}
-          className="focus:outline-none"
-        >
-          {faculty.access ? (
-            <FaToggleOn className="text-emerald-500 text-xl" />
+         
+          {faculty?.access ? (
+            <FaToggleOn onClick={() => handleToggleAccess(faculty._id)} className="text-emerald-500 cursor-pointer text-xl" />
           ) : (
-            <FaToggleOff className="text-red-500 text-xl" />
+            <FaToggleOff onClick={() => handleToggleAccess(faculty._id)} className="text-red-500 cursor-pointer text-xl" />
           )}
-        </button>
-      </td>
+       </td>
 
       {/* Remove */}
       <td className="p-2">
         <button
           type="button"
-          onClick={() => removeFaculty(faculty.id)}
-          className="text-red-500 hover:text-red-600 focus:outline-none"
+          onClick={() => handleRemove(faculty._id)}
+          className="text-red-500 cursor-pointer hover:text-red-600 focus:outline-none"
         >
           <FaTrash />
         </button>

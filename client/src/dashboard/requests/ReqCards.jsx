@@ -31,18 +31,18 @@ export default function ReqCards({handler, req, loading }) {
         </p>
       </div>
 {
-    currUser.role==='admin' &&  <div className="flex items-center gap-4 justify-end">
+    currUser.role==='admin' && req.status === 'pending' && <div className="flex items-center gap-4 justify-end">
         {/* aprrove,reject */}
         <button 
         disabled={loading}
-        onClick={()=>changeStatusHandler('approved')}
+        onClick={()=>handler(req._id, 'approved')}
         className="bg-green-800 hover:bg-green-700 text-white p-2 rounded">
           {loading? <Loader/> :"Approve"}
         </button>
         <button 
         disabled={loading}
 
-        onClick={()=>changeStatusHandler('rejected')}
+        onClick={()=>handler(req._id, 'rejected') }
         className="bg-red-800 hover:bg-red-700 text-white p-2 rounded">
         {  loading ? <Loader/> : "Reject"}
         </button>

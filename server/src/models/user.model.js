@@ -39,6 +39,11 @@ const userSchema = new mongoose.Schema({
     avatar: {
         type: String
     },
+
+    access : {
+        type : Boolean,
+        default : true
+    }
 });
 
 userSchema.pre('save', async function (next) {

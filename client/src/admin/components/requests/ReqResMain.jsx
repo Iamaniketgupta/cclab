@@ -7,13 +7,13 @@ import Loader from "../../../components/Loaders/Loader"
 import axiosInstance from '../../../utils/axiosInstance';
 export default function ReqResMain() {
 
-  const [activeTab, setActiveTab] = useState('All');
+  const [activeTab, setActiveTab] = useState('pending');
   const [searchQuery, setSearchQuery] = useState('');
   const [openModal, setOpenModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [outLoading, setOutLoading] = useState(false);
 
-
-  const { allResRequests } = useFetchDataApi();
+  const { allResRequests, fetchAllResRequests } = useFetchDataApi();
 
 
   // Filter  
@@ -30,28 +30,23 @@ export default function ReqResMain() {
   });
 
 
-//  handler
-  const changeStatusHandler = async (status) => {
-    if (!confirm(`Are you Sure to mark it ${status}`))
-      return;
+ 
 
-    try {
-      setOpenModal(true)
-      setLoading(true)
-      await axiosInstance.put("/request/status", {
-        status: status
-      })
-      toast.success("Status has successfully Changed");
-    } catch (error) {
-      console.log(error)
-      toast.error(error?.response?.data?.message || "Something went wrong")
-    }
-    finally {
-      setOpenModal(false)
-      setLoading(false)
-    }
+ // handle Status
+ const handleChangeStatus = async (id, status) => {
+  if (!confirm(`Are you sure you want to change ${status}`)) return;
+  try {
+    setOutLoading(true);
+    const res = await axiosInstance.put(`/request/status/${id}`, { status });
+    toast.success(res?.data?.message || 'Success');
+    fetchAllResRequests();
+    setOutLoading(false);
+  } catch (error) {
+    toast.error(error?.response?.data?.message || 'Something went wrong');
+    console.log(error);
+    setOutLoading(false);
   }
-
+}
 
 
   return (
@@ -95,7 +90,8 @@ export default function ReqResMain() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredRequests.length > 0 ? (
           filteredRequests.map((req) => (
-            <ReqCards loading={loading} handler={changeStatusHandler} key={req.id} req={req} />
+            <ReqCards
+             loading={loading} handler={handleChangeStatus} key={req._id} req={req} />
           ))
         ) : (
           <p className="text-center text-gray-500 dark:text-gray-300">
@@ -103,6 +99,10 @@ export default function ReqResMain() {
           </p>
         )}
       </div>
+      {
+        outLoading && <ModalWrapper open={outLoading} setOpenModal={setOutLoading} outsideClickClose={false} >
+          <Loader />
+        </ModalWrapper>}
     </div>
   );
 }

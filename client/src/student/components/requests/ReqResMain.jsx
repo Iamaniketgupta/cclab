@@ -11,6 +11,7 @@ import ReqCards from '../../../dashboard/requests/ReqCards';
 export default function ReqResMain() {
   const { allLabs ,allMyResRequests , fetchAllResRequestsByUserId } = useFetchDataApi();
   const [loading, setLoading] = useState(false);
+  const [outLoading, setOutLoading] = useState(false);
   const [thankyouPopup, setThankyouPopup] = useState(false);
 console.log(allMyResRequests)
   
@@ -73,7 +74,7 @@ console.log(allMyResRequests)
 
   };
 
-
+ 
 
   return (
     <div className="w-full px-2 py-4  ">

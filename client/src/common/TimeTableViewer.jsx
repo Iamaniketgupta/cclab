@@ -29,7 +29,7 @@ export default function TimeTableViewer({ schedule, setOpenTT }) {
 
       <table className="min-w-full mt-5 border-collapse border border-gray-300">
         <thead>
-          <tr className="bg-black dark:bg-stone-700 text-xs dark:text-gray-100 uppercase">
+          <tr className="bg-black dark:bg-stone-700 text-xs text-white dark:text-gray-100 uppercase">
             <th className="border border-gray-300 px-4 py-2">Class</th>
             <th className="border border-gray-300 px-4 py-2">Lab</th>
             <th className="border border-gray-300 px-4 py-2">Faculty</th>

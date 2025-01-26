@@ -77,7 +77,7 @@ export const registerUser = asynchandler(async (req, res) => {
 // Login
 export const loginUser = asynchandler(async (req, res) => {
     const { email, password, rollNumber } = req.body;
-
+    
     if (!email && !rollNumber)
         return res.status(400).json({ message: "Email or Roll Number is required" });
 
@@ -99,6 +99,11 @@ export const loginUser = asynchandler(async (req, res) => {
     if (!match)
         return res.status(401).json({ message: "Invalid credentials" });
 
+    if(!finduser.access)
+    {
+        return res.status(401).json({ message: "Account is blocked Kindly contact admin" });
+    }
+
     const token = getToken(finduser);
 
     const userObject = finduser.toObject();
@@ -112,8 +117,8 @@ export const loginUser = asynchandler(async (req, res) => {
 // handle remove user
 export const removeUser = asynchandler(async (req, res) => {
     try {
-        const { id } = req.params;
-        const user = await User.findByIdAndDelete(id);
+        const { userId } = req.params;
+        const user = await User.findByIdAndDelete({ _id: userId});
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -123,6 +128,21 @@ export const removeUser = asynchandler(async (req, res) => {
     }
 })
 
+// Toggle Access
+export const toggleAccess = asynchandler(async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        user.access = !user.access;
+        await user.save();
+        res.status(200).json({ message: "User access toggled successfully",access:user.access });
+    } catch (error) {
+        res.status(500).json({ message: "Something went wrong" });
+    }
+})
 
 
 // Forgot Pass

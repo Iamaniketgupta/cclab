@@ -1,68 +1,63 @@
- import { FaEye, FaEyeSlash, FaTrash, FaToggleOn, FaToggleOff, FaPen } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaTrash, FaToggleOn, FaToggleOff, FaPen } from "react-icons/fa";
 
-export default function StudentRows({student,handleInputChange,
-    togglePasswordVisibility,toggleAccess,removeStudent}) {
+export default function StudentRows({ student, handleInputChange,
+  togglePasswordVisibility, toggleAccess, removeStudent }) {
   return (
     <tr
-    key={student._id}
-    className="border-b border-stone-300 dark:border-stone-700 text-xs text-stone-700 dark:text-stone-100"
-  >
-    {/* Avatar */}
-    <td className="p-2">
-      <img
-        src={student.avatar || "https://icons.iconarchive.com/icons/papirus-team/papirus-status/512/avatar-default-icon.png"}
-        alt={student.name}
-        className="w-8 h-8 rounded-full"
-      />
-    </td>
+      key={student._id}
+      className="border-b border-stone-300 dark:border-stone-700 text-xs text-stone-700 dark:text-stone-100"
+    >
+      {/* Avatar */}
+      <td className="p-2">
+        <img
+          src={student.avatar || "https://icons.iconarchive.com/icons/papirus-team/papirus-status/512/avatar-default-icon.png"}
+          alt={student.name}
+          className="w-8 h-8 rounded-full"
+        />
+      </td>
 
-    {/* Name */}
-    <td className="p-2">{student.name}</td>
+      {/* Name */}
+      <td className="p-2">{student.name}</td>
 
-    {/* Roll   */}
-    <td className="p-2">
-      <input
-        disabled
-        type="text"
-        value={student.rollNumber}
-        minLength={10}
-        maxLength={10}
-        onChange={(e) =>
-          handleInputChange(student.id, "rollNumber", e.target.value)
-        }
-        className="w-full p-1 border rounded-md text-xs dark:bg-stone-900 text-stone-800 dark:text-stone-100 border-stone-300 dark:border-stone-700 focus:ring-1 focus:ring-emerald-800"
-      />
-    </td>
+      {/* Roll   */}
+      <td className="p-2">
+        <input
+          disabled
+          type="text"
+          value={student.rollNumber}
+          minLength={10}
+          maxLength={10}
+          onChange={(e) =>
+            handleInputChange(student.id, "rollNumber", e.target.value)
+          }
+          className="w-full p-1 border rounded-md text-xs dark:bg-stone-900 text-stone-800 dark:text-stone-100 border-stone-300 dark:border-stone-700 focus:ring-1 focus:ring-emerald-800"
+        />
+      </td>
 
-  
-    {/* Access Toggle */}
-    <td className="p-2">
-      <button
-        type="button"
-        onClick={() => toggleAccess(student.id)}
-        className="focus:outline-none"
-      >
-        {student.access ? (
-          <FaToggleOn className="text-emerald-500 text-xl" />
+
+      {/* Access Toggle */}
+      <td className="p-2">
+
+        {student?.access ? (
+          <FaToggleOn onClick={() => toggleAccess(student._id)} className="text-emerald-500 cursor-pointer text-xl" />
         ) : (
-          <FaToggleOff className="text-red-500 text-xl" />
+          <FaToggleOff onClick={() => toggleAccess(student._id)} className="text-red-500 cursor-pointer text-xl" />
         )}
-      </button>
-    </td>
+      </td>
 
-    {/* Remove */}
-    <td className="p-2">
-      <button
-        type="button"
-        onClick={() => removeFaculty(student.id)}
-        className="text-red-500 hover:text-red-600 focus:outline-none"
-      >
-        <FaTrash />
-      </button>
-    </td>
+      {/* Remove */}
+      <td className="p-2">
+        <button
+          type="button"
+          onClick={() => removeStudent(student._id)}
+          className="text-red-500 hover:text-red-600 cursor-pointer focus:outline-none"
+        >
+          <FaTrash />
+        </button>
+      </td>
 
-   
 
-  </tr>
+
+    </tr>
   )
 }

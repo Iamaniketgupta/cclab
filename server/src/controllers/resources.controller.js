@@ -79,7 +79,7 @@ export const updateLabResource = asyncHandler(async (req, res) => {
 
 // Delete a lab resource
 export const deleteLabResource = asyncHandler(async (req, res) => {
-    const resource = await Resource.findById(req.params.id);
+    const resource = await Resource.findById(req.params.resourceId);
 
     if (resource) {
         await resource.deleteOne();
@@ -89,6 +89,25 @@ export const deleteLabResource = asyncHandler(async (req, res) => {
         throw new Error("Resource not found");
     }
 });
+
+// update the status
+export const updateResourceStatus = asyncHandler(async (req, res) => {
+    const { resourceId } = req.params;
+    const { status } = req.body;
+
+    const resource = await Resource.findById(resourceId);
+
+    if (resource) {
+        resource.status = status;
+        await resource.save();
+        res.status(200).json({ message: "Resource status updated successfully" });
+    } else {    
+        res.status(404);
+        throw new Error("Resource not found");
+    }
+});
+
+
 
 // Get all resources by labId
 export const getAllResources = asyncHandler(async (req, res) => {

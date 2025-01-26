@@ -7,12 +7,14 @@ import { toast } from 'react-toastify';
 import axiosInstance from '../../../utils/axiosInstance';
 import { userData } from '../../../recoil/states';
 import { useRecoilState } from 'recoil';
+import Loader from '../../../components/Loaders/Loader';
 
 export default function FacultyManageMain() {
   const [openModal, setOpenModal] = useState(false);
   const [currUser, setUserData] = useRecoilState(userData);
   const { allFaculties, setAllFaculties, fetchAllFaculties } = useFetchDataApi();
   const [loading, setLoading] = useState(false);
+  const [outLoading, setOutLoading] = useState(false);
   const [data, setData] = useState({
     name: '',
     email: '',
@@ -34,7 +36,7 @@ export default function FacultyManageMain() {
         ...data,
         block: currUser.block
       })
-      console.log({allFaculties})
+      console.log({ allFaculties })
       toast.success(res?.data?.message || 'Success');
       fetchAllFaculties();
       setOpenModal(false);
@@ -53,47 +55,53 @@ export default function FacultyManageMain() {
     }
   }
 
-   
- const handleToggleAccess = async (faculty) => {
+
+  const handleToggleAccess = async (id) => {
+    if(!confirm("Are you sure you want to toggle access for this faculty?")) return;
     try {
-      const res = await axiosInstance.put(`/user/toggle-access`, {
-        ...faculty
-      });
-      console.log(res);
+      setOutLoading(true);
+      const res = await axiosInstance.put(`/user/toggle-access/${id}`);
+      // console.log(res);
       toast.success(res?.data?.message || 'Success');
+      setOutLoading(false);
       fetchAllFaculties();
     } catch (error) {
       toast.error(error?.response?.data?.message || 'Something went wrong');
       console.log(error);
+      setOutLoading(false);
     }
   }
 
   // handle remove
-  const handleRemove = async (faculty) => {
+  const handleRemove = async (id) => {
+    if(!confirm("Are you sure you want to remove this faculty?")) return;
     try {
-      const res = await axiosInstance.delete(`/user/delete/${faculty._id}`);
-      console.log(res);
+      setOutLoading(true);
+      const res = await axiosInstance.delete(`/user/${id}`);
+      // console.log(res);
       toast.success(res?.data?.message || 'Success');
       fetchAllFaculties();
+      setOutLoading(false);
     } catch (error) {
       toast.error(error?.response?.data?.message || 'Something went wrong');
       console.log(error);
+      setOutLoading(false);
     }
   }
- 
 
- 
-  console.log(allFaculties)
+
+
+  // console.log(allFaculties)
   return (
     <div>
 
       <ModalWrapper open={openModal} setOpenModal={setOpenModal} outsideClickClose={false} >
-        <FacultyForm  loading={loading} data={data} setOpenModal={setOpenModal} handleSubmit={handleSubmit} onChangeHandler={onChangeHandler} />
+        <FacultyForm loading={loading} data={data} setOpenModal={setOpenModal} handleSubmit={handleSubmit} onChangeHandler={onChangeHandler} />
       </ModalWrapper>
       <div className="flex justify-end my-4">
         <button
-       
-         onClick={() => setOpenModal(true)} className="bg-emerald-700 text-white px-4 py-2 rounded shadow
+
+          onClick={() => setOpenModal(true)} className="bg-emerald-700 text-white px-4 py-2 rounded shadow
           hover:bg-emerald-600">
           Add Faculty
         </button>
@@ -144,6 +152,10 @@ export default function FacultyManageMain() {
         </div>
 
       </div>
+      {
+        outLoading && <ModalWrapper open={outLoading} setOpenModal={setOutLoading} outsideClickClose={false} >
+          <Loader />
+        </ModalWrapper>}
 
     </div>
   )

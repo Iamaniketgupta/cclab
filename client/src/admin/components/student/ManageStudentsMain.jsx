@@ -7,11 +7,13 @@ import { useRecoilState } from 'recoil';
 import { userData } from '../../../recoil/states';
 import { toast } from 'react-toastify';
 import axiosInstance from '../../../utils/axiosInstance';
+import Loader from '../../../components/Loaders/Loader';
 
 export default function ManageStudentsMain() {
   const [openModal, setOpenModal] = useState(false);
   const [currUser, setUserData] = useRecoilState(userData);
   const[loading, setLoading] = useState(false);
+  const [outLoading , setOutLoading] = useState(false);
   const { allStudents, setAllStudents, fetchAllStudents } = useFetchDataApi();
 
   const [data, setData] = useState({
@@ -66,13 +68,7 @@ export default function ManageStudentsMain() {
     );
   };
 
-  const toggleAccess = (id) => {
-    setAllStudents((prev) =>
-      prev.map((student) =>
-        student.id === id ? { ...student, access: !student.access } : student
-      )
-    );
-  };
+  
 
   const handleInputChange = (id, field, value) => {
     setAllStudents((prev) =>
@@ -82,9 +78,40 @@ export default function ManageStudentsMain() {
     );
   };
 
-  const removeStudent = (id) => {
-    setAllStudents((prev) => prev.filter((student) => student.id !== id));
-  };
+  const handleToggleAccess = async (id) => {
+    if(!confirm("Are you sure you want to toggle access for this faculty?")) return;
+    try {
+      setOutLoading(true);
+      const res = await axiosInstance.put(`/user/toggle-access/${id}`);
+      // console.log(res);
+      toast.success(res?.data?.message || 'Success');
+      setOutLoading(false);
+      fetchAllStudents();
+    } catch (error) {
+      toast.error(error?.response?.data?.message || 'Something went wrong');
+      console.log(error);
+      setOutLoading(false);
+    }
+  }
+
+  // handle remove
+  const handleRemove = async (id) => {
+    if(!confirm("Are you sure you want to remove this faculty?")) return;
+    try {
+      setOutLoading(true);
+      const res = await axiosInstance.delete(`/user/${id}`);
+      // console.log(res);
+      toast.success(res?.data?.message || 'Success');
+      fetchAllStudents();
+      setOutLoading(false);
+    } catch (error) {
+      toast.error(error?.response?.data?.message || 'Something went wrong');
+      console.log(error);
+      setOutLoading(false);
+    }
+  }
+
+
 
   return (
     <div>
@@ -132,11 +159,11 @@ export default function ManageStudentsMain() {
             <tbody>
               {allStudents?.map((student) => (
                 <StudentRows key={student._id}
-                  toggleAccess={toggleAccess}
+                  toggleAccess={handleToggleAccess}
                   togglePasswordVisibility={togglePasswordVisibility}
                   student={student}
                   handleInputChange={handleInputChange}
-                  removeStudent={removeStudent}
+                  removeStudent={handleRemove}
                 />
               ))}
             </tbody>
@@ -149,7 +176,10 @@ export default function ManageStudentsMain() {
 
 
 
-
+      {
+        outLoading && <ModalWrapper open={outLoading} setOpenModal={setOutLoading} outsideClickClose={false} >
+          <Loader />
+        </ModalWrapper>}
 
 
     </div>
