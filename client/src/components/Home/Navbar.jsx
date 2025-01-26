@@ -9,12 +9,17 @@ import { useDarkMode } from "../../contexts/DarkModeWrapper";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../../apis/auth";
 import { clearCurrUser } from "../../redux/slices/auths/authSlice";
+import { userData } from "../../recoil/states";
+import { useRecoilState } from "recoil";
+import ModalWrapper from "../../common/ModalWrapper";
+import DeleteConfirmation from "../../common/DeleteConfirmation";
 
 const Navbar = () => {
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const { mode, toggleMode } = useDarkMode();
   const currUser = useSelector((state) => state.auth.currUser);
   const dispatch = useDispatch();
+  const [currUserData, setUser] = useRecoilState(userData)
   const [isModalOpen, setModalOpen] = useState(false);
   const toggleNavbar = () => {
     setMobileDrawerOpen(!mobileDrawerOpen);
@@ -22,12 +27,12 @@ const Navbar = () => {
   const navigate = useNavigate()
 
   const handleLogout = () => {
-    logoutUser().then((res) => {
-      if (res) {
-        dispatch(clearCurrUser());
-        navigate('/login')
-      }
-    })
+   if(logoutUser()) {
+     setUser(null)
+     dispatch(clearCurrUser())
+    navigate('/login')
+   }
+      
   }
 
 
@@ -65,6 +70,7 @@ const Navbar = () => {
                 <button
                   onClick={() => {
                     setModalOpen(true)
+                    
                   }
                   }
                   className="py-2 px-3 border rounded-md"
@@ -126,12 +132,7 @@ const Navbar = () => {
 
                   <button
                     onClick={() =>
-                      logoutUser().then((res) => {
-                        if (res) {
-                          dispatch(clearCurrUser());
-                          navigate('/login')
-                        }
-                      })
+                      setModalOpen(true)
                     }
                     className="py-2 px-3 border rounded-md"
                   >
@@ -155,12 +156,12 @@ const Navbar = () => {
                 </>
               ) :
                 <>
-                  <button
-                    onClick={handleLogout}
+                  <Link
+                    to={'/login'}
                     className="py-2 px-3 border text-xs rounded-md"
                   >
                     Log in
-                  </button>
+                  </Link>
                   
                 </>
               }
@@ -168,6 +169,9 @@ const Navbar = () => {
           </div>
         )}
       </div>
+      <ModalWrapper open={isModalOpen} setOpenModal={setModalOpen}>
+        <DeleteConfirmation handler={handleLogout} setOpenModal={setModalOpen} />
+      </ModalWrapper>
     </nav >
   );
 };
