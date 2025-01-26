@@ -7,6 +7,6 @@ export const userData = atom({   // FOR USER DATA
 
 export const openSideBar = atom({  // SIDE BAR 
     key: 'openSideBar',
-    default: true,
+    default: false,
 });
  

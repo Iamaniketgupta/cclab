@@ -11,6 +11,7 @@ import Dashboard from './dashboard/Dashboard'
 import { useRecoilState } from 'recoil'
 import { userData } from './recoil/states'
 import HomePage from './pages/HomePage'
+import ForgotPass from './pages/Auth/ForgotPass'
  
  
 
@@ -58,6 +59,8 @@ function App() {
       <Route path="/" element={<div><HomePage /></div>} />
       <Route path="/login" element={<div><Login /></div>} />
       <Route path="/dashboard" element={<div><Dashboard /></div>} />
+      <Route path="/forgot/password" element={<div><ForgotPass /></div>} />
+    
       </Routes>
   )
 }

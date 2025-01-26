@@ -1,5 +1,6 @@
 import {v2 as cloudinary} from 'cloudinary';
 import fs from 'fs'
+import 'dotenv/config'
 
 
 cloudinary.config({ 
@@ -7,19 +8,18 @@ cloudinary.config({
     api_key: process.env.CLOUDINARY_API_KEY, 
     api_secret: process.env.CLOUDINARY_API_SECRET 
   });
-
+// console.log("CLOUDINARY_API_KEY" ,process.env.CLOUDINARY_API_KEY)
 
 const uploadToCloudinary = async (localFilepath)=>{
     try {
         if(!localFilepath) return null;
         
-        const response = await cloudinary.uploader.upload(localFilepath,{
-            folder:"pctecclab",
-            resource_type:"image"
-        })
+        const response = await cloudinary.uploader.upload(localFilepath,{resource_type:"image"})
+        console.log(response)
         fs.unlinkSync(localFilepath);
         return response;
     } catch (error) {
+        console.log(error)
         fs.unlinkSync(localFilepath)
         return null;
     }

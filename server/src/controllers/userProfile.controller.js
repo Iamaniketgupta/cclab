@@ -7,6 +7,7 @@ import User from "../models/user.model.js";
 export const updateAvatar = expressAsyncHandler(async (req, res) => {
 
     const avatar = req.file;
+    // console.log(avatar)
     if (!avatar) {
         return res.status(400).json({ message: "Please upload an image" });
     }
@@ -14,15 +15,16 @@ export const updateAvatar = expressAsyncHandler(async (req, res) => {
         return res.status(400).json({ message: "File size too large pls upload less than 2mb" });
     }
 
-    const picid = publicId(req.user.avatar);
-    if (picid) {
-        try {
-            await deleteFromCloudinary(picid);
-        } catch (err) {
-        }
-    }
+    // const picid = publicId(req.user.avatar);
+    // if (picid) {
+    //     try {
+    //         await deleteFromCloudinary(picid);
+    //     } catch (err) {
+    //     }
+    // }
 
     const imageUrl = await uploadToCloudinary(avatar.path);
+    console.log(imageUrl)
     if (!imageUrl?.url) {
         return res.status(500).json({ message: "something went wrong while uploading file to cloudinary" });
     }

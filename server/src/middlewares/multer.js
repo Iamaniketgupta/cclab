@@ -1,7 +1,7 @@
 import multer from 'multer';
 
 export const uploader = multer({
-  limits: { fileSize: 2000000 },  // 2 MB
+  // limits: { fileSize: 10000000 },  // 2 MB
   fileFilter: (req, file, cb) => {
     if (file.mimetype.startsWith('image/')) {
       cb(null, true);
