@@ -32,6 +32,7 @@ export default function TimeTableViewer({ schedule, setOpenTT }) {
           <tr className="bg-black dark:bg-stone-700 text-xs text-white dark:text-gray-100 uppercase">
             <th className="border border-gray-300 px-4 py-2">Class</th>
             <th className="border border-gray-300 px-4 py-2">Lab</th>
+            <th className="border border-gray-300 px-4 py-2">Lab Code</th>
             <th className="border border-gray-300 px-4 py-2">Faculty</th>
             <th className="border border-gray-300 px-4 py-2">Start Time</th>
             <th className="border border-gray-300 px-4 py-2">End Time</th>
@@ -46,6 +47,10 @@ export default function TimeTableViewer({ schedule, setOpenTT }) {
               </td>
               <td className="border border-gray-300 px-4 py-2">
                 {row.labInfo?.labName ||
+                  "N/A"}
+              </td>
+              <td className="border border-gray-300 px-4 py-2">
+                {row.labInfo?.labCode?.toUpperCase() ||
                   "N/A"}
               </td>
               <td className="border border-gray-300 px-4 py-2">

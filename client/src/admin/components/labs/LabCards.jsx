@@ -36,7 +36,7 @@ export default function LabCards({lab,toggleAvailability ,handleDeleteLab}) {
         </div>
       
         {/* Availability Switch */}
-        <div className="flex items-center justify-between px-4 pb-4">
+        {/* <div className="flex items-center justify-between px-4 pb-4">
           <span
             className={`text-xs font-medium ${
               lab.isAvailable ? "text-emerald-500" : "text-red-500"
@@ -62,7 +62,7 @@ export default function LabCards({lab,toggleAvailability ,handleDeleteLab}) {
             </>
 
 
-        </div>
+        </div> */}
       </div>
       
     )

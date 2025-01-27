@@ -49,7 +49,7 @@ export const dashboardStats = asyncHandler(async (req, res) => {
       busyLabs: busyLabsData.map((lab) => ({
         labId: lab.labId,
         labCode: lab.labId.labCode,
-        labName: lab.labName || "Lab Name Unknown",
+        labName: lab.labId.labName  ,
         class: lab.class,
         facultyName: lab.facultyName,
         startTime: lab.startTime,
