@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://pctelabs.vercel.app/sitemap.xml
