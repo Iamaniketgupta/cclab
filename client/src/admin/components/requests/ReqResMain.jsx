@@ -5,6 +5,8 @@ import { useFetchDataApi } from '../../../contexts/FetchDataApi';
  import {toast} from "react-toastify"
 import Loader from "../../../components/Loaders/Loader"
 import axiosInstance from '../../../utils/axiosInstance';
+import { useRecoilState } from 'recoil';
+import { userData } from '../../../recoil/states';
 export default function ReqResMain() {
 
   const [activeTab, setActiveTab] = useState('pending');
@@ -12,12 +14,13 @@ export default function ReqResMain() {
   const [openModal, setOpenModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [outLoading, setOutLoading] = useState(false);
+  const  [curruser,setCurrUser] =useRecoilState(userData)
 
   const { allResRequests, fetchAllResRequests } = useFetchDataApi();
 
-
+console.log(allResRequests)
   // Filter  
-  const filteredRequests = allResRequests?.filter((req) => {
+  const filteredRequests = allResRequests?.filter((item)=>item.labId.block === curruser.block)?.filter((req) => {
     if (activeTab !== 'All' && req.status !== activeTab.toLowerCase()) {
       return false;
     }

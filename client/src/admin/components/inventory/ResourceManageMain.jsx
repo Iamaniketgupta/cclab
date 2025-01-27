@@ -5,12 +5,17 @@ import { useFetchDataApi } from '../../../contexts/FetchDataApi';
 import axiosInstance from '../../../utils/axiosInstance';
 import { toast } from 'react-toastify';
 import { RiDeleteBin7Fill } from "react-icons/ri";
+import { userData } from '../../../recoil/states';
+import { useRecoilState } from 'recoil';
 
 export default function ResourceManageMain() {
   const [openModal, setOpenModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [outLoading, setOutLoading] = useState(false);
   const { allResources, setAllResources, allLabs, fetchAllResources } = useFetchDataApi();
+  const [curruser, setCurrUser] = useRecoilState(userData)
+
+
   const [data, setData] = useState({
     labId: '',
     resourceType: '',
@@ -77,8 +82,8 @@ export default function ResourceManageMain() {
   const handleFilterChange = (e) => {
     setFilter({ ...filter, [e.target.name]: e.target.value });
   };
-
-  const filteredResources = allResources?.filter((resource) => {
+console.log(allResources)
+  const filteredResources = allResources?.filter((item)=>item.labId.block === curruser.block).filter((resource) => {
     const matchesSearch =
       resource.code.toLowerCase().includes(search.toLowerCase()) ||
       resource.resourceName.toLowerCase().includes(search.toLowerCase());

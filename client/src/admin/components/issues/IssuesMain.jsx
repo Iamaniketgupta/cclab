@@ -4,15 +4,18 @@ import ModalWrapper from '../../../common/ModalWrapper';
 import { toast } from 'react-toastify';
 import {useFetchDataApi} from '../../../contexts/FetchDataApi';
 import axiosInstance from '../../../utils/axiosInstance';
+import { userData } from '../../../recoil/states';
+import { useRecoilState } from 'recoil';
 
 export default function IssuesMain() {
    const {allIssues ,fetchAllIssues} = useFetchDataApi();
 const [loading, setLoading] = useState(false);
     const [activeTab, setActiveTab] = useState('Reported');
+    const [curruser,setCurrUser] =useRecoilState(userData)
 
     const filteredIssues = activeTab === 'All Issues'
-        ? allIssues
-        : allIssues?.filter(issue => issue.status === activeTab.toLowerCase());
+        ? allIssues?.filter((item)=>item.labId.block === curruser.block)
+        : allIssues?.filter((item)=>item.labId.block === curruser.block)?.filter(issue => issue.status === activeTab.toLowerCase());
 
  
     const markResolveHandler = async (issue) => {

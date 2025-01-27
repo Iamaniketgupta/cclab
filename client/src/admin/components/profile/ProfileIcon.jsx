@@ -71,7 +71,7 @@ export default function ProfileIcon() {
           <div className="text-sm  text-emerald-800 dark:text-emerald-400">{currentUserData?.role}</div>
           {currentUserData?.role==="student" &&<div className="text-sm  mt-1">ID: {currentUserData?.rollNumber}</div>}
          { currentUserData?.role!=="student" && <div className="text-sm  mt-1">{currentUserData?.email}</div>}
-          {/* <div className="text-sm  mt-1">Block - {currentUserData?.block}</div> */}
+          <div className="text-sm  mt-1">Block - {currentUserData?.block}</div>
         </div>
       )}
     </div>

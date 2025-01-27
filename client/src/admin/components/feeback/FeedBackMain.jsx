@@ -2,17 +2,19 @@ import React, { useState } from 'react';
 import ModalWrapper from '../../../common/ModalWrapper';
 import { useFetchDataApi } from '../../../contexts/FetchDataApi';
 import FeedBackCard from '../../../dashboard/feedback/FeedBackCard';
+import { useRecoilState } from 'recoil';
+import { userData } from '../../../recoil/states';
 
 export default function FeedBackMain() {
 
 
     const { allFeedbacks, allLabs } = useFetchDataApi();
 
-
+    const[curruser,setCurrUser] =useRecoilState(userData)
     const [filteredByLabs, setFilteredByLabs] = useState("");
 
     const [searchQuery, setSearchQuery] = useState('');
-    const filteredFeedbacks = allFeedbacks?.filter((item) => {
+    const filteredFeedbacks = allFeedbacks?.filter((item)=>item.labId.block === curruser.block).filter((item) => {
         const matchesSearch =
             item.labId?.labName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
             item.feedback?.toLowerCase().includes(searchQuery.toLowerCase());

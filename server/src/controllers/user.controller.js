@@ -55,7 +55,7 @@ export const registerUser = asynchandler(async (req, res) => {
         return res.status(400).json({ message: "Account already exists, Kindly login" });
     }
 
-    const newUser = new User({ email, password, name, role, block, rollNumber });
+    const newUser = new User({ email, password, name, role, block:req.user.block, rollNumber });
     await newUser.save();
 
     if (!newUser) {

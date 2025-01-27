@@ -112,7 +112,9 @@ export const updateResourceStatus = asyncHandler(async (req, res) => {
 // Get all resources by labId
 export const getAllResources = asyncHandler(async (req, res) => {
   
-    const resources = await Resource.find({}).sort({ createdAt: -1 });
+    const resources = await Resource.find({})
+    .populate("labId", "labName labCode block")
+    .sort({ createdAt: -1 });
 
     if (resources.length > 0) {
         res.status(200).json(resources);

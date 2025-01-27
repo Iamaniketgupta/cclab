@@ -22,7 +22,7 @@ export default function LabsMain() {
     labCode: '',
     floor: '',
     capacity: '',
-    block :'ET'
+    block :currUser?.block
   });
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,7 +41,7 @@ export default function LabsMain() {
         labCode: '',
         floor: '',
         capacity: '',
-        block: 'ET'
+        block: currUser?.block
 
       });
 
@@ -60,7 +60,7 @@ export default function LabsMain() {
   }
 
   const [searchQuery, setSearchQuery] = useState('');
-  const filteredLabs = allLabs?.filter(item =>
+  const filteredLabs = allLabs.filter((item) => item.block===currUser?.block)?.filter(item =>
     item.labName.toLowerCase().includes(searchQuery.toLowerCase()) ||
     item.labCode.toLowerCase().includes(searchQuery.toLowerCase())
   );

@@ -43,7 +43,7 @@ export const getAllRequests = asyncHandler(async (req, res) => {
 export const getAllRequestsByUserId = asyncHandler(async (req, res) => {
 
     const requests = await Request.find({ requestedBy: req.user._id })
-        .populate("labId", "labName labCode")
+        .populate("labId", "labName labCode block")
         .sort({ createdAt: -1 });
 
      res.status(200).json(requests);

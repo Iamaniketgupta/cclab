@@ -157,7 +157,7 @@ export default function ManageStudentsMain() {
               </tr>
             </thead>
             <tbody>
-              {allStudents?.map((student) => (
+              {allStudents?.filter((student) => student.block === currUser.block)?.map((student) => (
                 <StudentRows key={student._id}
                   toggleAccess={handleToggleAccess}
                   togglePasswordVisibility={togglePasswordVisibility}

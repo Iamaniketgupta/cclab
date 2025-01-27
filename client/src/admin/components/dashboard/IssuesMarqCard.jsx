@@ -1,8 +1,11 @@
 import React from "react";
 import { useFetchDataApi } from "../../../contexts/FetchDataApi";
+import { userData } from "../../../recoil/states";
+import { useRecoilState } from "recoil";
 
 export default function IssuesMarqCard() {
     const {allIssues} = useFetchDataApi();
+    const [currUser, setCurrUser] = useRecoilState(userData);
 
     return (
         <div className="p-2">
@@ -16,7 +19,7 @@ export default function IssuesMarqCard() {
             <div className="overflow-auto relative">
                 {/* Marquee Container */}
                 <div className=" flex gap-3 flex-col flex-wrap wspace-x-8">
-                    {allIssues?.filter((issue) => issue.status !== "resolved").map((issue) => (
+                    {allIssues?.filter((item)=>item.labId.block === currUser?.block).filter((issue) => issue.status !== "resolved").map((issue) => (
                         <div
                             key={issue._id}
                             className="text-sm bg-white dark:bg-stone-900 border dark:border-stone-800 dark:text-gray-100 text-stone-600 rounded-md px-4 py-2 shadow-sm"

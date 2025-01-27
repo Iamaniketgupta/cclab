@@ -55,7 +55,7 @@ export const updateIssueStatus = asyncHandler(async (req, res) => {
 export const getAllIssues = asyncHandler(async (req, res) => {
 
     const issues = await Issue.find({})
-        .populate("labId", "labName labCode")
+        .populate("labId", "labName labCode block")
         .populate("reportedBy", "name email rollNumber");
 
     res.status(200).json(issues);

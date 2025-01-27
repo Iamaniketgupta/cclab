@@ -2,7 +2,7 @@ import { useRecoilState } from "recoil";
 import { userData } from "../../recoil/states";
 import Loader from "../../components/Loaders/Loader";
 export default function IssueCard({ issue, handler, loading }) {
-    console.log(issue)
+    // console.log(issue)
     const [currUser, setCurrUser] = useRecoilState(userData);
     return (
         <div className='bg-white min-w-[300px]  rounded-md shadow-md dark:bg-stone-900 border border-gray-300 dark:border-stone-700'>

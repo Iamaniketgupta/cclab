@@ -138,7 +138,7 @@ export default function FacultyManageMain() {
               </tr>
             </thead>
             <tbody>
-              {allFaculties?.map((faculty) => (
+              {allFaculties?.filter((student) => student.block === currUser.block)?.map((faculty) => (
                 <FacultyRows key={faculty._id}
                   // toggleAccess={toggleAccess}
                   handleToggleAccess={handleToggleAccess}
