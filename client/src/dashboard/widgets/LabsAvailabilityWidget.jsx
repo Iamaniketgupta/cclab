@@ -6,8 +6,17 @@ export default function LabsAvailabilityWidget() {
 
 
     const { allStats } = useFetchDataApi();
+// console.log(allStats)
 
+// const mergedStats = [
+//     ...(allStats?.busyLabs || []),
+//     ...(allStats?.availableLabs || [])
+//   ];
+  
+//   console.log(mergedStats);
+  
 
+ 
     return (
         <div className="p-2">
 

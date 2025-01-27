@@ -52,7 +52,7 @@ function App() {
     fetchUserData();
   }, []);
 
-    console.log({currentUserData});
+    // console.log({currentUserData});
   
    
   return (
