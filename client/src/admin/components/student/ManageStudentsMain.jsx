@@ -20,6 +20,7 @@ export default function ManageStudentsMain() {
     name: '',
     rollNumber: '',
     password: '',
+    email:'',
     role:"student"
   });
 
@@ -45,6 +46,7 @@ export default function ManageStudentsMain() {
         name: '',
         rollNumber: '',
         password: '',
+        email:'',
         role:"student"
       });
 

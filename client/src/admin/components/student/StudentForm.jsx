@@ -57,7 +57,32 @@ export default function StudentForm({
             onChange={(e) => onChangeHandler(e)}
           />
         </div>
+
+
+
       </div>
+
+      <div className="relative">
+        <label
+          htmlFor="password"
+          className="block text-sm font-medium text-gray-700 dark:text-gray-100"
+        >
+          Email
+        </label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="Assign Email"
+          className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-emerald-800"
+          value={data?.email}
+          onChange={(e) => onChangeHandler(e)}
+        />
+       
+      </div>
+
+
+
 
       <div className="relative">
         <label
