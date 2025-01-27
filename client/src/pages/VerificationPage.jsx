@@ -18,7 +18,7 @@ const VerificationPage = () => {
     
         setLoading(true);
         try {
-            const res = await axiosInstance.post(` /user/verifyforgotpass`, {
+            const res = await axiosInstance.post(`/user/verifyforgotpass`, {
                 token
             })
             toast.success(res?.data?.message || 'Success');
