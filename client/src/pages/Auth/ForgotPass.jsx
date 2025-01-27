@@ -7,6 +7,7 @@ import { FaEyeSlash } from "react-icons/fa6";
 import { FaEye } from "react-icons/fa6";
  import Loader from '../../components/Loaders/Loader';
 import axiosInstance from '../../utils/axiosInstance';
+import { setCookie } from '../../utils/cookiesApis';
 
 const ForgotPass = () => {
     const [data, setData] = useState({
@@ -36,6 +37,7 @@ const ForgotPass = () => {
             })
             toast.success(res?.data?.message || 'Success');
             setLinkSent(true)
+            setCookie('resetToken', res?.data?.token);
             setData({
                 email: '',
                 newpassword: ""
