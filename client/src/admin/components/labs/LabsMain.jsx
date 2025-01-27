@@ -22,7 +22,7 @@ export default function LabsMain() {
     labCode: '',
     floor: '',
     capacity: '',
-    block :''
+    block :'ET'
   });
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,7 +41,7 @@ export default function LabsMain() {
         labCode: '',
         floor: '',
         capacity: '',
-        block: ''
+        block: 'ET'
 
       });
 

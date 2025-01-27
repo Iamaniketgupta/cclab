@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import Lab from "../models/lab.model.js";
+import Resource from "../models/resource.model.js";
  
 // Add a new lab
 export const addNewLab = asyncHandler(async (req, res) => {

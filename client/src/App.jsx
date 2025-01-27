@@ -25,8 +25,8 @@ function App() {
       const token = getCookie('authToken')
       if (token) {
         const res = await axiosInstance.get(`/user/verifyauth`)
-        dispatch(setCurrUser(res?.data?.user));
         setUserData(res?.data?.user)
+        dispatch(setCurrUser(res?.data?.user));
       } else {
         navigate('/login');
         dispatch(clearCurrUser());
