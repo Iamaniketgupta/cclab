@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import { userData } from "../../recoil/states";
+import { useRecoilState } from "recoil";
 
 export default function HeroSection() {
+  const [currUser, setCurrUser] = useRecoilState(userData);
   return (
     <div className="bg-white md:h-[calc(100vh-120px)] max-md:h-[100vh] flex  flex-col justify-center dark:bg-stone-900">
       {/* Hero Background */}
@@ -30,13 +33,22 @@ export default function HeroSection() {
 
           {/* Call to Actions */}
           <div className="mt-10 flex items-center justify-center gap-x-6">
-            <Link
-              href="/login"
+            {!currUser ? <Link
+              to={"/login"}
               className="rounded-full  bg-gradient-to-r from-emerald-500 to-indigo-600  px-10 py-2 text-md font-semibold text-white shadow-sm hover:bg-gradient-to-r hover:from-emerald-600 hover:to-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 "
             >
               Get started
             </Link>
 
+              :
+
+              <Link
+                to={"/dashboard"}
+                className="rounded-full  bg-gradient-to-r from-emerald-500 to-indigo-600  px-10 py-2 text-md font-semibold text-white shadow-sm hover:bg-gradient-to-r hover:from-emerald-600 hover:to-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 "
+              >
+                Dashboard
+              </Link>
+            }
           </div>
         </div>
 
