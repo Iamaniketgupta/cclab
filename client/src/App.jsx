@@ -12,6 +12,7 @@ import { useRecoilState } from 'recoil'
 import { userData } from './recoil/states'
 import HomePage from './pages/HomePage'
 import ForgotPass from './pages/Auth/ForgotPass'
+import VerificationPage from './pages/VerificationPage'
  
  
 
@@ -62,6 +63,7 @@ function App() {
       <Route path="/login" element={<div><Login /></div>} />
       <Route path="/dashboard" element={<div><Dashboard /></div>} />
       <Route path="/forgot/password" element={<div><ForgotPass /></div>} />
+      <Route path="/resetpassword" element={<div><VerificationPage /></div>} />
     
       </Routes>
   )

@@ -41,7 +41,7 @@ export default function StudentForm({
         </div>
         <div>
           <label
-            htmlFor="email"
+            htmlFor="rollNumber"
             className="block text-sm font-medium text-gray-700 dark:text-gray-100"
           >
             Roll Number
