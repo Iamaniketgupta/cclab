@@ -63,7 +63,7 @@ function App() {
       <Route path="/login" element={<div><Login /></div>} />
       <Route path="/dashboard" element={<div><Dashboard /></div>} />
       <Route path="/forgot/password" element={<div><ForgotPass /></div>} />
-      <Route path="/resetpassword" element={<div><VerificationPage /></div>} />
+      <Route path="/resetpassword/:token" element={<div><VerificationPage /></div>} />
     
       </Routes>
   )
