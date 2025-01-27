@@ -7,13 +7,15 @@ import LabsAvailabilityWidget from '../../../dashboard/widgets/LabsAvailabilityW
 import MonthlyUsageGraph from '../../../dashboard/widgets/LabUsagechart';
 import { useContext, useEffect, useState } from 'react';
 import { useFetchDataApi } from '../../../contexts/FetchDataApi';
+import { useRecoilState } from 'recoil';
+import { userData } from '../../../recoil/states';
 
 
 
 
 export default function Content() {
     const { allLabs, allStats, allFaculties, allResRequests, allIssues } = useFetchDataApi()
-
+const  [currUser,setCurrUser] =useRecoilState(userData)
     const [stats, setStats] = useState(
         [
             {
@@ -61,6 +63,7 @@ export default function Content() {
         ]
     )
  
+    console.log(allFaculties)
  
     useEffect(() => {
         // if (!allLabs || !allStats || !allFaculties || !allRequests || !allIssues) return;
@@ -68,7 +71,7 @@ export default function Content() {
         setStats((prevStats) => [
             {
                 ...prevStats[0],
-                value: allLabs?.length || 0,  
+                value: allLabs?.filter((item)=>item.block === currUser.block)?.length || 0,  
             },
             {
                 ...prevStats[1],
@@ -80,15 +83,15 @@ export default function Content() {
             },
             {
                 ...prevStats[3],
-                value: allIssues?.filter((issue) => issue.status === 'reported').length || 0,  
+                value: allIssues?.filter((item)=>item.labId.block === currUser.block)?.filter((issue) => issue.status === 'reported').length || 0,  
             },
             {
                 ...prevStats[4],
-                value: allFaculties?.length || 0,  
+                value: allFaculties?.filter((item)=>item.block === currUser.block).length || 0,  
             },
             {
                 ...prevStats[5],
-                value: allResRequests?.filter((request) => request.status === 'pending').length || 0,  
+                value: allResRequests?.filter((item)=>item.labId.block === currUser.block)?.filter((request) => request.status === 'pending').length || 0,  
             },
         ]);
     }, [allLabs, allStats, allFaculties, allResRequests, allIssues]);

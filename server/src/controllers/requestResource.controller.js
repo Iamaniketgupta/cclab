@@ -32,7 +32,7 @@ export const raiseNewRequest = asyncHandler(async (req, res) => {
 export const getAllRequests = asyncHandler(async (req, res) => {
 
     const requests = await Request.find({})
-        .populate("labId", "labName labCode")
+        .populate("labId", "labName labCode block")
         .populate("requestedBy", "name email rollNumber")
         .sort({ createdAt: -1 });
 
