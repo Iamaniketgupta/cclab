@@ -160,7 +160,7 @@ export const forgotPass = asynchandler(async (req, res) => {
         _id: getUser._id,
         email: getUser.email,
         password: newpassword,
-        name: getUser.fullName
+        name: getUser.name
     }, process.env.JWT_SECRET,
         {
             expiresIn: '15m'

@@ -49,6 +49,7 @@ export const exportToPDF = (schedule) => {
     const tableHeaders = [
         { content: "Class", styles: { fillColor: [0, 0, 0], textColor: 255 } },
         { content: "Lab", styles: { fillColor: [0, 0, 0], textColor: 255 } },
+        { content: "LabCode", styles: { fillColor: [0, 0, 0], textColor: 255 } },
         { content: "Faculty", styles: { fillColor: [0, 0, 0], textColor: 255 } },
         { content: "Start Time", styles: { fillColor: [0, 0, 0], textColor: 255 } },
         { content: "End Time", styles: { fillColor: [0, 0, 0], textColor: 255 } },
@@ -58,6 +59,7 @@ export const exportToPDF = (schedule) => {
     const tableRows = schedule?.details?.map((row) => [
         row.class || "N/A",
         row.labInfo?.labName || "N/A",
+        row.labInfo?.labCode || "N/A",
         row.facultyName || "N/A",
         dayjs(row.startTime).format("hh:mm A"),
         dayjs(row.endTime).format("hh:mm A"),
