@@ -3,11 +3,11 @@ import svg from  './404.svg'
  const NotFoundPage = () => {
     return (
         <div className='h-screen w-full'>
-            <Navbar/>
+            {/* <Navbar/> */}
             <img className='mx-auto' src={svg} alt="404" />
 
             <h1 className='text-center text-4xl font-bold text-blue-500'>404 Not Found</h1>
-            <h3 className='text-center text-4xl mt-3 font-semibold text-stone-200'>Whoops! That page doesn’t exist.</h3>
+            <h3 className='text-center text-4xl mt-3 font-semibold text-stone-700 dark:text-stone-200'>Whoops! That page doesn’t exist.</h3>
         </div>
     );
 }
