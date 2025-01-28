@@ -61,7 +61,7 @@ export const updateLab = asyncHandler(async (req, res) => {
     }
     const { labName, labCode, block, floor, resources, capacity, feedbackActive } = req.body;
 
-    const lab = await Lab.findById(req.params.id);
+    const lab = await Lab.findById(req.params.labId);
 
     if (lab) {
         lab.labName = labName || lab.labName;

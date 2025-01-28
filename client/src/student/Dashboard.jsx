@@ -66,7 +66,7 @@ export default function Dashboard() {
           {/* Content */}
 
           {sideTab === 'Dashboard' && <Content />}
-          {sideTab === 'Issues' && <IssuesMain />}
+          {/* {sideTab === 'Issues' && <IssuesMain />} */}
           {sideTab === 'Feedbacks' && <FeedBackMain />}
           {sideTab === 'Requests' && <ReqResMain />}
           {sideTab === 'Time Table' && <AllSchedules />}

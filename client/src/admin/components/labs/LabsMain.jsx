@@ -7,12 +7,14 @@ import { toast } from 'react-toastify';
 import { useRecoilState } from 'recoil';
 import { userData } from '../../../recoil/states';
 import { useFetchDataApi } from '../../../contexts/FetchDataApi';
- import Loader from '../../../components/Loaders/Loader';
+import Loader from '../../../components/Loaders/Loader';
 
 
 export default function LabsMain() {
   const [openModal, setOpenModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editLabId, setEditLabId] = useState('');
   const [outLoading, setOutLoading] = useState(false);
   const [currUser, setUserData] = useRecoilState(userData);
   const { allLabs, fetchAllLabs } = useFetchDataApi();
@@ -22,18 +24,58 @@ export default function LabsMain() {
     labCode: '',
     floor: '',
     capacity: '',
-    block :currUser?.block
+    block: currUser?.block
   });
+
+  // Form Handler
+  const onChangeHandler = (e) => {
+    console.log(e.target.value);
+    setData({ ...data, [e.target.name]: e.target.value });
+  }
+
+  const [searchQuery, setSearchQuery] = useState('');
+  const filteredLabs = allLabs.filter((item) => item.block === currUser?.block)?.filter(item =>
+    item.labName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.labCode.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const [labAvailable, setLabAvailable] = useState(false);
+  const toggleAvailability = (id) => {
+    setLabAvailable((prevLabs) => !prevLabs);
+  };
+
+
+  // Edit Lab
+  const handleEditLab = (lab) => {
+    setData({
+      labName: lab.labName,
+      labCode: lab.labCode,
+      floor: lab.floor,
+      capacity: lab.capacity,
+      block: lab.block,
+    });
+    setEditLabId(lab._id);
+    setIsEditing(true);
+    setOpenModal(true);
+  };
+
+  // Add/Update Lab
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(data);
+    // console.log(data);
     setLoading(true);
     try {
-      const res = await axiosInstance.post(`/labs/add`, {
-        ...data
-      })
-      console.log(res)
-      toast.success(res?.data?.message || 'Success');
+      if (isEditing) {
+         const res = await axiosInstance.put(`/labs/update/${editLabId}`, {
+          ...data,
+        });
+        toast.success(res?.data?.message || 'Lab updated successfully');
+      } else {
+         const res = await axiosInstance.post(`/labs/add`, {
+          ...data,
+        });
+        toast.success(res?.data?.message || 'Lab added successfully');
+      }
       fetchAllLabs();
       setOpenModal(false);
       setData({
@@ -54,26 +96,10 @@ export default function LabsMain() {
     }
   }
 
-  const onChangeHandler = (e) => {
-    console.log(e.target.value);
-    setData({ ...data, [e.target.name]: e.target.value });
-  }
-
-  const [searchQuery, setSearchQuery] = useState('');
-  const filteredLabs = allLabs.filter((item) => item.block===currUser?.block)?.filter(item =>
-    item.labName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    item.labCode.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  const [labAvailable, setLabAvailable] = useState(false);
-  const toggleAvailability = (id) => {
-    setLabAvailable((prevLabs) => !prevLabs);
-  };
-
-
+  // Delete Lab
   const handleDeleteLab = async (id) => {
 
-    if(!confirm("Are you sure you want to delete this lab?")) return;
+    if (!confirm("Are you sure you want to delete this lab?")) return;
     setOutLoading(true);
     console.log(id)
     try {
@@ -91,16 +117,35 @@ export default function LabsMain() {
     }
   }
 
-
+// Close Modal
+  const closeModal = () => {
+    // console.log("closeModal")
+    setOpenModal(false);
+    setIsEditing(false);
+    setEditLabId(null);
+    setData({
+      labName: '',
+      labCode: '',
+      floor: '',
+      capacity: '',
+      block: currUser?.block,
+    });
+  };
+  
   return (
     <div className='w-full px-2' >
 
       {/* Add Lab Form */}
-      <ModalWrapper open={openModal} setOpenModal={setOpenModal} outsideClickClose={false} >
+      <ModalWrapper open={openModal} setOpenModal={closeModal} outsideClickClose={false} >
         <LabForm data={data}
           loading={loading}
-          handleSubmit={handleSubmit} onChangeHandler={onChangeHandler} setOpenModal={setOpenModal} />
+          handleSubmit={handleSubmit}
+          onChangeHandler={onChangeHandler}
+          closeModal={closeModal}
+          isEditing={isEditing}
+           />
       </ModalWrapper>
+
       <div className="flex justify-end mb-4">
         <button onClick={() => setOpenModal(true)} className="bg-emerald-700 text-white px-4 py-2 rounded shadow hover:bg-emerald-600">
           Add New Lab
@@ -124,15 +169,20 @@ export default function LabsMain() {
         {/* Lab Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
           {filteredLabs?.map((lab) => (
-            <LabCards key={lab._id} lab={lab} handleDeleteLab={handleDeleteLab} toggleAvailability={toggleAvailability} />
+            <LabCards key={lab._id} lab={lab} 
+            handleEditLab={handleEditLab}
+            handleDeleteLab={handleDeleteLab} toggleAvailability={toggleAvailability} />
           ))}
         </div>
       </div>
 
-{
-     outLoading && <ModalWrapper open={outLoading} setOpenModal={setOutLoading} outsideClickClose={false} >
-        <Loader />
-      </ModalWrapper>}
+   
+
+      {
+        outLoading && <ModalWrapper open={outLoading} setOpenModal={setOutLoading} outsideClickClose={false} >
+          <Loader />
+        </ModalWrapper>}
+
 
     </div>
   )

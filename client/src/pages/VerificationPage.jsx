@@ -21,7 +21,7 @@ const VerificationPage = () => {
             const res = await axiosInstance.post(`/user/verifyforgotpass`, {
                 token
             })
-            toast.success(res?.data?.message || 'Success');
+            toast.success(res?.data?.message || 'Password reset Success');
             navigate('/login');
         } catch (error) {
             toast.error(error?.response?.data?.message || 'Something went wrong');

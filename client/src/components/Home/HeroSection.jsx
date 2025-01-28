@@ -5,9 +5,10 @@ import { useRecoilState } from "recoil";
 export default function HeroSection() {
   const [currUser, setCurrUser] = useRecoilState(userData);
   return (
-    <div className="bg-white md:h-[calc(100vh-120px)] max-md:h-[100vh] flex  flex-col justify-center dark:bg-stone-900">
+    <div className="  relative   h-screen flex  flex-col justify-center  ">
       {/* Hero Background */}
-      <div className="relative isolate px-6 lg:px-8 h-full flex items-center justify-center">
+
+      <div className="absolute  z-30 w-full inset-0 px-6 lg:px-8 h-full flex items-center justify-center">
         {/* Background Gradient */}
         <div
           aria-hidden="true"
@@ -24,10 +25,10 @@ export default function HeroSection() {
 
         {/* Main Content */}
         <div className="mx-auto max-w-4xl text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl">
-            Your Gateway to Smarter <span className="text-emerald-700 dark:text-emerald-600">PCTE Labs</span> Management
+          <h1 className="text-4xl font-bold tracking-tight   sm:text-6xl">
+            Your Smart <span className="text-emerald-600 dark:text-emerald-600">PCTE IT Labs</span> Management
           </h1>
-          <p className="mt-6 text-lg leading-8 text-gray-700 dark:text-gray-300">
+          <p className="mt-6 text-lg leading-8   dark:text-gray-300">
             Manage labs effortlessly – from scheduling to resource tracking and issue resolution.
           </p>
 

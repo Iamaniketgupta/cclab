@@ -37,7 +37,7 @@ const Navbar = () => {
 
 
   return (
-    <nav className={`sticky  dark:text-white  top-0 z-[100] py-3   shadow-sm  border-neutral-700/80 ${mobileDrawerOpen ? "max-sm:dark:bg-stone-900 max-sm:bg-white" : ""}`}>
+    <nav className={`sticky   text-white bg-transparent top-0 z-[100] py-3  shadow-sm  border-neutral-700/80 ${mobileDrawerOpen ? " " : ""}`}>
       {/* <ModalWrapper open={isModalOpen} setOpenModal={setModalOpen}>
         <Confirmation handler={hadleLogOut} setOpenModal={setModalOpen} />
       </ModalWrapper> */}
@@ -47,9 +47,9 @@ const Navbar = () => {
         <div className="flex justify-between items-center">
           <Link to={'/'} className="flex items-center flex-shrink-0">
             <div
-              className={`text-2xl md:pl-2 text-blue-600 font-bold ${!open && "hidden"}`}
+              className={`text-2xl md:pl-2   font-bold ${!open && "hidden"}`}
             >
-              <span className='text-gray-700 ml-2 dark:text-gray-100 '>PCTE Computer Labs</span>
+              <span className={`${mobileDrawerOpen?" text-stone-800":''} ml-2 `}>Campus<span className="text-emerald-500">Flow</span></span>
             </div>
           </Link>
           <ul className="hidden lg:flex ml-14 space-x-12">
@@ -60,9 +60,9 @@ const Navbar = () => {
               </li>
             ))}
           </ul>
-          <div className="hidden lg:flex justify-center space-x-4 items-center">
-            {!mode ? <MdDarkMode className="text-2xl text-stone-800  dark:text-gray-100 cursor-pointer " onClick={toggleMode} />
-              : <MdLightMode className="text-2xl text-stone-800 dark:text-gray-100 cursor-pointer" onClick={toggleMode} />
+          <div className="hidden lg:flex justify-center space-x-4  items-center">
+            {!mode ? <MdDarkMode className="text-2xl  text-gray-100 cursor-pointer " onClick={toggleMode} />
+              : <MdLightMode className="text-2xl  text-gray-100  cursor-pointer" onClick={toggleMode} />
             }
 
             {currUser ? (
@@ -117,7 +117,7 @@ const Navbar = () => {
           </div>
         </div>
         {mobileDrawerOpen && (
-          <div className="fixed right-0 shadow-md z-50 dark:text-white dark:bg-stone-900 bg-white w-full p-12 flex flex-col  lg:hidden">
+          <div className="fixed right-0 top-14 bg-opacity-10 bg-black shadow-md z-50 dark:text-white text-stone-800    w-full p-12 flex flex-col  lg:hidden">
 
             <ul>
               {navItems.map((item, index) => (
@@ -134,7 +134,7 @@ const Navbar = () => {
                     onClick={() =>
                       setModalOpen(true)
                     }
-                    className="py-2 px-3 border rounded-md"
+                    className="py-2 px-3 border text-white rounded-md"
                   >
                     Log out
                   </button>
@@ -158,7 +158,7 @@ const Navbar = () => {
                 <>
                   <Link
                     to={'/login'}
-                    className="py-2 px-3 border text-xs rounded-md"
+                    className="py-2 px-3 border text-white text-xs rounded-md"
                   >
                     Log in
                   </Link>

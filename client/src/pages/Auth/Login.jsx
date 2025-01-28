@@ -71,7 +71,7 @@ export default function Login() {
             <div
               className={`text-2xl md:pl-2 text-blue-600 font-bold ${!open && "hidden"}`}
             >
-              <span className='text-white ml-2 '>PCTE Computer LABS</span>
+              <span className='text-white ml-2 '>CampusFlow</span>
             </div>
           </Link>
       </div>

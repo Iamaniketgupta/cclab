@@ -20,10 +20,10 @@ const listData = [
         name: "Dashboard",
         icon: <MdDashboard size={20} />,
     },
-    {
-        name: "Issues",
-        icon: <MdSendTimeExtension size={20} />,
-    },
+    // {
+    //     name: "Issues",
+    //     icon: <MdSendTimeExtension size={20} />,
+    // },
     {
         name: "Requests",
         icon: <GrResources size={20} />,

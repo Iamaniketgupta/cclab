@@ -143,10 +143,10 @@ const  [currUser,setCurrUser] =useRecoilState(userData)
             </div>
 
             {/* Some Graph */}
-            <div className='mt-4'>
+            {/* <div className='mt-4'>
 
                 <MonthlyUsageGraph />
-            </div>
+            </div> */}
 
         </div>
     )

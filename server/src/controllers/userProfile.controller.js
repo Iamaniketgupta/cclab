@@ -1,7 +1,7 @@
 import expressAsyncHandler from "express-async-handler";
 import { deleteFromCloudinary, publicId, uploadToCloudinary } from "../utils/cloudinary.js";
 import User from "../models/user.model.js";
- 
+
 
 // UPDATE AVATAR
 export const updateAvatar = expressAsyncHandler(async (req, res) => {
@@ -56,21 +56,13 @@ export const deleteAvatar = expressAsyncHandler(async (req, res) => {
 
 // UPDATE PROFILE
 
-// export const updateProfile = expressAsyncHandler(async (req, res) => {
-//     const { fullName, about, userName } = req.body;
+export const updateUser = expressAsyncHandler(async (req, res) => {
 
-//     if (userName) {
-//         const existingUser = await User.findOne({
-//             userName: userName,
-//             _id: { $ne: req.user._id }
-//         });
-//         if (existingUser)
-//             return res.status(400).json({ message: "username not available" });
-//     }
+    const user = await User.findByIdAndUpdate(req.params.userId, req.body, { new: true });
 
-//     const user = await User.findByIdAndUpdate(req.user._id, { fullName, about, userName }, { new: true });
-//     if (!user)
-//         return res.status(500).json({ message: "something went wrong while updating profile" });
+    if (!user)
+        return res.status(500).json({ message: "something went wrong while updating profile" });
 
-//     res.status(200).json({ message: 'Profile Updated🎉', user });
-// });
+    res.status(200).json({ message: 'Details Updated Successfully', user });
+});
+

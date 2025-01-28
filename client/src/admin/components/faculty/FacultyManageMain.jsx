@@ -12,6 +12,8 @@ import Loader from '../../../components/Loaders/Loader';
 export default function FacultyManageMain() {
   const [openModal, setOpenModal] = useState(false);
   const [currUser, setUserData] = useRecoilState(userData);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editFacultyId, setEditFacultyId] = useState('');
   const { allFaculties, setAllFaculties, fetchAllFaculties } = useFetchDataApi();
   const [loading, setLoading] = useState(false);
   const [outLoading, setOutLoading] = useState(false);
@@ -22,22 +24,42 @@ export default function FacultyManageMain() {
     role: 'faculty',
   });
 
+  const [searchQuery, setSearchQuery] = useState('');
+  const filteredFaculties = allFaculties.filter((faculty) => {
+    return faculty.name.toLowerCase().includes(searchQuery.toLowerCase()) || faculty.email.toLowerCase().includes(searchQuery.toLowerCase());
+  });
+
   const onChangeHandler = (e) => {
-    // console.log(e.target.value);
     setData({ ...data, [e.target.name]: e.target.value });
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(data);
+    // console.log(data);
     setLoading(true);
     try {
-      const res = await axiosInstance.post(`/user/register`, {
-        ...data,
-        block: currUser.block
-      })
+
+      if (isEditing) {
+        if (!confirm("Are you sure you want to update this faculty?")) return;
+        if (data.email === '' || data.name === '') return toast.error('Email and Name is required');
+        const res = await axiosInstance.put(`/user/update/${editFacultyId}`, {
+          name: data.name,
+          email: data.email
+        })
+        toast.success(res?.data?.message || 'Updated Successfully');
+        setIsEditing(false);
+        setEditFacultyId('');
+      }
+      else {
+        const res = await axiosInstance.post(`/user/register`, {
+          ...data,
+          block: currUser.block
+        })
+        toast.success(res?.data?.message || 'Successfully Added');
+
+      }
+
       console.log({ allFaculties })
-      toast.success(res?.data?.message || 'Success');
       fetchAllFaculties();
       setOpenModal(false);
       setData({
@@ -57,7 +79,7 @@ export default function FacultyManageMain() {
 
 
   const handleToggleAccess = async (id) => {
-    if(!confirm("Are you sure you want to toggle access for this faculty?")) return;
+    if (!confirm("Are you sure you want to toggle access for this faculty?")) return;
     try {
       setOutLoading(true);
       const res = await axiosInstance.put(`/user/toggle-access/${id}`);
@@ -74,7 +96,7 @@ export default function FacultyManageMain() {
 
   // handle remove
   const handleRemove = async (id) => {
-    if(!confirm("Are you sure you want to remove this faculty?")) return;
+    if (!confirm("Are you sure you want to remove this faculty?")) return;
     try {
       setOutLoading(true);
       const res = await axiosInstance.delete(`/user/${id}`);
@@ -90,7 +112,31 @@ export default function FacultyManageMain() {
   }
 
 
+  // Edit
+  const handleEdit = (faculty) => {
+    setData({
+      name: faculty.name,
+      email: faculty.email,
+      // password: '',
+    });
+    setEditFacultyId(faculty._id);
+    setIsEditing(true);
+    // setOpenModal(true);
 
+
+  }
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    setEditFacultyId('');
+    setData({
+      name: '',
+      email: '',
+      password: '',
+    });
+  }
+
+ 
   // console.log(allFaculties)
   return (
     <div>
@@ -116,9 +162,9 @@ export default function FacultyManageMain() {
           <input
             type="text"
             placeholder="Search..."
-            className="w-full py-1 px-3 rounded-md max-w-md border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-stone-800 dark:text-stone-300 focus:outline-none focus:ring-1 focus:ring-emerald-800"
-          // value={searchQuery}
-          // onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full py-1 px-3 mx-3 rounded-md max-w-md border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-stone-800 dark:text-stone-300 focus:outline-none focus:ring-1 focus:ring-emerald-800"
+            // value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
 
@@ -134,17 +180,22 @@ export default function FacultyManageMain() {
                 {/* <th className="text-left p-2 min-w-[100px] overflow-x-auto text-xs font-semibold text-stone-700 dark:text-stone-100">Password</th> */}
                 <th className="text-left p-2 min-w-[50px] overflow-x-auto text-xs font-semibold text-stone-700 dark:text-stone-100">Access</th>
                 <th className="text-left p-2  min-w-[50px] overflow-x-auto text-xs font-semibold text-stone-700 dark:text-stone-100">Remove</th>
-                {/* <th className="text-left p-2  min-w-[50px] overflow-x-auto text-xs font-semibold text-stone-700 dark:text-stone-100">Update</th> */}
+                <th className="text-left p-2  min-w-[50px] overflow-x-auto text-xs font-semibold text-stone-700 dark:text-stone-100">Update</th>
               </tr>
             </thead>
             <tbody>
-              {allFaculties?.filter((student) => student.block === currUser.block)?.map((faculty) => (
+              {filteredFaculties?.filter((student) => student.block === currUser.block)?.map((faculty) => (
                 <FacultyRows key={faculty._id}
-                  // toggleAccess={toggleAccess}
                   handleToggleAccess={handleToggleAccess}
                   faculty={faculty}
-                  // handleInputChange={handleInputChange}
+                  handleEdit={handleEdit}
+                  handleCancel={handleCancel}
+                  isEditing={isEditing}
+                  handleInputChange={onChangeHandler}
+                  editFacultyId={editFacultyId}
+                  handleSave={handleSubmit}
                   handleRemove={handleRemove}
+                  data={data}
                 />
               ))}
             </tbody>

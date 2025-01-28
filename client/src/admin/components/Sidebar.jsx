@@ -74,7 +74,7 @@ export default function Sidebar({ setTab, tab, setOpen }) {
             return false;  
         }
         
-          if (currUser?.role === "faculty" && !["Dashboard", "Students", "Schedules"].includes(item.name)) {
+          if (currUser?.role === "faculty" && !["Dashboard", "Students", "Schedules","Issues"].includes(item.name)) {
             return false;
         }
         

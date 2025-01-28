@@ -1,8 +1,11 @@
 import React from 'react'
 import { MdToggleOff, MdToggleOn } from 'react-icons/md'
 import { RiDeleteBin7Fill } from "react-icons/ri";
+import ModalWrapper from '../../../common/ModalWrapper';
+import { MdEditSquare } from "react-icons/md";
 
-export default function LabCards({lab,toggleAvailability ,handleDeleteLab}) {
+export default function LabCards({lab,toggleAvailability ,handleEditLab,handleDeleteLab}) {
+
 
  
     return (
@@ -63,6 +66,12 @@ export default function LabCards({lab,toggleAvailability ,handleDeleteLab}) {
 
 
         </div> */}
+      <div className='flex justify-end p-3 items-center w-full'>
+        <MdEditSquare 
+        onClick={()=>handleEditLab(lab)}
+        className=' text-lg text-green-500 cursor-pointer hover:text-green-700'>Edit</MdEditSquare>
+      </div>
+      
       </div>
       
     )

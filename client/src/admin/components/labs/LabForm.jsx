@@ -2,7 +2,9 @@ import React from 'react'
 import Loader from '../../../components/Loaders/Loader'
 import { useRecoilState } from 'recoil'
 import { userData } from '../../../recoil/states'
-export default function LabForm({ loading, handleSubmit, onChangeHandler, setOpenModal, data }) {
+export default function LabForm({ loading,
+  isEditing,
+  handleSubmit, onChangeHandler, closeModal, data }) {
   const [currUser, setUserData] = useRecoilState(userData);
   return (
     <form
@@ -11,7 +13,7 @@ export default function LabForm({ loading, handleSubmit, onChangeHandler, setOpe
     >
       {/* Title */}
       <h2 className="md:text-xl font-semibold text-gray-800 dark:text-gray-100 text-center">
-        Add Lab Details
+        {isEditing ? "Edit" : "Add"} Lab Details
       </h2>
 
       {/* Lab Name and Code */}
@@ -113,11 +115,11 @@ export default function LabForm({ loading, handleSubmit, onChangeHandler, setOpe
           disabled={loading}
           className="w-full md:w-auto px-6 py-2 bg-emerald-800 text-white font-medium rounded-md shadow hover:bg-emerald-600 dark:hover:bg-emerald-400 focus:outline-none focus:ring-1 focus:ring-emerald-500"
         >
-          {loading ? <Loader /> : "Add Lab"}
+          {loading ? <Loader /> : isEditing ? "Update Lab" : "Add Lab"}
         </button>
         <button
           type="reset"
-          onClick={() => setOpenModal(false)}
+          onClick={ closeModal}
           className="w-full md:w-auto px-6 py-2 bg-red-700 text-white font-medium rounded-md shadow hover:bg-red-600 dark:hover:bg-red-400 focus:outline-none focus:ring-1 focus:ring-red-700"
         >
           Cancel
