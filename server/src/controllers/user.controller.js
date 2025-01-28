@@ -28,7 +28,7 @@ export const registerUser = asynchandler(async (req, res) => {
         throw new Error("You are not authorized");
         
     }
-    const { email, password, name, role, block, rollNumber } = req.body;
+    const { email, password, name, role, block, batch, rollNumber } = req.body;
 
     if (!name || !role) {
         return res.status(400).json({ message: "All Fields are required" });
@@ -55,7 +55,7 @@ export const registerUser = asynchandler(async (req, res) => {
         return res.status(400).json({ message: "Account already exists, Kindly login" });
     }
 
-    const newUser = new User({ email, password, name, role, block:req.user.block, rollNumber });
+    const newUser = new User({ email, password, name, role, batch, block:req.user.block, rollNumber });
     await newUser.save();
 
     if (!newUser) {

@@ -12,6 +12,7 @@ import issuesRouter from './routes/issues.routes.js';
 import resourceRouter from './routes/resources.routes.js';
 import feedbackRouter from './routes/feedback.routes.js';
 import statsRouter from './routes/stats.routes.js';
+import bulkUploadRouter from './routes/bulkUpload.routes.js';
  
 
 app.use(cors({
@@ -30,6 +31,7 @@ app.use('/api/issues',issuesRouter);
 app.use('/api/request',resourceReqRouter);
 app.use('/api/feedback',feedbackRouter);
 app.use('/api/stats',statsRouter);
+app.use('/api/bulk',bulkUploadRouter);
 
  
 app.get('/',(req,res)=>{

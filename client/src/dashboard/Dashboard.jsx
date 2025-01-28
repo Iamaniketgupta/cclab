@@ -5,6 +5,7 @@ import StudentDashboard from "../student/Dashboard"
 import { useNavigate } from 'react-router-dom';
 import { getCookie } from '../utils/cookiesApis';
 import { useEffect } from 'react';
+import BulkUpload from './bulkupload/BulkUpload';
 
 
 export default function Dashboard() {
@@ -26,7 +27,7 @@ export default function Dashboard() {
       style={{ scrollbarWidth: "none" }}>{
         currentUserData?.role === "student" ? <StudentDashboard /> : <AdminDashboard />
 
-
+        // <BulkUpload/>
       }
     </div>
   )

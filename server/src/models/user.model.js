@@ -8,12 +8,15 @@ const userSchema = new mongoose.Schema({
     rollNumber: {
         type: String,
         unique: true,
-        sparse: true  
+        sparse: true
+    },
+    batch: {
+        type: String
     },
     email: {
         type: String,
         unique: true,
-        sparse: true,  
+        sparse: true,
         lowercase: true,
         trim: true,
         validate: {
@@ -40,9 +43,9 @@ const userSchema = new mongoose.Schema({
         type: String
     },
 
-    access : {
-        type : Boolean,
-        default : true
+    access: {
+        type: Boolean,
+        default: true
     }
 });
 
@@ -56,7 +59,7 @@ userSchema.pre('save', async function (next) {
 
 userSchema.methods.comparePassword = async function (password) {
     return await bcrypt.compare(password, this.password);
-    
+
 }
 const User = mongoose.model('User', userSchema);
 

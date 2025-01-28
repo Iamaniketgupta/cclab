@@ -57,9 +57,9 @@ export const deleteAvatar = expressAsyncHandler(async (req, res) => {
 // UPDATE PROFILE
 
 export const updateUser = expressAsyncHandler(async (req, res) => {
-
+    
     const user = await User.findByIdAndUpdate(req.params.userId, req.body, { new: true });
-
+    console.log(user)
     if (!user)
         return res.status(500).json({ message: "something went wrong while updating profile" });
 
