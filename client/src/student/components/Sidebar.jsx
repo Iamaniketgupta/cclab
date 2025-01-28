@@ -6,7 +6,7 @@ import { GrLogout, GrResources } from "react-icons/gr";
 import { MdFeedback } from "react-icons/md";
 import { FaBars, FaBarsProgress } from "react-icons/fa6";
 import { useRecoilState } from 'recoil';
-import { openSideBar } from './../../recoil/states';
+import { openSideBar, userData } from './../../recoil/states';
 import { MdTimer } from "react-icons/md";
 import ModalWrapper from './../../common/ModalWrapper';
 import DeleteConfirmation from './../../common/DeleteConfirmation';
@@ -41,15 +41,16 @@ const listData = [
 export default function Sidebar({ setTab, tab, setOpen }) {
     const [open] = useRecoilState(openSideBar);
     const [openModal, setOpenModal] = useState(false);
+    const [currUser, setCurrUser] = useRecoilState(userData);
     const navigate = useNavigate();
     const logoutHandler = () => {
-        logoutUser().then((res) => {
-            if (res) {
-                setOpenModal(false);
-                navigate("/login")
+           if (logoutUser()) {
+               setCurrUser(null);
+               setOpenModal(false);
             }
-        });
-    }
+           navigate("/login");
+       }
+
     return (
         <div className='relative min-h-screen overflow-auto  text-stone-700 dark:text-gray-100'>
             <ModalWrapper open={openModal} setOpen={setOpenModal} >

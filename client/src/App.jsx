@@ -32,8 +32,7 @@ function App() {
         setLoading(false);
         dispatch(setCurrUser(res?.data?.user));
       } else {
-        // navigate('/login');
-        dispatch(clearCurrUser());
+         dispatch(clearCurrUser());
         setCurrUser(null);
 
       }
@@ -42,12 +41,11 @@ function App() {
       dispatch(setCurrUser(null));
       setUserData(null);
       removeCookie('authToken');
-      console.log(error.response)
+      // console.log(error.response)
       if (error?.response?.data?.expiredSession) {
         alert(error.response.data.message);
       }
-      // navigate('/login');
-      console.log(error);
+      //  console.log(error);
     }
     finally {
       setLoading(false);

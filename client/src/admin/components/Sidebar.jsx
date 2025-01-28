@@ -53,56 +53,56 @@ const listData = [
     },
 ];
 
-export default function Sidebar({ setTab, tab, setOpen }) {  
+export default function Sidebar({ setTab, tab, setOpen }) {
     const [open] = useRecoilState(openSideBar);
     const [currUser, setCurrUser] = useRecoilState(userData);
     const [openModal, setOpenModal] = useState(false);
     const navigate = useNavigate();
 
     const logoutHandler = () => {
-        logoutUser().then((res) => {
-            if (res) {
-                setOpenModal(false);
-                navigate("/login");
-            }
-        });
-    };
-
-   
-    const filteredListData = listData.filter(item => {
-        if (currUser?.role === "admin" && item.name === "Students") {
-            return false;  
+        if (logoutUser()) {
+            setCurrUser(null);
+            setOpenModal(false);
+            // console.log("first")
         }
-        
-          if (currUser?.role === "faculty" && !["Dashboard", "Students", "Schedules","Issues"].includes(item.name)) {
-            return false;
-        }
-        
-        return true;
-    });
+        navigate("/login");
+    }
 
-    return (
-        <div className='relative min-h-full text-stone-700 dark:text-gray-100'>
-            <div className='text-2xl font-bold border-b border-zinc-700 border-opacity-30 py-4 flex relative gap-4 items-center'>
-                <FaBars
-                    size={20}
-                    onClick={() => setOpen((prev) => !prev)}
-                    className='dark:text-gray-100 sticky md:hidden bottom-2 hover:text-slate-500 cursor-pointer'
-                />
-                <img
-                    src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0chhs7PCMWtuhOLg8yYBynOz2qsPmX_ydmCJwci-rkpfXh47lW_2YRRgT7skeD8INGrA&usqp=CAU"}
-                    alt="pcte"
-                    className='w-8 h-8 rounded- object-cover'
-                />
-                {open && "PCTE LABS"}
-            </div>
 
-            <div className='flex flex-col mt-5 gap-2'>
-                {filteredListData.map((item, index) => (
-                    <div
-                        key={index}
-                        onClick={() => setTab(item.name)}
-                        className={` 
+const filteredListData = listData.filter(item => {
+    if (currUser?.role === "admin" && item.name === "Students") {
+        return false;
+    }
+
+    if (currUser?.role === "faculty" && !["Dashboard", "Students", "Schedules", "Issues"].includes(item.name)) {
+        return false;
+    }
+
+    return true;
+});
+
+return (
+    <div className='relative min-h-full text-stone-700 dark:text-gray-100'>
+        <div className='text-2xl font-bold border-b border-zinc-700 border-opacity-30 py-4 flex relative gap-4 items-center'>
+            <FaBars
+                size={20}
+                onClick={() => setOpen((prev) => !prev)}
+                className='dark:text-gray-100 sticky md:hidden bottom-2 hover:text-slate-500 cursor-pointer'
+            />
+            <img
+                src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0chhs7PCMWtuhOLg8yYBynOz2qsPmX_ydmCJwci-rkpfXh47lW_2YRRgT7skeD8INGrA&usqp=CAU"}
+                alt="pcte"
+                className='w-8 h-8 rounded- object-cover'
+            />
+            {open && "PCTE LABS"}
+        </div>
+
+        <div className='flex flex-col mt-5 gap-2'>
+            {filteredListData.map((item, index) => (
+                <div
+                    key={index}
+                    onClick={() => setTab(item.name)}
+                    className={` 
                             ${item.name === tab && "bg-gradient-to-r from-emerald-900 to-zinc-700 text-white"}
                             rounded-md
                             p-2 
@@ -113,31 +113,31 @@ export default function Sidebar({ setTab, tab, setOpen }) {
                             font-semibold flex items-center gap-3
                             ${!open ? 'w-fit' : 'w-full'}
                         `}
-                    >
-                        {item.icon}
-                        {open && item.name}
-                    </div>
-                ))}
-            </div>
+                >
+                    {item.icon}
+                    {open && item.name}
+                </div>
+            ))}
+        </div>
 
-            <div
-                title='logout'
-                onClick={() => setOpenModal(true)}
-                className={`lg:absolute lg:bottom-3 ${!open ? 'w-fit' : 'w-[80%]'} 
+        <div
+            title='logout'
+            onClick={() => setOpenModal(true)}
+            className={`lg:absolute lg:bottom-3 ${!open ? 'w-fit' : 'w-[80%]'} 
                     font-medium flex items-center gap-4
                     cursor-pointer
                     py-3 px-2 rounded-md 
                     hover:text-white
                     hover:bg-gradient-to-r hover:from-stone-900 hover:to-zinc-700
                 `}
-            >
-                <GrLogout size={20} className='text-red-700' />
-                {open && "Log Out"}
-            </div>
-
-            <ModalWrapper open={openModal} setOpen={setOpenModal}>
-                <DeleteConfirmation handler={logoutHandler} setOpenModal={setOpenModal} />
-            </ModalWrapper>
+        >
+            <GrLogout size={20} className='text-red-700' />
+            {open && "Log Out"}
         </div>
-    );
+
+        <ModalWrapper open={openModal} setOpen={setOpenModal}>
+            <DeleteConfirmation handler={logoutHandler} setOpenModal={setOpenModal} />
+        </ModalWrapper>
+    </div>
+);
 }
