@@ -10,6 +10,15 @@ export const getAllFaculties = asyncHandler(async (req, res) => {
     const faculties = await User.find({ role: "faculty" });
     res.status(200).json(faculties);
 });
+// get all admins
+export const getAllAdmins = asyncHandler(async (req, res) => {
+    if(req.user.role !== 'super-admin'){
+        res.status(401);
+        throw new Error("You are not authorized");
+    }
+    const admins = await User.find({ role: "admin" });
+    res.status(200).json(admins);
+});
 
 // get all students
 export const getAllStudents = asyncHandler(async (req, res) => {
@@ -21,8 +30,4 @@ export const getAllStudents = asyncHandler(async (req, res) => {
     res.status(200).json(students);
 });
 
-// get all admins
-export const getAllAdmins = asyncHandler(async (req, res) => {
-    const admins = await User.find({ role: "admin" });
-    res.status(200).json(admins);
-});
+ 

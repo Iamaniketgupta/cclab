@@ -1,6 +1,6 @@
 import asynchandler from 'express-async-handler'
 import jwt from 'jsonwebtoken'
- // import { OAuth2Client } from 'google-auth-library';
+// import { OAuth2Client } from 'google-auth-library';
 import sendEmail from '../service/sendMail.js';
 import expressAsyncHandler from 'express-async-handler';
 import User from '../models/user.model.js';
@@ -19,14 +19,14 @@ const getToken = (user, exp = null) => {
 }
 
 
- 
+
 // Manual Register
 export const registerUser = asynchandler(async (req, res) => {
-  
-    if(req.user.role === 'student' ){
+
+    if (req.user.role === 'student') {
         res.status(401);
         throw new Error("You are not authorized");
-        
+
     }
     const { email, password, name, role, block, batch, rollNumber } = req.body;
 
@@ -45,17 +45,17 @@ export const registerUser = asynchandler(async (req, res) => {
     }
 
     let getUser;
-    if (role === "faculty" && email) {
-        getUser = await User.findOne({ email:email });
-    } else if (role === "student" && rollNumber) {
-        getUser = await User.findOne({ rollNumber : rollNumber});
+    if (role === "student" && rollNumber) {
+        getUser = await User.findOne({ rollNumber: rollNumber });
+    } else {
+        getUser = await User.findOne({ email: email });
     }
 
     if (getUser) {
         return res.status(400).json({ message: "Account already exists, Kindly login" });
     }
 
-    const newUser = new User({ email, password, name, role, batch, block:req.user.block, rollNumber });
+    const newUser = new User({ email, password, name, role, batch, block: block || req.user.block, rollNumber });
     await newUser.save();
 
     if (!newUser) {
@@ -77,7 +77,7 @@ export const registerUser = asynchandler(async (req, res) => {
 // Login
 export const loginUser = asynchandler(async (req, res) => {
     const { email, password, rollNumber } = req.body;
-    
+
     if (!email && !rollNumber)
         return res.status(400).json({ message: "Email or Roll Number is required" });
 
@@ -99,8 +99,7 @@ export const loginUser = asynchandler(async (req, res) => {
     if (!match)
         return res.status(401).json({ message: "Invalid credentials" });
 
-    if(!finduser.access)
-    {
+    if (!finduser.access) {
         return res.status(401).json({ message: "Account is blocked Kindly contact admin" });
     }
 
@@ -118,7 +117,7 @@ export const loginUser = asynchandler(async (req, res) => {
 export const removeUser = asynchandler(async (req, res) => {
     try {
         const { userId } = req.params;
-        const user = await User.findByIdAndDelete({ _id: userId});
+        const user = await User.findByIdAndDelete({ _id: userId });
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -138,7 +137,7 @@ export const toggleAccess = asynchandler(async (req, res) => {
         }
         user.access = !user.access;
         await user.save();
-        res.status(200).json({ message: "User access toggled successfully",access:user.access });
+        res.status(200).json({ message: "User access toggled successfully", access: user.access });
     } catch (error) {
         res.status(500).json({ message: "Something went wrong" });
     }

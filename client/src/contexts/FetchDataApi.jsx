@@ -24,6 +24,7 @@ export const FetchDataProvider = ({ children }) => {
     const [allMyIssues, setAllMyIssues] = useState([]);
 
     const [allStats, setAllStats] = useState([]);
+    const [allAdmins, setAllAdmins] = useState([]);
 
 
     // fetch all stats
@@ -136,6 +137,15 @@ export const FetchDataProvider = ({ children }) => {
             console.error('Error fetching all faculties:', error);
         }
     }, []);
+    // fetch all admins
+    const fetchAllAdmins = useCallback(async () => {
+        try {
+            const response = await axiosInstance.get('/role/admins/all');
+            setAllAdmins(response.data);
+        } catch (error) {
+            console.error('Error fetching all faculties:', error);
+        }
+    }, []);
 
     // fetch all students
     const fetchAllStudents = useCallback(async () => {
@@ -151,6 +161,10 @@ export const FetchDataProvider = ({ children }) => {
         if (!currUser) return;
         fetchAllLabs();
         fetchDashboardStats();
+        if(currUser.role==='super-admin'){
+            fetchAllAdmins();
+            
+        }
         if (currUser.role === 'admin') {
             fetchAllFaculties();
             fetchAllIssues();
@@ -190,7 +204,7 @@ export const FetchDataProvider = ({ children }) => {
             allMyIssues, setAllMyIssues,
             allMyResRequests, setAllMyResRequests,
             allStats, setAllStats,
-
+            allAdmins, setAllAdmins,
             // functions
             fetchAllLabs,
             fetchAllFeedbacks,
@@ -203,7 +217,8 @@ export const FetchDataProvider = ({ children }) => {
             fetchAllFeedbacksByUserId,
             fetchAllResRequestsByUserId,
             fetchAllIssuesByUserId,
-            fetchDashboardStats
+            fetchDashboardStats,
+            fetchAllAdmins
         }}>
             {children}
         </FetchDataContext.Provider>

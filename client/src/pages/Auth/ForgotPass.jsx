@@ -67,7 +67,7 @@ const ForgotPass = () => {
              !linkSent?       <form className="w-full" onSubmit={(e) => handleSubmit(e)}>
 
                      <input className='w-full my-2 p-2 px-3  outline-none rounded-md bg-gray-50 dark:bg-stone-800 dark:text-gray-50 '
-                            type="email" onChange={handleChange} name="email" id="" placeholder='Email or Roll Number' required />
+                            type="email" onChange={handleChange} name="email" id="" placeholder='Email ' required />
                         <br />
                     
                             <div className='relative'>
