@@ -3,8 +3,8 @@ import { userData } from "../../recoil/states"
 import Loader from "../../components/Loaders/Loader";
 
 
-export default function ReqCards({handler, req, loading }) {
-  const [currUser,setCurrUser] =useRecoilState(userData);
+export default function ReqCards({ handler, req, loading }) {
+  const [currUser, setCurrUser] = useRecoilState(userData);
   return (
     <div
       className="p-2 bg-white dark:bg-stone-900 rounded hover:scale-105 cursor-pointer 
@@ -18,7 +18,13 @@ export default function ReqCards({handler, req, loading }) {
       </div>
 
       <div className='p-2'>
-
+        {
+          currUser.role === 'admin' &&
+          <div className="flex items-center mb-1 justify-end gap-3 text-xs">
+            <p className='text-emerald-700 '>By: {req?.requestedBy?.name}</p>
+            <p className='text-emerald-700 '>Roll: {req?.requestedBy?.rollNumber}</p>
+          </div>
+        }
         <p className='text-emerald-700 '>For: {req.resourceType}</p>
         <p className="text-sm">{req.requestDesc}</p>
         <p className={`mt-2 text-sm ${req.status === 'approved'
@@ -30,23 +36,23 @@ export default function ReqCards({handler, req, loading }) {
           {req.status}
         </p>
       </div>
-{
-    currUser.role==='admin' && req.status === 'pending' && <div className="flex items-center gap-4 justify-end">
-        {/* aprrove,reject */}
-        <button 
-        disabled={loading}
-        onClick={()=>handler(req._id, 'approved')}
-        className="bg-green-800 hover:bg-green-700 text-white p-2 rounded">
-          {loading? <Loader/> :"Approve"}
-        </button>
-        <button 
-        disabled={loading}
+      {
+        currUser.role === 'admin' && req.status === 'pending' && <div className="flex items-center gap-4 justify-end">
+          {/* aprrove,reject */}
+          <button
+            disabled={loading}
+            onClick={() => handler(req._id, 'approved')}
+            className="bg-green-800 hover:bg-green-700 text-white p-2 rounded">
+            {loading ? <Loader /> : "Approve"}
+          </button>
+          <button
+            disabled={loading}
 
-        onClick={()=>handler(req._id, 'rejected') }
-        className="bg-red-800 hover:bg-red-700 text-white p-2 rounded">
-        {  loading ? <Loader/> : "Reject"}
-        </button>
-      </div>}
+            onClick={() => handler(req._id, 'rejected')}
+            className="bg-red-800 hover:bg-red-700 text-white p-2 rounded">
+            {loading ? <Loader /> : "Reject"}
+          </button>
+        </div>}
     </div>
   )
 }
