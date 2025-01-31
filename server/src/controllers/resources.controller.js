@@ -14,30 +14,13 @@ export const addNewLabResource = asyncHandler(async (req, res) => {
         resolution, screenType, peripheralType, assignedTo, resourceId } = req.body;
 
         console.log(req.body);
-    if (!labId || !resourceType || !resourceName || !code) {
+    if (!labId || !resourceType ) {
         res.status(400);
         throw new Error("labId, resourceType, resourceName, and code are required");
     }
 
     const newResource = await Resource.create({
-        labId,
-        resourceType,
-        resourceName,
-        code,
-        status,
-        brand,
-        model,
-        serialNumber,
-        purchaseDate,
-        licenseKey,
-        version,
-        expiryDate,
-        softwareStatus,
-        resolution,
-        screenType,
-        peripheralType,
-        assignedTo,
-        resourceId
+        ...req.body
     });
 
     // Assign the new resource to the lab
@@ -106,7 +89,6 @@ export const updateResourceStatus = asyncHandler(async (req, res) => {
         throw new Error("Resource not found");
     }
 });
-
 
 
 // Get all resources by labId

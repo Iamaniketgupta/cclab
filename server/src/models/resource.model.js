@@ -7,30 +7,18 @@ const ResourceSchema = new mongoose.Schema({
 
     resourceType: {
         type: String,
-        enum: ['computer', 'projector', 'peripheral', 'software'],
+        enum: ['computer', 'software'],
         required: true
     },
-
-    resourceId: { // e.g. computer resource id if we are adding mouse,software or keyboard etc associated with computer
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Resource',
-    },
-
-    // valid resource name
-    resourceName: {
-        type: String,
-        required: true,
-        trim: true
-    },
-
-    // a unique and structured code for the resource is expected
-    code: {
+ 
+ 
+     code: {
         type: String,
         unique: true,
         trim: true,
         lowercase: true,
-        required: true
-    },
+        sparse: true
+     },
 
      status: {
         type: String,
@@ -44,15 +32,15 @@ const ResourceSchema = new mongoose.Schema({
 
     // Hardware specific details
     brand: { type: String },
-    model: { type: String },
-    serialNumber: { type: String },
-    purchaseDate: { type: Date },
+    processor: { type: String },
+    ram: { type: String },
+    hardDisk: { type: String },
+   
 
     // Software specific details
-    licenseKey: { type: String, unique: true },
+    softwareName: { type: String },
     version: { type: String },
-    expiryDate: { type: Date },
-    softwareStatus: {
+     softwareStatus: {
         type: String,
         enum: ['active', 'expired'],
         default: 'active'

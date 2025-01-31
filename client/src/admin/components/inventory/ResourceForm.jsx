@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useFetchDataApi } from "../../../contexts/FetchDataApi";
 import Loader from "../../../components/Loaders/Loader";
+import { userData } from "../../../recoil/states";
+import { useRecoilState } from "recoil";
 export default function ResourceForm({
   loading,
   handleSubmit,
@@ -10,8 +12,8 @@ export default function ResourceForm({
 }) {
   const [showPassword, setShowPassword] = useState(false);
   const [resourceType, setResourceType] = useState("");
-    const { allLabs}= useFetchDataApi();
-  
+  const { allLabs } = useFetchDataApi();
+const [currUser,setCurrUser] = useRecoilState(userData);
 
   return (
     <form
@@ -23,6 +25,9 @@ export default function ResourceForm({
         Add Resource Details
       </h2>
 
+
+      {/* Name and Resource Type */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       {/* Select Lab */}
       <div>
         <label
@@ -40,52 +45,12 @@ export default function ResourceForm({
           value={data?.labId}
         >
           <option value="">Select a Lab</option>
-          {allLabs && allLabs.map((lab) => 
-          <option key={lab._id} value={lab._id}>{lab.labName} <span className="text-xs">({lab.labCode.toUpperCase()})</span></option>)}
-          
+          {allLabs && allLabs?.filter((lab) => lab.block === currUser?.block)?.map((lab) =>
+            <option key={lab._id} value={lab._id}>{lab.labName} <span className="text-xs">({lab.labCode.toUpperCase()})</span></option>)}
+
         </select>
       </div>
-
-      <div>
-          <label
-            htmlFor="resourceName"
-            className="block text-xs font-medium text-gray-700 dark:text-gray-300"
-          >
-            Resource Id
-          </label>
-          <input
-            type="text"
-            id="code"
-            required
-            name="code"
-            placeholder="Resource Id  e.g. PC-01"
-            className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-stone-800 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-1 focus:ring-emerald-800"
-            value={data?.code}
-            onChange={(e) => onChangeHandler(e)}
-          />
-        </div>
-      {/* Name and Resource Type */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Resource Name */}
-        <div>
-          <label
-            htmlFor="resourceName"
-            className="block text-xs font-medium text-gray-700 dark:text-gray-300"
-          >
-            Resource Name
-          </label>
-          <input
-            type="text"
-            id="resourceName"
-            required
-            name="resourceName"
-            placeholder=" Name"
-            className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-stone-800 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-1 focus:ring-emerald-800"
-            value={data?.resourceName}
-            onChange={(e) => onChangeHandler(e)}
-          />
-        </div>
-
+      
         {/* Resource Type */}
         <div>
           <label
@@ -107,17 +72,36 @@ export default function ResourceForm({
           >
             <option value="">Select Type</option>
             <option value="computer">Computer</option>
-            <option value="projector">Projector</option>
-            <option value="peripheral">Peripheral</option>
             <option value="software">Software</option>
           </select>
         </div>
+
+
       </div>
 
       {/* Conditional Fields */}
       {resourceType !== "software" && resourceType && (
         <>
           {/* For hardware resources */}
+          <div>
+          <label
+            htmlFor="resourceName"
+            className="block text-xs font-medium text-gray-700 dark:text-gray-300"
+          >
+            Resource Id
+          </label>
+          <input
+            type="text"
+            id="code"
+            required
+            name="code"
+            placeholder="Resource Id  e.g. PC-01"
+            className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-stone-800 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-1 focus:ring-emerald-800"
+            value={data?.code}
+            onChange={(e) => onChangeHandler(e)}
+          />
+        </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label
@@ -142,16 +126,16 @@ export default function ResourceForm({
                 htmlFor="model"
                 className="block text-xs font-medium text-gray-700 dark:text-gray-300"
               >
-                Model*
+                Ram Size in GB*
               </label>
               <input
                 type="text"
-                id="model"
-                name="model"
+                id="ram"
+                name="ram"
                 required
-                placeholder="Model"
+                placeholder="ram size"
                 className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-stone-800 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-1 focus:ring-emerald-800"
-                value={data?.model}
+                value={data?.ram}
                 onChange={(e) => onChangeHandler(e)}
               />
             </div>
@@ -162,32 +146,34 @@ export default function ResourceForm({
                 htmlFor="serialNumber"
                 className="block text-xs font-medium text-gray-700 dark:text-gray-300"
               >
-                Serial Number*
+                Processor*
               </label>
               <input
                 type="text"
-                id="serialNumber"
-                name="serialNumber"
-                placeholder="Serial Number"
+                id="processor"
+                name="processor"
+                placeholder="e.g. INTEL i5 11th Gen"
                 required
                 className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-stone-800 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-1 focus:ring-emerald-800"
-                value={data?.serialNumber}
+                value={data?.processor}
                 onChange={(e) => onChangeHandler(e)}
               />
             </div>
             <div>
               <label
-                htmlFor="purchaseDate"
+                htmlFor="hardDisk"
                 className="block text-xs font-medium text-gray-700 dark:text-gray-300"
               >
-                Purchase Date
+                HardDisk Size in GB
               </label>
               <input
-                type="date"
-                id="purchaseDate"
-                name="purchaseDate"
+                type="text"
+                id="hardDisk"
+                name="hardDisk"
+                placeholder="HardDisk Size in GB"
+                required
                 className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-stone-800 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-1 focus:ring-emerald-800"
-                value={data?.purchaseDate}
+                value={data?.hardDisk}
                 onChange={(e) => onChangeHandler(e)}
               />
             </div>
@@ -204,15 +190,15 @@ export default function ResourceForm({
                 htmlFor="licenseKey"
                 className="block text-xs font-medium text-gray-700 dark:text-gray-300"
               >
-                License Key
+                Software Name
               </label>
               <input
                 type="text"
-                id="licenseKey"
-                name="licenseKey"
-                placeholder="License Key"
+                id="softwareName"
+                name="softwareName"
+                placeholder="Software Name"
                 className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-stone-800 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-1 focus:ring-emerald-800"
-                value={data?.licenseKey}
+                value={data?.softwareName}
                 onChange={(e) => onChangeHandler(e)}
               />
             </div>
@@ -235,25 +221,7 @@ export default function ResourceForm({
               />
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label
-                htmlFor="expiryDate"
-                className="block text-xs font-medium text-gray-700 dark:text-gray-300"
-              >
-                Expiry Date
-              </label>
-              <input
-                type="date"
-                id="expiryDate"
-                name="expiryDate"
-                className="w-full mt-1 p-2 rounded-md border border-gray-300 dark:border-stone-800 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-300 focus:outline-none focus:ring-1 focus:ring-emerald-800"
-                value={data?.expiryDate}
-                onChange={(e) => onChangeHandler(e)}
-              />
-            </div>
-       
-          </div>
+     
         </>
       )}
 
@@ -267,7 +235,7 @@ export default function ResourceForm({
           Cancel
         </button>
         <button
-        disabled={loading}
+          disabled={loading}
           type="submit"
           className="px-4 py-2 rounded-md bg-emerald-800 text-white"
         >
