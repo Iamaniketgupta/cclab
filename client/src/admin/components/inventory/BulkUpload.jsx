@@ -189,11 +189,11 @@ export default function BulkUpload({ setOpenModal }) {
             {data.length > 0 && errors.length === 0 && (
                 <div className="mt-5">
                     <h3 className="text-lg font-bold">Valid Data Preview</h3>
-                    <table className="border-collapse border text-xs border-gray-300 w-full mt-2">
+                    <table className="border-collapse border text-xs border-gray-300 text-gray-100 dark:text-stone-900 w-full mt-2">
                         <thead>
                             <tr>
                                 {Object.keys(data[0]).map((key) => (
-                                    <th key={key} className="border p-2">{key}</th>
+                                    <th key={key} className="border p-2 text-gray-100 dark:text-stone-900">{key}</th>
                                 ))}
                             </tr>
                         </thead>
@@ -201,7 +201,7 @@ export default function BulkUpload({ setOpenModal }) {
                             {data.map((row, index) => (
                                 <tr key={index}>
                                     {Object.values(row).map((val, i) => (
-                                        <td key={i} className="border p-2">{val}</td>
+                                        <td key={i} className="border p-2 text-gray-100 dark:text-stone-900">{val}</td>
                                     ))}
                                 </tr>
                             ))}

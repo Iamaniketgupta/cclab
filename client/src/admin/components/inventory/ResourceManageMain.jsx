@@ -131,7 +131,7 @@ export default function ResourceManageMain() {
         <ResourceForm
           loading={loading} handleSubmit={handleSubmit}
           data={data} setOpenModal={setOpenModal} onChangeHandler={onChangeHandler} />
-      </ModalWrapper>\
+      </ModalWrapper>
       <ModalWrapper open={openBulkModal} setOpenModal={setOpenBulkModal} outsideClickClose={false}>
          <BulkUpload  setOpenModal={setOpenBulkModal} />
       </ModalWrapper>
