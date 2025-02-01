@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil';
  import Content from './components/dashboard/Content';
 import IssuesMain from './components/issues/IssuesMain';
 import FeedBackMain from './components/feeback/FeedBackMain';
-// import ReqResMain from './components/requests/ReqResMain';
+import ReqResMain from './components/requests/ReqResMain';
 import { MdDarkMode, MdLightMode } from 'react-icons/md';
 import ProfileIcon from './components/profile/ProfileIcon';
 import LabsMain from './components/labs/LabsMain';
