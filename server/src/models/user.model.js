@@ -31,13 +31,7 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     block: {
-        type: String,
-         validate: {
-             validator: function (block) {
-                return this.role !== 'super-admin' && block;
-            },
-            message: "Block is required "
-        }
+        type: String
     },
     role: {
         type: String,
