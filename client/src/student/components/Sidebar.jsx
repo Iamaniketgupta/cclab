@@ -65,7 +65,7 @@ export default function Sidebar({ setTab, tab, setOpen }) {
                     className='dark:text-gray-100 sticky md:hidden bottom-2 hover:text-slate-500 cursor-pointer' />
                 <img src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0chhs7PCMWtuhOLg8yYBynOz2qsPmX_ydmCJwci-rkpfXh47lW_2YRRgT7skeD8INGrA&usqp=CAU"}
                     alt="pcte" className='w-8 h-8 rounded- object-cover' />
-                {open && "PCTE LABS"}
+                {open && "CampusFlow"}
             </div>
 
             <div className='flex flex-col mt-5 gap-2'>

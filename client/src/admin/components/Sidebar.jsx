@@ -99,7 +99,7 @@ export default function Sidebar({ setTab, tab, setOpen }) {
                     alt="pcte"
                     className='w-8 h-8 rounded- object-cover'
                 />
-                {open && "PCTE LABS"}
+                {open && "CampusFlow"}
             </div>
 
             <div className='flex flex-col mt-5 gap-2'>
