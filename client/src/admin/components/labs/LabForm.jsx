@@ -100,7 +100,7 @@ export default function LabForm({ loading,
         >
           Block
         </label>
-        <select name="block" disabled onChange={(e) => onChangeHandler(e)}
+        <select name="block" disabled defaultValue={currUser?.block} value={currUser?.block} onChange={(e) => onChangeHandler(e)}
           className='w-full  p-2 rounded-md border border-gray-300 dark:border-stone-700 bg-white dark:bg-stone-900 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-emerald-500' id="">
           {["ET", "MT", "HM", "PH"].map((block) => (
             <option key={block} value={block}>{block}</option>
