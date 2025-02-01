@@ -17,7 +17,7 @@ export default function IssueCard({ issue, handler, loading }) {
                     <h3 className='text-xs font-bold text-gray-800 dark:text-gray-100'>Type - {issue?.issueType?.charAt(0).toUpperCase() + issue?.issueType?.slice(1)}</h3>
                     {currUser?.role === 'admin' && <div className="dark:text-gray-100">
                         <p >By : {issue?.reportedBy?.name}</p>
-                        <p> Roll: {issue?.reportedBy?.rollNumber}</p>
+                        {/* <p> Roll: {issue?.reportedBy?.rollNumber}</p> */}
                     </div>}
                 </div>
 
