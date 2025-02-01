@@ -57,6 +57,7 @@ export const bulkUploadStudents = async (req, res) => {
             });
         }
 
+        // console.log(validStudents)
          if (validStudents.length === 0) {
             return res.status(400).json({
                 message: "No valid student records to insert, might be already existing or empty data",

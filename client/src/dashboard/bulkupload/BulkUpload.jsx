@@ -77,6 +77,7 @@ const BulkUpload = ({ setBulkOpenModal }) => {
             }
         } finally {
             setUploading(false);
+            setBulkOpenModal(false)
         }
     };
 

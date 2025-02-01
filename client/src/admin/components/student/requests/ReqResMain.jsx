@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import ModalWrapper from '../../../common/ModalWrapper';
-import ReqCards from '../../../dashboard/requests/ReqCards';
-import { useFetchDataApi } from '../../../contexts/FetchDataApi';
+import ModalWrapper from '../../../../common/ModalWrapper';
+import ReqCards from '../../../../dashboard/requests/ReqCards';
+import { useFetchDataApi } from '../../../../contexts/FetchDataApi';
  import {toast} from "react-toastify"
-import Loader from "../../../components/Loaders/Loader"
-import axiosInstance from '../../../utils/axiosInstance';
+import Loader from "../../../../components/Loaders/Loader"
+import axiosInstance from '../../../../utils/axiosInstance';
 import { useRecoilState } from 'recoil';
-import { userData } from '../../../recoil/states';
+import { userData } from '../../../../recoil/states';
 export default function ReqResMain() {
 
   const [activeTab, setActiveTab] = useState('pending');
