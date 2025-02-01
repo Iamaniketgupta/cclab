@@ -13,10 +13,10 @@ userRouter.post('/verifyforgotpass',verifyEmailandChangePassword);
 userRouter.get('/verifyauth',verifyUserToken);
 userRouter.delete('/:userId',verifyAuth,removeUser);
 userRouter.put('/toggle-access/:userId',verifyAuth,toggleAccess);
-userRouter.put('/update/:userId',verifyAuth,updateUser);
 
 // User Profile
 userRouter.put('/update/avatar',verifyAuth,uploader.single('avatar'),updateAvatar);
+userRouter.put('/update/:userId',verifyAuth,updateUser);
 userRouter.delete('/delete/avatar',verifyAuth,deleteAvatar);
 
 export default userRouter

@@ -25,11 +25,14 @@ export const updateAvatar = expressAsyncHandler(async (req, res) => {
 
     const imageUrl = await uploadToCloudinary(avatar.path);
     console.log(imageUrl)
+    // console.log(image)
     if (!imageUrl?.url) {
         return res.status(500).json({ message: "something went wrong while uploading file to cloudinary" });
     }
 
-    const user = await User.findByIdAndUpdate(req.user._id, { avatar: imageUrl?.url }, { new: true });
+    console.log({user:req.user._id})
+
+    const user = await User.findByIdAndUpdate({_id:req.user._id}, { avatar: imageUrl?.url }, { new: true });
     if (!user)
         return res.status(500).json({ message: "something went wrong while updating profile" });
 
@@ -59,7 +62,7 @@ export const deleteAvatar = expressAsyncHandler(async (req, res) => {
 export const updateUser = expressAsyncHandler(async (req, res) => {
     
     const user = await User.findByIdAndUpdate(req.params.userId, req.body, { new: true });
-    console.log(user)
+    // console.log(user)
     if (!user)
         return res.status(500).json({ message: "something went wrong while updating profile" });
 
