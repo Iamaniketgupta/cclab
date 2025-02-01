@@ -83,7 +83,16 @@ const BulkUpload = ({ setBulkOpenModal }) => {
 
     return (
         <div className='bg-white p-4 min-w-full h-full m-2  rounded-md text-stone-800 dark:text-gray-100 dark:bg-stone-900'>
-            <h1 className='text-2xl font-bold'>Bulk Upload</h1>
+
+            <div className="flex items-center justify-between gap-4">
+
+                <h1 className='text-2xl font-bold'>Bulk Upload</h1>
+
+                <button
+                    onClick={() => setBulkOpenModal(false)}
+                    className="bg-red-500 p-2 rounded-md px-4 text-xs text-white hover:bg-red-600">Cancel</button>
+
+            </div>
             <input
                 type="file"
                 className='mt-2 p-2 border rounded-md text-xs text-stone-800 dark:text-stone-100 border-stone-300 outline-none dark:bg-stone-900 dark:border-stone-700 focus:ring-1 focus:ring-emerald-800'
