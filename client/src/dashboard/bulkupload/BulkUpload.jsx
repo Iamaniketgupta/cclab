@@ -87,10 +87,15 @@ const BulkUpload = ({ setBulkOpenModal }) => {
             <div className="flex items-center justify-between gap-4">
 
                 <h1 className='text-2xl font-bold'>Bulk Upload</h1>
-
                 <button
-                    onClick={() => setBulkOpenModal(false)}
-                    className="bg-red-500 p-2 rounded-md px-4 text-xs text-white hover:bg-red-600">Cancel</button>
+                    onClick={() => {
+                        setPreviewData([])
+                        setBulkOpenModal(false);
+                    }}
+                    className="px-4 py-2 rounded-lg bg-red-500 text-white font-medium hover:bg-red-600"
+                >
+                    Cancel
+                </button>
 
             </div>
             <input
