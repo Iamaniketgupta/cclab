@@ -38,6 +38,8 @@ export default function StudentRows({ student, handleInputChange,
           value={isEditing && student._id === editStudentId ? data.rollNumber : student.rollNumber}
           type="text"
           minLength={6}
+          name="rollNumber"
+          required
           maxLength={10}
           onChange={(e) =>
             handleInputChange(e)

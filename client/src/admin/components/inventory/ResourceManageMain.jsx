@@ -8,6 +8,7 @@ import { RiDeleteBin7Fill } from "react-icons/ri";
 import { userData } from '../../../recoil/states';
 import { useRecoilState } from 'recoil';
 import BulkUpload from './BulkUpload';
+import StatsWidgets from './Stats';
 
 export default function ResourceManageMain() {
   const [openModal, setOpenModal] = useState(false);
@@ -29,7 +30,7 @@ export default function ResourceManageMain() {
     hardDisk: '',
     softwareName: '',
     version: ''
-   });
+  });
 
 
   const [search, setSearch] = useState('');
@@ -86,7 +87,7 @@ export default function ResourceManageMain() {
   const filteredResources = allResources?.filter((item) => item.labId.block === curruser.block).filter((resource) => {
     const matchesSearch =
       resource.code.toLowerCase().includes(search.toLowerCase())
-     const matchesLab = filter.lab ? resource.labId._id === filter.lab : true;
+    const matchesLab = filter.lab ? resource.labId._id === filter.lab : true;
     const matchesType = filter.resourceType
       ? resource.resourceType === filter.resourceType
       : true;
@@ -133,7 +134,7 @@ export default function ResourceManageMain() {
           data={data} setOpenModal={setOpenModal} onChangeHandler={onChangeHandler} />
       </ModalWrapper>
       <ModalWrapper open={openBulkModal} setOpenModal={setOpenBulkModal} outsideClickClose={false}>
-         <BulkUpload  setOpenModal={setOpenBulkModal} />
+        <BulkUpload setOpenModal={setOpenBulkModal} />
       </ModalWrapper>
 
       <div className="flex justify-end my-4 gap-4 flex-wrap">
@@ -152,7 +153,7 @@ export default function ResourceManageMain() {
         </button>
       </div>
 
-      <div className="my-4 flex gap-4">
+      <div className="my-4 flex flex-wrap gap-4">
         <input
           type="text"
           placeholder="Search by Code or Name"
@@ -193,6 +194,12 @@ export default function ResourceManageMain() {
         </div>
       </div>
 
+      {/* Stats */}
+      <div className='my-4'>
+        <StatsWidgets filteredResources={filteredResources} />
+      </div>
+
+
       <div className='overflow-x-auto'>
 
         <table className="min-w-full table-auto text-sm  border-stone-900">
@@ -200,6 +207,7 @@ export default function ResourceManageMain() {
             <tr className="bg-emerald-700">
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-100">Code</th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-100">Lab</th>
+              <th className="px-4 py-2 text-left text-xs font-medium text-gray-100">Lab Code</th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-100">Type</th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-100">Details</th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-100">Status</th>
@@ -215,6 +223,7 @@ export default function ResourceManageMain() {
        outline-none border-b dark:border-stone-900 transition-colors dark:text-gray-100">
                     <td className="px-4 py-2 text-xs ">{resource?.code || 'N/A'}</td>
                     <td className="px-4 py-2 text-xs ">{resource?.labId?.labName || 'N/A'}</td>
+                    <td className="px-4 py-2 text-xs ">{resource?.labId?.labCode || 'N/A'}</td>
                     <td className="px-4 py-2 text-xs ">{resource.resourceType}</td>
                     <td className="px-4 py-2 text-xs ">
                       {resource.resourceType === 'computer' ? (
@@ -228,7 +237,7 @@ export default function ResourceManageMain() {
                         <>
                           <div className='font-bold'>  {resource?.softwareName || 'N/A'}</div>
                           <div>Version: {resource?.version || 'N/A'}</div>
-                          <div>Expiry: {resource?.expiryDate ? resource?.expiryDate : 'N/A'}</div>
+                          {/* <div>Expiry: {resource?.expiryDate ? resource?.expiryDate : 'N/A'}</div> */}
                         </>
                       ) : (
                         'N/A'

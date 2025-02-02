@@ -55,6 +55,7 @@ export default function FacultyManageMain() {
           ...data,
           block: currUser.block
         })
+        console.log(res)
         toast.success(res?.data?.message || 'Successfully Added');
 
       }
@@ -65,6 +66,7 @@ export default function FacultyManageMain() {
       setData({
         name: '',
         email: '',
+        role: 'faculty',  
         password: '',
       });
 

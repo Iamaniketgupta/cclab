@@ -7,10 +7,11 @@ import Loader from "../../../components/Loaders/Loader";
 import AllSchedules from "../../../dashboard/AllSchedules";
 import { useRecoilState } from "recoil";
 import { userData } from "../../../recoil/states";
- 
+import ModalWrapper from "../../../common/ModalWrapper";
+
 export default function LabSchedulesMain() {
 
-  const { allSchedules, allLabs ,fetchAllSchedules} = useFetchDataApi();
+  const { allSchedules, allLabs, fetchAllSchedules } = useFetchDataApi();
   const [isLoading, setIsLoading] = useState(false);
   const [currUser, setCurrUser] = useRecoilState(userData);
 
@@ -31,9 +32,31 @@ export default function LabSchedulesMain() {
     purpose: "",
   });
 
+  const checkOverlappingSchedule = (date, newSchedule) => {
+    const localSchedules = rows.filter((schedule) => schedule.date === date);
+
+    for (let schedule of localSchedules) {
+      const existingStartTime = new Date(`${date}T${schedule.startTime}`);
+      const existingEndTime = new Date(`${date}T${schedule.endTime}`);
+      const newStartTime = new Date(`${date}T${newSchedule.startTime}`);
+      const newEndTime = new Date(`${date}T${newSchedule.endTime}`);
+
+      if (
+        (newStartTime < existingEndTime && newEndTime > existingStartTime) ||
+        (newStartTime >= existingStartTime && newStartTime < existingEndTime) ||
+        (newEndTime > existingStartTime && newEndTime <= existingEndTime)
+      ) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+
+
   const handleDateChange = (e) => {
     const newDate = e.target.value;
-    if(newSchedule.startTime > newSchedule.endTime){
+    if (newSchedule.startTime > newSchedule.endTime) {
       alert("Start time should be less than end time");
       return;
     }
@@ -70,6 +93,14 @@ export default function LabSchedulesMain() {
       newSchedule.endTime &&
       newSchedule.purpose
     ) {
+
+      // check for overlapping schedules
+      if (checkOverlappingSchedule(currentDate, newSchedule)) {
+        toast.error("Overlapping time slot found for this venue!");
+        return;
+      }
+
+
       const newRows = [...rows, { ...newSchedule, date: currentDate }];
       setRows(newRows);
       localStorage.setItem("schedules", JSON.stringify(newRows));
@@ -91,7 +122,7 @@ export default function LabSchedulesMain() {
       alert("No schedules to save!");
       return;
     }
-    if(!confirm("Are you sure you want to save this schedule?")){
+    if (!confirm("Are you sure you want to save this schedule?")) {
       return;
     }
     const scheduleData = {
@@ -107,8 +138,8 @@ export default function LabSchedulesMain() {
 
     };
 
-    
-    
+
+
     try {
       setIsLoading(true);
       const response = await axiosInstance.post("/schedule/add", scheduleData);
@@ -132,8 +163,26 @@ export default function LabSchedulesMain() {
     }
   };
 
+  const [outLoading, setOutLoading] = useState(false);
+  const handleRemove = async (id) => {
+    if (!confirm("Are you sure you want to remove this schedule?")) return;
+    try {
+      setOutLoading(true);
+      console.log(id)
+      const res = await axiosInstance.delete(`/schedule/remove/${id}`);
+      // console.log(res);
+      toast.success(res?.data?.message || 'Success');
+      fetchAllSchedules();
+      setOutLoading(false);
+    } catch (error) {
+      toast.error(error?.response?.data?.message || 'Something went wrong');
+      console.log(error);
+      setOutLoading(false);
+    }
+  }
 
-  console.log(allSchedules)
+
+  // console.log(allSchedules)
 
   return (
 
@@ -149,19 +198,14 @@ export default function LabSchedulesMain() {
         >
           All Schedules
         </button>
-     {  currUser.role === "faculty" && <button
+        {currUser.role === "faculty" && <button
           className={`px-4 py-2 rounded-md text-sm font-medium ${tab === "NewSchedule" ? "bg-emerald-500 text-white" : "bg-white border dark:border-stone-700 dark:bg-stone-900 shadow-sm dark:text-gray-100 outline-none text-gray-600"
             }`}
           onClick={() => setTab("NewSchedule")}
         >
           Create
-        </button>}
-
-
-
-
-
-
+        </button>
+        }
 
       </div>
 
@@ -171,6 +215,7 @@ export default function LabSchedulesMain() {
         {
           allSchedules?.length > 0 ? (
             <AllSchedules
+              handleRemove={handleRemove}
             />
           ) : (
             <div className="flex justify-center items-center">
@@ -279,7 +324,11 @@ export default function LabSchedulesMain() {
         )}
       </>
       }
-
+      {
+        outLoading && <ModalWrapper open={outLoading} setOpenModal={setOutLoading} outsideClickClose={false} >
+          <Loader />
+        </ModalWrapper>
+      }
     </div>
   );
 }

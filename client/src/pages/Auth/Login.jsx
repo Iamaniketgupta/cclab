@@ -34,7 +34,7 @@ export default function Login() {
   }
   useEffect(() => {
      const token= getCookie('authToken') 
-     if(currentUserData || token ){
+     if(currentUserData ){
       navigate('/')
      }
   },[])

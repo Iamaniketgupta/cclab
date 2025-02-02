@@ -1,5 +1,7 @@
 import asyncHandler from "express-async-handler";
 import Request from "../models/requests.model.js";
+import sendEmail from "../service/sendMail.js";
+import Lab from "../models/lab.model.js";
 
 // Raise a new resource request
 export const raiseNewRequest = asyncHandler(async (req, res) => {
@@ -9,6 +11,12 @@ export const raiseNewRequest = asyncHandler(async (req, res) => {
         res.status(400);
         throw new Error("All fields are required");
     }
+    
+    const labdetails = await Lab.findById(labId);
+
+    if (!labdetails) {
+        res.status(404).json({ message: "Invalid Lab Id" });
+    }
 
     const newRequest = await Request.create({
         labId,
@@ -17,7 +25,27 @@ export const raiseNewRequest = asyncHandler(async (req, res) => {
         requestDesc,
     });
 
+    // find the admin of the lab block 
+    const admin = await User.findOne({ role: "admin" , block: labdetails.block });
+
+
+
     if (newRequest) {
+
+        // await sendEmail({
+        //     to: req.user.email,
+        //     subject: `Request for ${resourceType} raised successfully`,
+        //     text: `Your request for ${resourceType} has been raised successfully.`
+        // });
+
+        if(admin){
+        await sendEmail({
+            to: admin.email,
+            subject: `${req.user.name} raised a request for ${resourceType}`,
+            text: `${req.user.name} raised a request for ${resourceType}. Kindly, review the request.`,
+        });
+    }
+
         res.status(201).json({
             message: "Request raised successfully",
             request: newRequest,
@@ -78,11 +106,23 @@ export const updateRequestStatus = asyncHandler(async (req, res) => {
         throw new Error("Invalid status value");
     }
 
-    const request = await Request.findById(req.params.id);
+    const request = await Request.findById(req.params.id).populate(
+        "requestedBy",
+        "name email rollNumber"
+    );
 
     if (request) {
         request.status = status;
         const updatedRequest = await request.save();
+
+if(request.requestedBy.email){
+        await sendEmail({
+            to: request.requestedBy.email,
+            subject: `Your request for ${request.resourceType} has been ${status}`,
+            text: `Your request for ${request.resourceType} has been ${status}.`,
+        });
+    }
+
 
         res.status(200).json({
             message: "Request status updated successfully",

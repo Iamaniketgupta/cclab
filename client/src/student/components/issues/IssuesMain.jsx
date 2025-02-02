@@ -8,8 +8,8 @@ import IssueCard from "../../../dashboard/issues/IssuesCard";
 export default function IssuesMain() {
   const [activeTab, setActiveTab] = useState('Reported');
   const [loading, setLoading] = useState(false);
-  const { allMyIssues, allLabs, fetchAllIssuesByUserId } = useFetchDataApi();
-
+  const { allMyIssues, allLabs, fetchAllIssuesByUserId, allResources } = useFetchDataApi();
+  console.log({ allResources })
 
   const filteredIssues = activeTab === 'All Issues'
     ? allMyIssues
@@ -73,7 +73,7 @@ export default function IssuesMain() {
               <label
                 htmlFor="labId"
                 className='block mb-2 font-medium text-gray-700 dark:text-stone-300'>
-                Select a Lab:
+                Select a Lab <span className='text-red-500'>*</span>:
               </label>
               <select
                 name="labId"
@@ -83,7 +83,7 @@ export default function IssuesMain() {
                 onChange={(e) => onChangeHandler(e)}
                 required
               >
-                <option value="" disabled>Select a lab</option>
+                <option value="" disabled>Select a lab *</option>
                 {allLabs.map((lab) => (
                   <option key={lab._id} value={lab._id}>{lab.labName}</option>
                 ))}
@@ -95,7 +95,7 @@ export default function IssuesMain() {
               <label
                 htmlFor="labId"
                 className='block mb-2 font-medium text-stone-700 dark:text-stone-300'>
-                Issue Type:
+                Issue Type <span className='text-red-500'>*</span>:
               </label>
               <select
                 name="issueType"
@@ -105,7 +105,7 @@ export default function IssuesMain() {
                 onChange={(e) => onChangeHandler(e)}
                 required
               >
-                <option value="" disabled>Select Issue Type</option>
+                <option value="" disabled>Select Issue Type* </option>
                 {["hardware", "software", "network", "other"].map((lab, idx) => (
                   <option key={idx} value={lab}>{lab.charAt(0).toUpperCase() + lab.slice(1)}  </option>
                 ))}
@@ -119,8 +119,7 @@ export default function IssuesMain() {
                 className='block mb-2 font-medium text-stone-700 dark:text-stone-300'>
                 Resource ID/Code:
               </label>
-              <input
-                type="text"
+              <select
                 name="resourceId"
                 id="resourceId"
                 className='w-full p-2 rounded-md border border-stone-300 dark:border-stone-700 bg-white dark:bg-stone-800 text-stone-800 dark:text-stone-300'
@@ -128,14 +127,24 @@ export default function IssuesMain() {
                 value={data.resourceId}
                 onChange={(e) => onChangeHandler(e)}
                 required
-              />
+              >
+                <option value="" disabled>Select Resource ID</option>
+                {allResources?.filter((resource) => resource.labId._id === data.labId)
+                .sort((a, b) => a.code.localeCompare(b.code))
+                .map((resource) => (
+                  <option key={resource._id}
+                    value={resource._id}>{resource.code || resource?.softwareName}</option>
+                ))}
+
+
+              </select>
             </div>
 
             <div>
               <label
                 htmlFor="issueDesc"
                 className='block mb-2 font-medium text-stone-700 dark:text-stone-300'>
-                Description your Issue:
+                Description your Issue <span className='text-red-500'>*</span>:
               </label>
               <textarea
                 name="issueDesc"

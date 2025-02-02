@@ -60,7 +60,7 @@ export default function FeedBackMain() {
                             required
                         >
                             <option value="" >All labs</option>
-                            {allLabs?.map((lab) => (
+                            {allLabs?.filter((lab) => lab.block === curruser.block)?.map((lab) => (
                                 <option key={lab._id} value={lab._id}>{lab.labName} <span className='text-xs'>({lab.labCode?.toUpperCase()})</span></option>
                             ))}
                         </select>

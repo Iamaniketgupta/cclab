@@ -35,9 +35,10 @@ export const updateSchedule = asyncHandler(async (req, res) => {
 
 // Remove a schedule
 export const removeSchedule = asyncHandler(async (req, res) => {
-  const { id } = req.params;
+  const { scheduleId } = req.params;
 
-  const removedSchedule = await Schedule.findByIdAndDelete(id);
+ 
+  const removedSchedule = await Schedule.findByIdAndDelete(scheduleId);
 
   if (!removedSchedule) {
     res.status(404).json({ message: "Schedule not found" });

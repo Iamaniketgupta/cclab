@@ -13,8 +13,8 @@ const ScheduleSchema = new mongoose.Schema({
       },
       class: { type: String, required: true },
       facultyName: { type: String, required: true },
-      startTime: { type: Date, required: true },
-      endTime: { type: Date, required: true },
+      startTime: { type: String, required: true },
+      endTime: { type: String, required: true },
       purpose: { type: String, required: true }
     }
   ],

@@ -1,5 +1,8 @@
 import asyncHandler from "express-async-handler";
 import Issue from "../models/issue.model.js";
+import sendEmail from "../service/sendMail.js";
+import User from "../models/user.model.js";
+import Lab from "../models/lab.model.js";
 
 
 // Raise a new issue
@@ -10,6 +13,13 @@ export const raiseIssue = asyncHandler(async (req, res) => {
         res.status(400).json({ message: "All fields are required." });
         return;
     }
+    const labdetails = await Lab.findById(labId);
+
+    if (!labdetails) {
+        return res.status(404).json({ message: "Lab not found." });
+     
+    }
+    const admin = await User.findOne({ role: "admin" , block: labdetails.block });
 
     const issue = await Issue.create({
         resourceId,
@@ -18,6 +28,15 @@ export const raiseIssue = asyncHandler(async (req, res) => {
         issueDesc,
         reportedBy: req.user._id,
     });
+
+//    console.log(admin.email)
+    if(admin){
+    await sendEmail({
+        to: admin.email,
+        subject: `New issue raised by ${req.user.name}`,
+        text:  `New issue raised by ${req.user.name}. Issue details: ${issueDesc}`,
+    })
+}
 
     res.status(201).json({ message: "Issue raised successfully.", issue });
 });
@@ -32,7 +51,7 @@ export const updateIssueStatus = asyncHandler(async (req, res) => {
         return;
     }
 
-    const issue = await Issue.findById(issueId);
+    const issue = await Issue.findById(issueId).populate("reportedBy" , "name email rollNumber");
 
     if (!issue) {
         res.status(404).json({ message: "Issue not found." });
@@ -48,6 +67,15 @@ export const updateIssueStatus = asyncHandler(async (req, res) => {
     }
 
     await issue.save();
+   
+    if(issue.reportedBy.email){
+    await sendEmail({
+        to: issue.reportedBy.email,
+        subject: `CampusFlow Pcte : Your raised issue has been ${status}`,
+        text: `Your issue has been ${status}. Issue details: ${issue.issueDesc}`,
+    })
+    }
+
     res.status(200).json({ message: "Issue status updated successfully.", issue });
 });
 

@@ -14,6 +14,7 @@ import HomePage from './pages/HomePage'
 import ForgotPass from './pages/Auth/ForgotPass'
 import VerificationPage from './pages/VerificationPage'
 import Loader from './components/Loaders/Loader'
+ 
 
 
 
@@ -66,7 +67,7 @@ function App() {
     <Routes>
       <Route path="*" element={<NotFoundPage />} />
       <Route path="/" element={<HomePage />} />
-      <Route path="/login" element={<Login />} />
+       <Route path="/login" element={<Login />} />
 
       <Route path="/dashboard" element={<Dashboard />} />
 

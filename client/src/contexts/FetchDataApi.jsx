@@ -170,10 +170,10 @@ export const FetchDataProvider = ({ children }) => {
             fetchAllIssues();
             fetchAllFeedbacks();
             fetchAllResRequests();
-            fetchAllResources();
         }
         if (currUser.role === 'admin' || currUser.role === 'faculty') {
             fetchAllStudents();
+            fetchAllResources();
         }
         fetchAllSchedules();
         if (currUser.role === 'student') {

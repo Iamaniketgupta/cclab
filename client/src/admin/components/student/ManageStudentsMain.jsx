@@ -40,10 +40,10 @@ export default function ManageStudentsMain() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(data);
-    setLoading(true);
     try {
       if (isEditing) {
         if (!confirm("Are you sure you want to update this student?")) return;
+        setOutLoading(true);
         if (data.email === '' || data.name === '' || data.rollNumber === '' || data.batch === '') return toast.error('Kindly fill all the fields');
         const res = await axiosInstance.put(`/user/update/${editStudentId}`, {
           name: data.name,
@@ -51,12 +51,13 @@ export default function ManageStudentsMain() {
           batch: data.batch,
           rollNumber: data.rollNumber
         })
-        console.log(res)
+        // console.log(res)
         toast.success(res?.data?.message || 'Updated Successfully');
         setIsEditing(false);
         setEditStudentId('');
       }
       else {
+        setLoading(true);
         const res = await axiosInstance.post(`/user/register`, {
           ...data,
           block: currUser.block
@@ -80,6 +81,8 @@ export default function ManageStudentsMain() {
       console.log(error);
     } finally {
       setLoading(false);
+      setOutLoading(false);
+
 
     }
   }
@@ -143,6 +146,7 @@ export default function ManageStudentsMain() {
       name: '',
       email: '',
       password: '',
+      rollNumber: '',
       batch: '',
       role: "student"
     });
@@ -157,7 +161,7 @@ export default function ManageStudentsMain() {
       </ModalWrapper>
 
       <ModalWrapper open={openBulkModal} setOpenModal={setOpenBulkModal} outsideClickClose={false} >
-        <BulkUpload setBulkOpenModal={setOpenBulkModal}/>
+        <BulkUpload setBulkOpenModal={setOpenBulkModal} />
       </ModalWrapper>
 
       <div className="flex justify-end gap-4 flex-wrap text-xs my-4">

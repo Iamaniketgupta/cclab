@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
     },
     rollNumber: {
         type: String,
-        unique: true,
+        unique: [true, "Roll Number already exists"],
         sparse: true
     },
     batch: {
@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        unique: true,
+        unique: [true, "Email already exists"],
         sparse: true,
         lowercase: true,
         trim: true,

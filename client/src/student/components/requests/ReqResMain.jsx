@@ -9,11 +9,11 @@ import ReqCards from '../../../dashboard/requests/ReqCards';
  
 
 export default function ReqResMain() {
-  const { allLabs ,allMyResRequests , fetchAllResRequestsByUserId } = useFetchDataApi();
+  const { allLabs ,allMyResRequests , fetchAllResRequestsByUserId ,allResources} = useFetchDataApi();
   const [loading, setLoading] = useState(false);
   const [outLoading, setOutLoading] = useState(false);
   const [thankyouPopup, setThankyouPopup] = useState(false);
-console.log(allMyResRequests)
+// console.log({allRes: allResources})
   
   const [activeTab, setActiveTab] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');

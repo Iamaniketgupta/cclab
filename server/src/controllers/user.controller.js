@@ -29,7 +29,7 @@ export const registerUser = asynchandler(async (req, res) => {
 
     }
     const { email, password, name, role, block, batch, rollNumber } = req.body;
-
+     
     if (!name || !role) {
         return res.status(400).json({ message: "All Fields are required" });
     }
@@ -52,7 +52,7 @@ export const registerUser = asynchandler(async (req, res) => {
     }
 
     if (getUser) {
-        return res.status(400).json({ message: "Account already exists, Kindly login" });
+        return res.status(400).json({ message: "Account already exists" });
     }
 
     const newUser = new User({ email, password, name, role, batch, block: block || req.user.block, rollNumber });
@@ -67,11 +67,21 @@ export const registerUser = asynchandler(async (req, res) => {
     const userObject = newUser.toObject();
     delete userObject.password;
 
+   const emailResponse = await sendEmail({
+        to: email, 
+        subject: "PCTE CampusFlow - Account Created",
+        text: `Hi ${name}, Welcome to CampusFlow. Your have now access to CampusFlow. Your password is: ${password} and your email is: ${email}`
+    });
+
+
+
     res.status(201).json({
         message: "Account created 🤩",
         token: token,
-        user: newUser
+        user: newUser,
+        emailResponse: emailResponse
     });
+
 });
 
 // Login
@@ -137,6 +147,13 @@ export const toggleAccess = asynchandler(async (req, res) => {
         }
         user.access = !user.access;
         await user.save();
+
+        await sendEmail({
+            to: user.email,
+            subject: "CampusFlow Account Access Changed",
+            text: `Hi ${user.name}, Your account access has been ${user.access ? "enabled" : "disabled"}.`
+        })
+        
         res.status(200).json({ message: "User access toggled successfully", access: user.access });
     } catch (error) {
         res.status(500).json({ message: "Something went wrong" });
