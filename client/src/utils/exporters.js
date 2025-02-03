@@ -93,3 +93,81 @@ export const exportToPDF = (schedule) => {
 
     doc.save(`TimeTable_${dayjs(schedule?.date).format("DD_MM_YYYY")}.pdf`);
 };
+
+
+
+
+import * as XLSX from 'xlsx';
+
+export const exportInventoryToExcel =  (data, fileName = 'inventory_records.xlsx') => {
+    if (!Array.isArray(data) || data.length === 0) {
+      console.error('Invalid data provided');
+      return;
+    }
+  
+    // Define column headers
+    const headers = [
+      'labName', 'labCode', 'resourceType', 'code', 
+      'brand', 'processor', 'ram', 'hardDisk', 
+      'softwareName', 'version'
+    ];
+    
+    // Convert array of objects to worksheet format
+    const worksheetData = [
+      headers, 
+      ...data.map(obj => [
+        obj.labId?.labName || 'N/A', 
+        obj.labId?.labCode || 'N/A', 
+        obj.resourceType || 'N/A', 
+        obj.code || 'N/A',
+        obj.resourceType === 'computer' ? obj.brand || 'N/A' : 'N/A',
+        obj.resourceType === 'computer' ? obj.processor || 'N/A' : 'N/A',
+        obj.resourceType === 'computer' ? obj.ram || 'N/A' : 'N/A',
+        obj.resourceType === 'computer' ? obj.hardDisk || 'N/A' : 'N/A',
+        obj.resourceType === 'software' ? obj.softwareName || 'N/A' : 'N/A',
+        obj.resourceType === 'software' ? obj.version || 'N/A' : 'N/A'
+      ])
+    ];
+    
+    // Create a worksheet
+    const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
+    
+    // Create a workbook and append the worksheet
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
+    
+    // Write file and trigger download
+    XLSX.writeFile(workbook, fileName);
+  };
+
+
+
+export const exportStudentsToExcel = (students, fileName = 'students_records.xlsx') => {
+  if (!Array.isArray(students) || students.length === 0) {
+    console.error('Invalid student data provided');
+    return;
+  }
+
+  const headers = ['Name', 'Roll Number', 'Block', 'Role', 'Access', 'Batch', 'Email',];
+
+  const worksheetData = [
+    headers,
+    ...students.map(student => [
+      student.name || 'N/A',
+      student.rollNumber || 'N/A',
+      student.block || 'N/A',
+      student.role || 'N/A',
+      student.access ? 'Yes' : 'No',
+      student.batch || 'N/A',
+      student.email || 'N/A',
+     ])
+  ];
+
+  const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
+
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Students');
+
+  XLSX.writeFile(workbook, fileName);
+};
+

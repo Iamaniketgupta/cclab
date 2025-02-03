@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import ModalWrapper from '../../../common/ModalWrapper';
 import ResourceForm from './ResourceForm';
 import { useFetchDataApi } from '../../../contexts/FetchDataApi';
+import { IoMdCloudDownload } from "react-icons/io";
+
 import axiosInstance from '../../../utils/axiosInstance';
 import { toast } from 'react-toastify';
 import { RiDeleteBin7Fill } from "react-icons/ri";
@@ -9,6 +11,7 @@ import { userData } from '../../../recoil/states';
 import { useRecoilState } from 'recoil';
 import BulkUpload from './BulkUpload';
 import StatsWidgets from './Stats';
+import { exportInventoryToExcel } from '../../../utils/exporters';
 
 export default function ResourceManageMain() {
   const [openModal, setOpenModal] = useState(false);
@@ -94,6 +97,7 @@ export default function ResourceManageMain() {
     return matchesSearch && matchesLab && matchesType;
   });
 
+  console.log(filteredResources)
   // handle Remove resource
   const handleRemove = async (id) => {
     if (!confirm("Are you sure you want to remove this resource?")) return;
@@ -127,7 +131,7 @@ export default function ResourceManageMain() {
     }
   }
   return (
-    <div>
+    <div className='relative min-h-[calc(100vh-104px)] '>
       <ModalWrapper open={openModal} setOpenModal={setOpenModal} outsideClickClose={false}>
         <ResourceForm
           loading={loading} handleSubmit={handleSubmit}
@@ -291,6 +295,12 @@ export default function ResourceManageMain() {
         </table>
       </div>
 
+
+      {/* Download records as excel */}
+        <button className='bg-emerald-800 rounded-full bottom-4 right-4 shadow-lg absolute w-10 h-10 flex items-center justify-center
+         text-white  text-4xl' onClick={() => exportInventoryToExcel(filteredResources)}>
+          <IoMdCloudDownload size={30}/>
+        </button>
 
 
     </div>

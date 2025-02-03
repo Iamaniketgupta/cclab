@@ -9,6 +9,8 @@ import { toast } from 'react-toastify';
 import axiosInstance from '../../../utils/axiosInstance';
 import Loader from '../../../components/Loaders/Loader';
 import BulkUpload from '../../../dashboard/bulkupload/BulkUpload';
+import { IoMdCloudDownload } from 'react-icons/io';
+import { exportStudentsToExcel } from '../../../utils/exporters';
 
 export default function ManageStudentsMain() {
   const [openModal, setOpenModal] = useState(false);
@@ -152,6 +154,8 @@ export default function ManageStudentsMain() {
     });
   }
 
+  // console.log(filteredStudents)
+
   return (
     <div>
       <ModalWrapper open={openModal} setOpenModal={setOpenModal} outsideClickClose={false} >
@@ -238,7 +242,12 @@ export default function ManageStudentsMain() {
           <Loader />
         </ModalWrapper>}
 
-
+      <button className='bg-emerald-800 rounded-full bottom-4 right-4 shadow-lg absolute w-10 h-10 flex items-center justify-center
+         text-white  text-4xl' 
+         onClick={() => exportStudentsToExcel(filteredStudents)}
+         >
+        <IoMdCloudDownload size={30} />
+      </button>
     </div>
   )
 }
